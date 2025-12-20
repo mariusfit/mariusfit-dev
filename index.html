@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marius • Soluții Web & Automatizări cu AI</title>
+    <meta name="description" content="Creator de soluții web și automatizări pentru afaceri și acasă. Servere personale, infrastructură IT și unelte digitale construite cu AI.">
+    <meta name="keywords" content="web development, automatizări, servere, Proxmox, Docker, AI, Belgia">
+    <meta name="author" content="Marius">
+    <meta property="og:title" content="Marius • Soluții Web & Automatizări cu AI">
+    <meta property="og:description" content="Creator de soluții web și automatizări pentru afaceri și acasă. Servere personale, infrastructură IT și unelte digitale.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mariusfit.dev">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --accent-gold: #d4a574;
+            --accent-copper: #c17f59;
+            --accent-rose: #8b5a5a;
+            --text-primary: #f5f0eb;
+            --text-secondary: #a8a3a0;
+            --text-muted: #6b6866;
+            --gradient-warm: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-copper) 50%, var(--accent-rose) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 0 8rem;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+        }
+
+        .hero-tagline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .hero-title .accent {
+            font-style: italic;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards;
+            animation-delay: 0.7s;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards;
+            animation-delay: 0.9s;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--gradient-warm);
+            color: var(--bg-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 2px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(212, 165, 116, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.9rem;
+            border: 1px solid var(--text-muted);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(212, 165, 116, 0.1);
+            border-radius: 4px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            animation: floatIn 1s ease forwards;
+        }
+
+        .card-1 {
+            top: 10%;
+            right: 20%;
+            animation-delay: 1s;
+        }
+
+        .card-2 {
+            top: 40%;
+            right: 5%;
+            animation-delay: 1.2s;
+        }
+
+        .card-3 {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 1.4s;
+        }
+
+        .card-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .card-subtext {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Decorative elements */
+        .hero-decoration {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.08) 0%, transparent 70%);
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 8rem;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 3rem;
+        }
+
+        /* Services */
+        .services {
+            background: var(--bg-secondary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            padding: 2.5rem;
+            background: var(--bg-primary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-warm);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 165, 116, 0.2);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: rgba(212, 165, 116, 0.1);
+            color: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .project-card {
+            position: relative;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: scale(1.02);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-warm);
+            opacity: 0.1;
+        }
+
+        .project-mockup {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            text-align: left;
+            max-width: 80%;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-category {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .project-desc strong {
+            color: var(--text-primary);
+        }
+
+        .project-benefits {
+            list-style: none;
+            margin-top: 1.25rem;
+            padding: 0;
+        }
+
+        .project-benefits li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .project-benefits li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+        }
+
+        .project-card.full-width {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 0;
+        }
+
+        .project-card.full-width .project-image {
+            height: 100%;
+            min-height: 350px;
+        }
+
+        .project-card.full-width .project-content {
+            padding: 2.5rem;
+        }
+
+        .business-image .project-mockup {
+            max-width: 90%;
+            padding: 2rem;
+        }
+
+        .business-examples {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .business-example {
+            padding: 1.25rem;
+            background: rgba(212, 165, 116, 0.05);
+            border-radius: 4px;
+            border-left: 2px solid var(--accent-gold);
+        }
+
+        .business-example h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .business-example p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (max-width: 968px) {
+            .project-card.full-width {
+                grid-template-columns: 1fr;
+            }
+            
+            .business-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* About */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-text p:first-of-type::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact */
+        .contact {
+            text-align: center;
+            padding: 10rem 8rem;
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+        }
+
+        .contact-title .accent {
+            font-style: italic;
+            background: var(--gradient-warm);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-email:hover {
+            opacity: 0.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 99;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        /* Mobile Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-menu a {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--accent-gold);
+        }
+
+        @media (max-width: 968px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .whatsapp-float {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 55px;
+                height: 55px;
+            }
+
+            .whatsapp-float svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateY(-50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(-50%) scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            nav, section, .contact, footer {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+            
+            .hero {
+                padding: 0 4rem;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 8rem;
+            }
+            
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .hero-cta {
+                justify-content: center;
+            }
+            
+            .hero-visual {
+                display: none;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav, section, .contact, footer {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            .hero {
+                padding: 6rem 1.5rem;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+            }
+            
+            footer {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">M.</div>
+        <ul class="nav-links">
+            <li><a href="#services">Servicii</a></li>
+            <li><a href="#acasa">Pentru Acasă</a></li>
+            <li><a href="#firme">Pentru Firme</a></li>
+            <li><a href="#about">Despre</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services" onclick="toggleMenu()">Servicii</a>
+        <a href="#acasa" onclick="toggleMenu()">Pentru Acasă</a>
+        <a href="#firme" onclick="toggleMenu()">Pentru Firme</a>
+        <a href="#about" onclick="toggleMenu()">Despre</a>
+        <a href="#contact" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-tagline">Automatizări & Infrastructură IT • Belgium</p>
+            <h1 class="hero-title">
+                Construiesc<br>
+                experiențe <span class="accent">digitale</span><br>
+                cu suflet
+            </h1>
+            <p class="hero-description">
+                Creator de soluții web și automatizări pentru afaceri și acasă. 
+                Servere personale, infrastructură IT și unelte digitale - toate construite 
+                cu ajutorul inteligenței artificiale ca partener de dezvoltare.
+            </p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn-primary">
+                    Hai să vorbim
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#projects" class="btn-secondary">
+                    Vezi proiectele
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="hero-decoration"></div>
+            <div class="floating-card card-1">
+                <div class="card-label">Metodă</div>
+                <div class="card-value">🤖 AI-Powered</div>
+                <div class="card-subtext">Dezvoltare asistată de AI</div>
+            </div>
+            <div class="floating-card card-2">
+                <div class="card-label">Infrastructură</div>
+                <div class="card-value" style="font-size: 1.1rem;">Proxmox • Docker • Linux</div>
+            </div>
+            <div class="floating-card card-3">
+                <div class="card-label">Locație</div>
+                <div class="card-value" style="font-size: 1rem;">🏠 Bazat în Belgia</div>
+                <div class="card-subtext">Servere locale & cloud</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="section-label">Ce fac</div>
+        <h2 class="section-title">Servicii & Expertiză</h2>
+        
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">🛒</div>
+                <h3 class="service-title">E-Commerce & Plăți Online</h3>
+                <p class="service-desc">
+                    Magazine online conforme cu legislația belgiană. Integrare plăți cu 
+                    Bancontact, Payconiq și card. De la BCE și GDPR până la checkout securizat.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">WooCommerce</span>
+                    <span class="tech-tag">Bancontact</span>
+                    <span class="tech-tag">GDPR</span>
+                </div>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">🎬</div>
+                <h3 class="service-title">Evenimente Culturale</h3>
+                <p class="service-desc">
+                    Strategii digitale pentru organizatori de evenimente. Cinema românesc, 
+                    concerte, spectacole - de la viziune la implementare.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Marketing</span>
+                    <span class="tech-tag">Booking</span>
+                    <span class="tech-tag">CRM</span>
+                </div>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">🌐</div>
+                <h3 class="service-title">Web Development</h3>
+                <p class="service-desc">
+                    Site-uri responsive, rapide și optimizate SEO. De la landing pages 
+                    la aplicații web complexe, cu atenție la fiecare detaliu.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Tailwind</span>
+                </div>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">🖥️</div>
+                <h3 class="service-title">Infrastructură IT</h3>
+                <p class="service-desc">
+                    Servere Proxmox, virtualizare, sisteme de supraveghere Frigate NVR. 
+                    Soluții robuste pentru business-uri care au nevoie de fiabilitate.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Proxmox</span>
+                    <span class="tech-tag">Docker</span>
+                    <span class="tech-tag">Linux</span>
+                </div>
+            </div>
+            
+            <div class="service-card reveal">
+                <div class="service-icon">🤝</div>
+                <h3 class="service-title">Consultanță</h3>
+                <p class="service-desc">
+                    Ajut business-uri să treacă de la idee la realitate. Strategie digitală, 
+                    alegerea stack-ului potrivit, scalare și optimizare.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">Strategy</span>
+                    <span class="tech-tag">Planning</span>
+                    <span class="tech-tag">Scaling</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECȚIUNEA 1: PENTRU ACASĂ -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="projects" id="acasa">
+        <div class="section-label">🏠 Pentru Acasă</div>
+        <h2 class="section-title">Tehnologie care îți simplifică viața</h2>
+        
+        <div class="projects-grid">
+            <!-- Cloud Personal / Stocare Poze -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">📸 Pozele Tale în Siguranță</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">📱</span> Sync automat telefon<br>
+                        <span style="color: var(--accent-copper)">🌍</span> Accesibile de oriunde<br>
+                        <span style="color: var(--accent-copper)">🔒</span> Nimeni nu le vede<br>
+                        <span style="color: var(--accent-copper)">💰</span> Fără abonament lunar
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Stocare Personală</div>
+                    <h3 class="project-title">Spațiu nelimitat pentru poze și fișiere</h3>
+                    <p class="project-desc">
+                        <strong>Ți s-a umplut telefonul de poze?</strong> În loc să plătești 
+                        abonament lunar pentru stocare online, ai totul salvat automat 
+                        pe un server la tine acasă. Pozele, documentele, videoclipurile - 
+                        accesibile de pe orice dispozitiv, dar private, doar ale tale.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Pozele se salvează singure de pe telefon</li>
+                        <li>Partajezi albume cu familia</li>
+                        <li>Nu mai ștergi poze ca să faci loc</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Backup Automat Familie -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">💾 Backup Familie</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Salvare automată noapte<br>
+                        <span style="color: #7cb342">✓</span> Toate telefoanele<br>
+                        <span style="color: #7cb342">✓</span> Toate laptopurile<br>
+                        <span style="color: #7cb342">✓</span> Restaurare în 30 min
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Siguranță Date</div>
+                    <h3 class="project-title">Nu mai pierzi nimic, niciodată</h3>
+                    <p class="project-desc">
+                        <strong>Ți s-a spart telefonul? S-a stricat laptopul?</strong> 
+                        Toate datele familiei se salvează automat în fiecare noapte. 
+                        Pozele de la nuntă, actele importante, temele copiilor - 
+                        nimic nu se pierde, orice s-ar întâmpla.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Salvare automată, fără să faci nimic</li>
+                        <li>Telefon nou = toate datele înapoi</li>
+                        <li>Istoric 30 zile (poți recupera și ce ai șters)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Media Server -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🎬 Filme și Seriale</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">📺</span> Pe TV, telefon, tabletă<br>
+                        <span style="color: var(--accent-copper)">👨‍👩‍👧‍👦</span> Conturi pentru fiecare<br>
+                        <span style="color: var(--accent-copper)">🎯</span> Arată ca Netflix<br>
+                        <span style="color: var(--accent-copper)">📡</span> Mergi în vacanță? Merge și acolo
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Entertainment</div>
+                    <h3 class="project-title">Colecția ta de filme, ca la cinema</h3>
+                    <p class="project-desc">
+                        <strong>Ai filme și seriale pe hard disk?</strong> Le organizez 
+                        frumos cu postere, descrieri, subtitrări - arată exact ca serviciile 
+                        de streaming. Le vezi pe TV în sufragerie, pe telefon în pat, 
+                        sau pe laptop când ești plecat din țară.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Toate filmele tale, organizate frumos</li>
+                        <li>Cont separat pentru copii (cu restricții)</li>
+                        <li>Descarci pe telefon pentru avion/tren</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Protecție Familie -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🛡️ Protecție Familie</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">🚫</span> Fără reclame pe net<br>
+                        <span style="color: var(--accent-copper)">👶</span> Copiii protejați online<br>
+                        <span style="color: var(--accent-copper)">📺</span> TV fără reclame<br>
+                        <span style="color: var(--accent-copper)">📱</span> Toate dispozitivele
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Securitate Familie</div>
+                    <h3 class="project-title">Internet curat pentru toată casa</h3>
+                    <p class="project-desc">
+                        <strong>Reclamele alea enervante de pe telefon și TV?</strong> Dispar. 
+                        Site-urile periculoase pentru copii? Blocate automat. 
+                        O singură setare protejează tot ce e conectat la WiFi: 
+                        telefoane, laptopuri, televizoare, tablete.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Zero reclame pe YouTube, jocuri, site-uri</li>
+                        <li>Copiii nu pot accesa conținut nepotrivit</li>
+                        <li>Funcționează pe toate dispozitivele automat</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Supraveghere Inteligentă -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">📹 Camere Inteligente</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">🤖</span> Știe cine e la ușă<br>
+                        <span style="color: var(--accent-copper)">🚗</span> Recunoaște mașinile<br>
+                        <span style="color: var(--accent-copper)">📱</span> Alertă pe telefon<br>
+                        <span style="color: var(--accent-copper)">🏠</span> Înregistrări 30+ zile
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Smart Home</div>
+                    <h3 class="project-title">Camere care gândesc</h3>
+                    <p class="project-desc">
+                        <strong>Camerele normale te alertează la orice mișcare</strong> - 
+                        pisică, frunză, umbră. Camerele inteligente știu diferența: 
+                        primești notificare doar când e o persoană sau o mașină. 
+                        Înregistrările stau la tine, nu pe serverele altora.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Alertă doar când contează (persoane, mașini)</li>
+                        <li>Vezi live de pe telefon, de oriunde</li>
+                        <li>Fără abonament lunar pentru stocare</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Acces Remote -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🌍 Acces de Oriunde</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Ești în România? Merge<br>
+                        <span style="color: #7cb342">✓</span> Ești în vacanță? Merge<br>
+                        <span style="color: #7cb342">✓</span> Vezi camerele de acasă<br>
+                        <span style="color: #7cb342">✓</span> Accesezi orice fișier
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Remote Access</div>
+                    <h3 class="project-title">Casa ta, accesibilă de oriunde</h3>
+                    <p class="project-desc">
+                        <strong>Ai plecat din țară și ai nevoie de un document de acasă?</strong> 
+                        Sau vrei să vezi ce face pisica? Cu o conexiune securizată, 
+                        accesezi totul de pe telefon: fișiere, camere, imprimantă - 
+                        ca și cum ai fi acasă.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Accesezi fișierele de acasă de oriunde</li>
+                        <li>Vezi camerele live când ești plecat</li>
+                        <li>Conexiune securizată, nimeni nu vede</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Smart Home Control -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🏠 Casă Inteligentă</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">💡</span> Lumini automate<br>
+                        <span style="color: var(--accent-copper)">🌡️</span> Termostat inteligent<br>
+                        <span style="color: var(--accent-copper)">🔌</span> Prize controlate<br>
+                        <span style="color: var(--accent-copper)">📱</span> Totul dintr-o aplicație
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Automatizare</div>
+                    <h3 class="project-title">Totul controlat dintr-un loc</h3>
+                    <p class="project-desc">
+                        <strong>Ai becuri inteligente, termostat, prize WiFi?</strong> 
+                        În loc de 5 aplicații diferite, le controlezi pe toate dintr-una singură. 
+                        Pleci de acasă? Un buton stinge tot. Te întorci? Pornește încălzirea 
+                        înainte să ajungi.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>O aplicație pentru toate dispozitivele</li>
+                        <li>Automatizări: "când plec, stinge tot"</li>
+                        <li>Funcționează și fără internet (când ești acasă)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Parole Securizate -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🔐 Parolele Tale</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Toate într-un loc sigur<br>
+                        <span style="color: #7cb342">✓</span> Se completează singure<br>
+                        <span style="color: #7cb342">✓</span> Partajezi cu familia<br>
+                        <span style="color: #7cb342">✓</span> Fără abonament
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Securitate</div>
+                    <h3 class="project-title">Nu mai uiți nicio parolă</h3>
+                    <p class="project-desc">
+                        <strong>Câte parole ai? 500? 1.000?</strong> În loc să folosești aceeași 
+                        parolă peste tot (periculos!) sau să le scrii pe hârtie, 
+                        le ai pe toate într-un seif digital. Se completează singure 
+                        când intri pe site-uri, și le poți partaja sigur cu familia.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Toate parolele într-un singur loc</li>
+                        <li>Se completează automat în browser</li>
+                        <li>Partajezi parola Netflix cu familia, sigur</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECȚIUNEA 2: PENTRU FIRME -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section class="projects" id="firme">
+        <div class="section-label">🏢 Pentru Firma Ta</div>
+        <h2 class="section-title">Scapi de abonamente și ai control total</h2>
+        
+        <div class="projects-grid">
+            <!-- Backup Firmă -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">💾 Backup Automat Firmă</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Salvare zilnică automată<br>
+                        <span style="color: #7cb342">✓</span> Toate calculatoarele<br>
+                        <span style="color: #7cb342">✓</span> Restaurare în 30 min<br>
+                        <span style="color: #7cb342">✓</span> Protecție ransomware
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Siguranță Date</div>
+                    <h3 class="project-title">Ți s-a stricat ceva? În 30 minute ești înapoi</h3>
+                    <p class="project-desc">
+                        <strong>Imaginează-ți: luni dimineață, calculatorul contabilei nu mai pornește.</strong> 
+                        Sau mai rău: cineva a criptat toate fișierele și cere bani. 
+                        Cu backup automat, în 30 de minute totul e restaurat. 
+                        Fără panică, fără pierderi, fără să plătești hackeri.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Tot ce e pe calculatoare se salvează noaptea</li>
+                        <li>Calculator nou = datele vechi în 30 min</li>
+                        <li>Ransomware? Restaurezi și ignori</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Email Profesional -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">📧 Email @firma-ta.be</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">💰</span> Plătești o dată, nu lunar<br>
+                        <span style="color: var(--accent-copper)">📦</span> Spațiu nelimitat<br>
+                        <span style="color: var(--accent-copper)">🔒</span> Datele rămân în BE<br>
+                        <span style="color: var(--accent-copper)">👥</span> Câți angajați vrei
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Comunicare</div>
+                    <h3 class="project-title">Email profesional fără abonament lunar</h3>
+                    <p class="project-desc">
+                        <strong>10 angajați × 12€/lună = 1.440€/an pentru email.</strong> 
+                        În fiecare an. Cu server propriu, plătești o dată pentru instalare 
+                        și gata. Email-uri @firma-ta.be, spațiu nelimitat, 
+                        și datele rămân la tine, nu pe serverele din America.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Economie: ~1.400€/an pentru 10 angajați</li>
+                        <li>Adaugi angajați noi fără cost extra</li>
+                        <li>Spațiu nelimitat - nu mai ștergi mailuri vechi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Fișiere Partajate -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">📁 Fișiere Firmă</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">👥</span> Toată echipa vede același dosar<br>
+                        <span style="color: var(--accent-copper)">🔐</span> Fiecare vede ce trebuie<br>
+                        <span style="color: var(--accent-copper)">📱</span> Acces și de pe telefon<br>
+                        <span style="color: var(--accent-copper)">💰</span> Fără abonament lunar
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Colaborare</div>
+                    <h3 class="project-title">Un singur loc pentru toate documentele</h3>
+                    <p class="project-desc">
+                        <strong>"Unde e factura aia? Cine are ultima versiune?"</strong> 
+                        Cu stocare centralizată, toată echipa lucrează pe aceleași fișiere. 
+                        Contabila vede dosarul ei, șeful vede tot, angajatul vede ce trebuie. 
+                        Fără stick-uri USB, fără "ți-am trimis pe mail".
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Toți lucrează pe aceleași documente</li>
+                        <li>Controlezi cine vede ce</li>
+                        <li>Istoric versiuni - recuperezi ce a fost șters</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Desktop Remote -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">💻 Lucru de Acasă</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Angajatul lucrează remote<br>
+                        <span style="color: #7cb342">✓</span> Datele rămân la firmă<br>
+                        <span style="color: #7cb342">✓</span> Laptop furat? Zero probleme<br>
+                        <span style="color: #7cb342">✓</span> Securizat 100%
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Remote Work</div>
+                    <h3 class="project-title">Angajații lucrează de acasă, datele rămân la tine</h3>
+                    <p class="project-desc">
+                        <strong>Contabila vrea să lucreze de acasă?</strong> 
+                        Se conectează securizat și vede exact ce vede la birou. 
+                        Dar fișierele nu pleacă pe laptopul ei personal. 
+                        I se fură laptopul? Nicio problemă - datele sunt la firmă, nu la ea.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Angajatul vede totul, dar nu copiază nimic</li>
+                        <li>Laptop pierdut/furat = zero risc</li>
+                        <li>Funcționează pe orice laptop sau PC</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- VPN Angajați -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🔒 Conexiune Securizată</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">👨‍💼</span> Echipă remote protejată<br>
+                        <span style="color: var(--accent-copper)">📁</span> Acces la dosare interne<br>
+                        <span style="color: var(--accent-copper)">☕</span> Sigur și din cafenea<br>
+                        <span style="color: var(--accent-copper)">🔐</span> Nimeni nu interceptează
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Securitate</div>
+                    <h3 class="project-title">Conexiune privată pentru angajați</h3>
+                    <p class="project-desc">
+                        <strong>Angajații lucrează din deplasare sau de acasă?</strong> 
+                        Se conectează la firma ta printr-un "tunel" securizat. 
+                        Chiar dacă sunt pe WiFi-ul de la hotel sau cafenea, 
+                        nimeni nu poate vedea ce trimit sau primesc.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Acces securizat la documentele firmei</li>
+                        <li>Sigur pe orice WiFi (hotel, aeroport)</li>
+                        <li>Controlezi cine are acces și când</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Supraveghere Firmă -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">📹 Supraveghere Firmă</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">🏪</span> Magazin, depozit, birou<br>
+                        <span style="color: var(--accent-copper)">📱</span> Vezi de pe telefon<br>
+                        <span style="color: var(--accent-copper)">🤖</span> Alertă persoane/mașini<br>
+                        <span style="color: var(--accent-copper)">💾</span> Înregistrări 90+ zile
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Securitate Fizică</div>
+                    <h3 class="project-title">Vezi ce se întâmplă la firmă, de oriunde</h3>
+                    <p class="project-desc">
+                        <strong>Magazin, depozit, birou - toate pe telefon.</strong> 
+                        Camerele inteligente te alertează doar când contează: 
+                        a intrat cineva, a venit o mașină. Nu la fiecare pisică sau umbră. 
+                        Înregistrările stau la tine, nu pe cloud cu abonament lunar.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Mai multe locații, o singură aplicație</li>
+                        <li>Alertă doar pentru persoane/mașini</li>
+                        <li>Înregistrări 90+ zile, fără abonament</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Website Profesional -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🌐 Website Profesional</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: #7cb342">✓</span> Arată bine pe telefon<br>
+                        <span style="color: #7cb342">✓</span> Apare în căutări locale<br>
+                        <span style="color: #7cb342">✓</span> Legal complet pentru BE<br>
+                        <span style="color: #7cb342">✓</span> Rapid și profesional
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Prezență Online</div>
+                    <h3 class="project-title">Site care aduce clienți noi</h3>
+                    <p class="project-desc">
+                        <strong>Un site profesional e cartea ta de vizită online.</strong> 
+                        Arată bine pe telefon (de unde vin 70% din vizitatori), 
+                        apare când cineva caută serviciile tale în zonă, 
+                        și are tot ce cere legea belgiană (GDPR, cookies, BCE).
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Design modern, funcționează pe orice</li>
+                        <li>Clienții te găsesc în căutări locale</li>
+                        <li>Complet legal - fără amenzi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Ticketing Evenimente -->
+            <div class="project-card reveal">
+                <div class="project-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">🎫 Vânzare Bilete</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━</span><br>
+                        <span style="color: var(--accent-copper)">💳</span> Plată online directă<br>
+                        <span style="color: var(--accent-copper)">📍</span> Clientul alege locul<br>
+                        <span style="color: var(--accent-copper)">📧</span> Bilet automat pe email<br>
+                        <span style="color: var(--accent-copper)">📊</span> Vezi vânzările live
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Evenimente</div>
+                    <h3 class="project-title">Platformă de bilete pentru evenimentele tale</h3>
+                    <p class="project-desc">
+                        <strong>Organizezi evenimente? Concert, spectacol, cinema?</strong> 
+                        Clientul intră pe site, alege locul pe hartă, plătește cu cardul 
+                        sau Bancontact, primește biletul pe email. Tu vezi în timp real 
+                        câte bilete s-au vândut și pe ce locuri.
+                    </p>
+                    <ul class="project-benefits">
+                        <li>Clientul își alege locul pe hartă</li>
+                        <li>Plăți Bancontact, card - instant</li>
+                        <li>Scanare QR la intrare</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Soluții Custom - Card Mare -->
+            <div class="project-card reveal full-width">
+                <div class="project-image business-image">
+                    <div class="project-mockup">
+                        <span style="color: var(--accent-gold)">⚡ Automatizări pentru Firma Ta</span><br>
+                        <span style="color: var(--text-muted)">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span><br><br>
+                        <span style="color: var(--accent-copper)">📊 Clienți & Comenzi</span> - Vezi tot într-un singur loc<br>
+                        <span style="color: var(--accent-copper)">📅 Programări Online</span> - Clientul își face singur rezervare<br>
+                        <span style="color: var(--accent-copper)">📦 Stocuri</span> - Știi exact ce ai și ce trebuie comandat<br>
+                        <span style="color: var(--accent-copper)">💳 Facturi</span> - Se fac singure după fiecare comandă<br>
+                        <span style="color: var(--accent-copper)">📱 Notificări</span> - SMS/email automat către clienți
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-category">Automatizare Business</div>
+                    <h3 class="project-title">Lasă calculatorul să facă munca repetitivă</h3>
+                    <p class="project-desc">
+                        <strong>Cât timp pierzi cu lucruri care s-ar putea face singure?</strong> 
+                        Programări, facturi, reminder-uri clienți, stocuri - toate astea pot fi automate. 
+                        Tu te ocupi de ce contează: clienții și afacerea.
+                    </p>
+                    <div class="business-examples">
+                        <div class="business-example">
+                            <h4>🔧 Service Auto</h4>
+                            <p>Clientul se programează online. Primește reminder cu o zi înainte. După reparație, factura se face singură și merge pe email.</p>
+                        </div>
+                        <div class="business-example">
+                            <h4>💇 Salon / Coafor</h4>
+                            <p>Booking online 24/7. Clientul primește SMS de confirmare. Fișa lui cu preferințe apare automat când vine.</p>
+                        </div>
+                        <div class="business-example">
+                            <h4>🏪 Magazin / Depozit</h4>
+                            <p>Stocul se actualizează la fiecare vânzare. Alertă când un produs scade sub minim. Raport zilnic pe email.</p>
+                        </div>
+                        <div class="business-example">
+                            <h4>🏗️ Construcții / Renovări</h4>
+                            <p>Oferta se generează din calculator. Clientul semnează online. Pontajul echipei vine automat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-content">
+            <div class="about-text">
+                <div class="section-label">Despre mine</div>
+                <h2 class="section-title">Povestea din spatele codului</h2>
+                <p>
+                    Sunt Marius, și cred că tehnologia trebuie să lucreze pentru tine, 
+                    nu invers. Construiesc soluții web, automatizări și infrastructură IT 
+                    pentru oameni care vor să-și simplifice viața digitală - acasă sau la firmă.
+                </p>
+                <p>
+                    Folosesc inteligența artificială ca partener de dezvoltare, nu ca înlocuitor. 
+                    AI-ul mă ajută să livrez mai rapid și mai eficient, dar fiecare proiect 
+                    e gândit de un om, pentru oameni. Rezultatul? Soluții personalizate care 
+                    chiar funcționează.
+                </p>
+                <p>
+                    Când nu configurez servere Proxmox sau nu optimizez containere Docker, 
+                    probabil testez o nouă automatizare sau caut următoarea provocare tehnică 
+                    care merită rezolvată.
+                </p>
+            </div>
+            
+            <div class="about-stats">
+                <div class="stat-item reveal">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-number">Soluții personalizate</div>
+                    <div class="stat-label">Fiecare proiect e unic</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">🤝</div>
+                    <div class="stat-number">Comunicare directă</div>
+                    <div class="stat-label">Fără intermediari</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-number">Creștere împreună</div>
+                    <div class="stat-label">Parteneriat pe termen lung</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-number">Răspuns rapid</div>
+                    <div class="stat-label">Maximum 24h la mesaje</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">📱</div>
+                    <div class="stat-number">Contact direct</div>
+                    <div class="stat-label">WhatsApp, nu formulare</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">💎</div>
+                    <div class="stat-number">Transparent</div>
+                    <div class="stat-label">Fără costuri ascunse</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">🗣️</div>
+                    <div class="stat-number">Vorbim aceeași limbă</div>
+                    <div class="stat-label">Literalmente și la tech</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">🇷🇴</div>
+                    <div class="stat-number">Român pentru români</div>
+                    <div class="stat-label">Înțeleg nevoile diasporei</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">☕</div>
+                    <div class="stat-number">Proiecte cu suflet</div>
+                    <div class="stat-label">Nu doar cod, ci soluții</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-icon">🏠</div>
+                    <div class="stat-number">Bazat în Belgia</div>
+                    <div class="stat-label">Cunosc piața locală</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="section-label">Contact</div>
+        <h2 class="contact-title">
+            Hai să construim<br>
+            ceva <span class="accent">împreună</span>
+        </h2>
+        <!-- TODO: Schimbă cu email-ul tău real -->
+        <a href="mailto:hello@mariusfit.dev" class="contact-email">hello@mariusfit.dev</a>
+        
+        <div class="social-links">
+            <!-- TODO: Adaugă linkurile tale reale sau șterge cele pe care nu le folosești -->
+            <a href="#" class="social-link">LinkedIn</a>  <!-- TODO: https://linkedin.com/in/USERNAME -->
+            <a href="#" class="social-link">GitHub</a>    <!-- TODO: https://github.com/USERNAME -->
+            <a href="#" class="social-link">Twitter</a>   <!-- TODO: https://twitter.com/USERNAME sau șterge -->
+            <!-- Poți adăuga și altele: Facebook, Instagram, WhatsApp etc. -->
+        </div>
+    </section>
+
+    <footer>
+        <!-- TODO: Actualizează anul dacă e necesar -->
+        <p class="footer-text">© 2025 Marius. Construit cu ☕ și AI în Belgia.</p>
+        <div class="footer-links">
+            <!-- TODO: Creează paginile sau șterge linkurile dacă nu ai nevoie -->
+            <a href="#">Privacy Policy</a>      <!-- TODO: privacy.html sau /privacy -->
+            <a href="#">Termeni & Condiții</a>  <!-- TODO: termeni.html sau /termeni -->
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <!-- TODO: Schimbă XXXXXXXXXX cu numărul tău de telefon (format: 32XXXXXXXXX pentru Belgia) -->
+    <a href="https://wa.me/32XXXXXXXXXX" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contact WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Scroll reveal animation
+        const reveals = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            reveals.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
+        
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Parallax effect on hero decoration
+        window.addEventListener('scroll', () => {
+            const decoration = document.querySelector('.hero-decoration');
+            if (decoration) {
+                const scrolled = window.pageYOffset;
+                decoration.style.transform = `translateY(calc(-50% + ${scrolled * 0.3}px))`;
+            }
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const hamburger = document.querySelector('.hamburger');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
