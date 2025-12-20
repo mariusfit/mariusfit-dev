@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ce este Proxmox și de ce să-l folosești în 2024 | Marius Fit</title>
+    <meta name="description" content="Ghid complet Proxmox VE pentru începători. Află ce este virtualizarea, de ce ai nevoie de un hypervisor și cum să începi cu Proxmox în 2024.">
+    <meta name="keywords" content="Proxmox, Proxmox VE, virtualizare, hypervisor, server acasă, homelab, tutorial Proxmox, ghid Proxmox română">
+    <meta name="author" content="Marius Fit">
+    <meta property="og:title" content="Ce este Proxmox și de ce să-l folosești în 2024">
+    <meta property="og:description" content="Ghid complet Proxmox VE pentru începători. Învață virtualizarea de la zero.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://mariusfit.dev/blog/proxmox-ghid-incepatori-2024">
+    <meta property="article:published_time" content="2024-12-21">
+    <meta property="article:author" content="Marius Fit">
+    <link rel="canonical" href="https://mariusfit.dev/blog/proxmox-ghid-incepatori-2024.html">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect x='2' y='2' width='42' height='42' rx='10' fill='%230a0a0f' stroke='%23d4af37' stroke-width='2'/%3E%3Cpath d='M8 34V12h3l7 11 7-11h3v22h-4V20l-6 9.5-6-9.5v14H8z' fill='%23d4af37'/%3E%3Cpath d='M32 12v22h-4V12h4z' fill='%23d4af37'/%3E%3Cpath d='M32 12h6v3.5h-6V12z' fill='%23d4af37'/%3E%3Cpath d='M32 19.5h5v3.5h-5v-3.5z' fill='%23d4af37'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-gold: #d4af37;
+            --accent-copper: #b87333;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.9;
+        }
+        
+        header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        
+        .back-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .back-link:hover { text-decoration: underline; }
+        
+        .article-header {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .article-tag {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .article-intro {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        
+        .article-content {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent-gold);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+        
+        p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        
+        ul, ol {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        li { margin-bottom: 0.75rem; }
+        
+        a { color: var(--accent-gold); }
+        
+        strong { color: var(--text-primary); }
+        
+        .highlight-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-box p { margin-bottom: 0; }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+        }
+        
+        pre {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        pre code {
+            background: transparent;
+            padding: 0;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .pros, .cons {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        
+        .pros { border-top: 3px solid #4ade80; }
+        .cons { border-top: 3px solid #f87171; }
+        
+        .pros h4 { color: #4ade80; margin-bottom: 1rem; }
+        .cons h4 { color: #f87171; margin-bottom: 1rem; }
+        
+        .pros ul, .cons ul { padding-left: 1.2rem; }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .article-meta { flex-direction: column; gap: 0.5rem; }
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(184, 115, 51, 0.1));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .cta-box h3 {
+            margin-top: 0;
+            color: var(--accent-gold);
+        }
+        
+        .cta-box a.button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--bg-primary);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+        
+        .author-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--bg-primary);
+        }
+        
+        .author-info h4 { margin-bottom: 0.25rem; }
+        .author-info p { margin-bottom: 0; font-size: 0.9rem; }
+        
+        footer {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        footer a { color: var(--accent-gold); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="logo">
+            <svg width="40" height="40" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="42" height="42" rx="10" fill="rgba(212, 175, 55, 0.08)" stroke="#d4af37" stroke-width="2"/>
+                <path d="M8 34V12h3l7 11 7-11h3v22h-4V20l-6 9.5-6-9.5v14H8z" fill="#d4af37"/>
+                <path d="M32 12v22h-4V12h4z" fill="#d4af37"/>
+                <path d="M32 12h6v3.5h-6V12z" fill="#d4af37"/>
+                <path d="M32 19.5h5v3.5h-5v-3.5z" fill="#d4af37"/>
+            </svg>
+        </a>
+        <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+    </header>
+    
+    <article>
+        <div class="article-header">
+            <div class="article-meta">
+                <span class="article-tag">Proxmox</span>
+                <span>📅 21 Decembrie 2024</span>
+                <span>⏱️ 10 min citire</span>
+            </div>
+            <h1>Ce este Proxmox și de ce ar trebui să-l folosești în 2024</h1>
+            <p class="article-intro">Ghid complet pentru începători despre Proxmox VE - platforma gratuită de virtualizare care îți permite să rulezi mai multe sisteme de operare pe un singur server.</p>
+        </div>
+        
+        <div class="article-content">
+            
+            <div class="highlight-box">
+                <p><strong>TL;DR:</strong> Proxmox VE este un hypervisor gratuit și open-source care îți permite să rulezi mai multe mașini virtuale și containere pe un singur hardware. E ideal pentru homelab-uri, servere de acasă și afaceri mici care vor să-și consolideze infrastructura.</p>
+            </div>
+            
+            <h2>Ce este Proxmox VE?</h2>
+            
+            <p><strong>Proxmox Virtual Environment (VE)</strong> este o platformă de virtualizare open-source bazată pe Debian Linux. În termeni simpli, îți permite să transformi un singur computer fizic într-o "gazdă" pentru mai multe computere virtuale.</p>
+            
+            <p>Imaginează-ți că ai un PC vechi sau un mini-PC nou și vrei să rulezi simultan:</p>
+            
+            <ul>
+                <li>Un server de fișiere (NAS)</li>
+                <li>Home Assistant pentru smart home</li>
+                <li>Un Pi-hole pentru blocare reclame</li>
+                <li>Un server de backup</li>
+                <li>Un sistem de test pentru proiecte</li>
+            </ul>
+            
+            <p>În loc să cumperi 5 dispozitive separate, instalezi Proxmox pe un singur hardware și creezi 5 mașini virtuale. Fiecare funcționează independent, ca și cum ar fi un computer separat.</p>
+            
+            <h2>De ce Proxmox și nu altceva?</h2>
+            
+            <p>Există mai multe soluții de virtualizare pe piață. Iată cum se compară Proxmox:</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Avantaje Proxmox</h4>
+                    <ul>
+                        <li>100% gratuit (versiunea completă)</li>
+                        <li>Interfață web ușor de folosit</li>
+                        <li>Suport pentru VM-uri și containere LXC</li>
+                        <li>Backup-uri integrate</li>
+                        <li>Clustering pentru high-availability</li>
+                        <li>Comunitate mare și activă</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>⚠️ Dezavantaje</h4>
+                    <ul>
+                        <li>Curba de învățare pentru începători</li>
+                        <li>Necesită hardware dedicat</li>
+                        <li>Documentație mai puțin prietenoasă decât soluțiile comerciale</li>
+                        <li>Suport enterprise e plătit</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Comparație rapidă cu alternative</h3>
+            
+            <ul>
+                <li><strong>VMware ESXi:</strong> Similar, dar versiunea gratuită are limite severe. Licența enterprise e foarte scumpă.</li>
+                <li><strong>Hyper-V:</strong> Gratuit cu Windows Server, dar necesită licență Windows.</li>
+                <li><strong>Unraid:</strong> Mai ușor de folosit, dar costă $59-$129 și e mai limitat.</li>
+                <li><strong>TrueNAS Scale:</strong> Bun pentru stocare, dar virtualizarea e secundară.</li>
+            </ul>
+            
+            <h2>Ce hardware îți trebuie?</h2>
+            
+            <p>Proxmox nu e pretențios, dar performanța depinde de ce vrei să rulezi. Iată cerințele:</p>
+            
+            <h3>Minimum (pentru testare)</h3>
+            <ul>
+                <li>CPU: 64-bit cu suport VT-x/AMD-V</li>
+                <li>RAM: 4 GB (8 GB recomandat)</li>
+                <li>Stocare: 32 GB (SSD recomandat)</li>
+            </ul>
+            
+            <h3>Recomandat pentru homelab</h3>
+            <ul>
+                <li>CPU: Intel i5/i7 sau AMD Ryzen 5/7 (generații recente)</li>
+                <li>RAM: 32 GB sau mai mult</li>
+                <li>Stocare: SSD NVMe pentru sistem + HDD-uri pentru date</li>
+                <li>Rețea: Port Gigabit Ethernet (2.5 GbE ideal)</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <p><strong>💡 Sfat:</strong> Un mini-PC second-hand cu Intel i5, 32GB RAM și SSD poate costa sub 200€ și e perfect pentru un homelab de început. Caută modele ca HP EliteDesk, Dell OptiPlex sau Lenovo ThinkCentre.</p>
+            </div>
+            
+            <h2>Cum instalezi Proxmox</h2>
+            
+            <p>Instalarea e surprinzător de simplă:</p>
+            
+            <ol>
+                <li><strong>Descarcă ISO-ul</strong> de pe <a href="https://www.proxmox.com/en/downloads" target="_blank" rel="noopener">proxmox.com/downloads</a></li>
+                <li><strong>Creează un USB bootabil</strong> cu Balena Etcher sau Rufus</li>
+                <li><strong>Bootează de pe USB</strong> și urmează wizard-ul grafic</li>
+                <li><strong>Configurează rețeaua</strong> (IP static recomandat)</li>
+                <li><strong>Accesează interfața web</strong> la <code>https://IP-SERVER:8006</code></li>
+            </ol>
+            
+            <p>După instalare, ai acces la un dashboard complet de unde poți crea VM-uri, containere, gestiona stocare și backup-uri.</p>
+            
+            <h2>Prima ta mașină virtuală</h2>
+            
+            <p>Să creăm o mașină virtuală Ubuntu Server:</p>
+            
+            <ol>
+                <li>Click pe <strong>"Create VM"</strong> în interfața web</li>
+                <li>Dă un nume și selectează ISO-ul Ubuntu</li>
+                <li>Alege tipul de sistem (Linux) și versiune</li>
+                <li>Configurează CPU (2 cores e suficient pentru test)</li>
+                <li>Alocă RAM (2-4 GB)</li>
+                <li>Creează un disk virtual (32 GB minim)</li>
+                <li>Finalizează și pornește VM-ul</li>
+            </ol>
+            
+            <p>În 5 minute ai un server Ubuntu funcțional!</p>
+            
+            <h2>Cazuri de utilizare populare</h2>
+            
+            <h3>🏠 Pentru acasă</h3>
+            <ul>
+                <li><strong>Home Assistant:</strong> Automatizare smart home</li>
+                <li><strong>Plex/Jellyfin:</strong> Media server</li>
+                <li><strong>Pi-hole:</strong> Ad blocking la nivel de rețea</li>
+                <li><strong>Nextcloud:</strong> Cloud personal</li>
+                <li><strong>WireGuard:</strong> VPN pentru acces de la distanță</li>
+            </ul>
+            
+            <h3>💼 Pentru business</h3>
+            <ul>
+                <li><strong>File server:</strong> Stocare centralizată</li>
+                <li><strong>Backup server:</strong> Protecție date</li>
+                <li><strong>Development:</strong> Medii de test izolate</li>
+                <li><strong>Web hosting:</strong> Găzduire site-uri interne</li>
+                <li><strong>Monitoring:</strong> Grafana, Prometheus</li>
+            </ul>
+            
+            <h2>Sfaturi pentru începători</h2>
+            
+            <ol>
+                <li><strong>Începe mic:</strong> O singură VM, învață, apoi extinde</li>
+                <li><strong>Folosește containere LXC:</strong> Consumă mai puține resurse decât VM-urile pentru servicii Linux</li>
+                <li><strong>Configurează backup-uri:</strong> Prima configurație după instalare</li>
+                <li><strong>Documentează:</strong> Notează ce faci, vei mulțumi mai târziu</li>
+                <li><strong>Join comunitatea:</strong> Forum-ul Proxmox și r/Proxmox pe Reddit</li>
+            </ol>
+            
+            <h2>Concluzie</h2>
+            
+            <p>Proxmox VE este una dintre cele mai bune alegeri pentru virtualizare în 2024, mai ales dacă:</p>
+            
+            <ul>
+                <li>Vrei o soluție gratuită și open-source</li>
+                <li>Ai un homelab sau server de acasă</li>
+                <li>Ești dispus să înveți lucruri noi</li>
+                <li>Vrei control complet asupra infrastructurii tale</li>
+            </ul>
+            
+            <p>Da, are o curbă de învățare, dar comunitatea e fantastică și documentația (deși tehnică) acoperă totul.</p>
+            
+            <div class="cta-box">
+                <h3>Ai nevoie de ajutor cu Proxmox?</h3>
+                <p>Ofer servicii de consultanță și setup pentru servere Proxmox. De la instalare până la configurare completă.</p>
+                <a href="../index.html#contact" class="button">Contactează-mă</a>
+            </div>
+            
+            <div class="author-box">
+                <div class="author-avatar">MF</div>
+                <div class="author-info">
+                    <h4>Marius Fit</h4>
+                    <p>Dezvoltator web și pasionat de IT bazat în Belgia. Construiesc soluții web, automatizări și infrastructură IT pentru afaceri și acasă.</p>
+                </div>
+            </div>
+            
+        </div>
+    </article>
+    
+    <footer>
+        <p>© 2024 Marius Fit | <a href="../index.html">mariusfit.dev</a> | <a href="../blog.html">Blog</a> | <a href="../privacy.html">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>
