@@ -813,6 +813,109 @@
             }
         }
 
+        /* Language Selector */
+        .lang-selector {
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-primary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .lang-btn .flag {
+            font-size: 1.1rem;
+        }
+
+        .lang-btn .arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-selector.active .lang-btn .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            min-width: 140px;
+        }
+
+        .lang-selector.active .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-option:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--text-primary);
+        }
+
+        .lang-option.active {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .lang-selector {
+                margin-left: 0;
+                margin-right: 1rem;
+            }
+            
+            .lang-btn span:not(.flag) {
+                display: none;
+            }
+            
+            .lang-btn {
+                padding: 0.5rem;
+            }
+        }
+
         /* Animations */
         @keyframes fadeSlideUp {
             from {
@@ -935,50 +1038,73 @@
     <nav>
         <div class="logo">M.</div>
         <ul class="nav-links">
-            <li><a href="#services">Servicii</a></li>
-            <li><a href="#acasa">Pentru Acasă</a></li>
-            <li><a href="#firme">Pentru Firme</a></li>
-            <li><a href="#about">Despre</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#services" data-translate="nav_services">Servicii</a></li>
+            <li><a href="#acasa" data-translate="nav_home">Pentru Acasă</a></li>
+            <li><a href="#firme" data-translate="nav_business">Pentru Firme</a></li>
+            <li><a href="#about" data-translate="nav_about">Despre</a></li>
+            <li><a href="#contact" data-translate="nav_contact">Contact</a></li>
         </ul>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="nav-right">
+            <div class="lang-selector" id="langSelector">
+                <button class="lang-btn" onclick="toggleLangDropdown()">
+                    <span class="flag" id="currentFlag">🇷🇴</span>
+                    <span id="currentLang">RO</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="lang-dropdown">
+                    <div class="lang-option active" data-lang="ro" onclick="changeLanguage('ro')">
+                        <span class="flag">🇷🇴</span> Română
+                    </div>
+                    <div class="lang-option" data-lang="nl" onclick="changeLanguage('nl')">
+                        <span class="flag">🇳🇱</span> Nederlands
+                    </div>
+                    <div class="lang-option" data-lang="en" onclick="changeLanguage('en')">
+                        <span class="flag">🇬🇧</span> English
+                    </div>
+                    <div class="lang-option" data-lang="fr" onclick="changeLanguage('fr')">
+                        <span class="flag">🇫🇷</span> Français
+                    </div>
+                </div>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#services" onclick="toggleMenu()">Servicii</a>
-        <a href="#acasa" onclick="toggleMenu()">Pentru Acasă</a>
-        <a href="#firme" onclick="toggleMenu()">Pentru Firme</a>
-        <a href="#about" onclick="toggleMenu()">Despre</a>
-        <a href="#contact" onclick="toggleMenu()">Contact</a>
+        <a href="#services" onclick="toggleMenu()" data-translate="nav_services">Servicii</a>
+        <a href="#acasa" onclick="toggleMenu()" data-translate="nav_home">Pentru Acasă</a>
+        <a href="#firme" onclick="toggleMenu()" data-translate="nav_business">Pentru Firme</a>
+        <a href="#about" onclick="toggleMenu()" data-translate="nav_about">Despre</a>
+        <a href="#contact" onclick="toggleMenu()" data-translate="nav_contact">Contact</a>
     </div>
 
     <section class="hero">
         <div class="hero-content">
-            <p class="hero-tagline">Automatizări & Infrastructură IT • Belgium</p>
-            <h1 class="hero-title">
+            <p class="hero-tagline" data-translate="hero_tagline">Automatizări & Infrastructură IT • Belgium</p>
+            <h1 class="hero-title" data-translate="hero_title_html">
                 Construiesc<br>
                 experiențe <span class="accent">digitale</span><br>
                 cu suflet
             </h1>
-            <p class="hero-description">
+            <p class="hero-description" data-translate="hero_description">
                 Creator de soluții web și automatizări pentru afaceri și acasă. 
                 Servere personale, infrastructură IT și unelte digitale - toate construite 
                 cu ajutorul inteligenței artificiale ca partener de dezvoltare.
             </p>
             <div class="hero-cta">
-                <a href="#contact" class="btn-primary">
+                <a href="#contact" class="btn-primary" data-translate="hero_cta_primary_html">
                     Hai să vorbim
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
-                <a href="#projects" class="btn-secondary">
-                    Vezi proiectele
+                <a href="#acasa" class="btn-secondary" data-translate="hero_cta_secondary">
+                    Vezi soluțiile
                 </a>
             </div>
         </div>
@@ -986,31 +1112,31 @@
         <div class="hero-visual">
             <div class="hero-decoration"></div>
             <div class="floating-card card-1">
-                <div class="card-label">Metodă</div>
+                <div class="card-label" data-translate="hero_card1_label">Metodă</div>
                 <div class="card-value">🤖 AI-Powered</div>
-                <div class="card-subtext">Dezvoltare asistată de AI</div>
+                <div class="card-subtext" data-translate="hero_card1_subtext">Dezvoltare asistată de AI</div>
             </div>
             <div class="floating-card card-2">
-                <div class="card-label">Infrastructură</div>
+                <div class="card-label" data-translate="hero_card2_label">Infrastructură</div>
                 <div class="card-value" style="font-size: 1.1rem;">Proxmox • Docker • Linux</div>
             </div>
             <div class="floating-card card-3">
-                <div class="card-label">Locație</div>
-                <div class="card-value" style="font-size: 1rem;">🏠 Bazat în Belgia</div>
-                <div class="card-subtext">Servere locale & cloud</div>
+                <div class="card-label" data-translate="hero_card3_label">Locație</div>
+                <div class="card-value" style="font-size: 1rem;" data-translate="hero_card3_value">🏠 Bazat în Belgia</div>
+                <div class="card-subtext" data-translate="hero_card3_subtext">Servere locale & cloud</div>
             </div>
         </div>
     </section>
 
     <section class="services" id="services">
-        <div class="section-label">Ce fac</div>
-        <h2 class="section-title">Servicii & Expertiză</h2>
+        <div class="section-label" data-translate="services_label">Ce fac</div>
+        <h2 class="section-title" data-translate="services_title">Servicii & Expertiză</h2>
         
         <div class="services-grid">
             <div class="service-card reveal">
                 <div class="service-icon">🛒</div>
-                <h3 class="service-title">E-Commerce & Plăți Online</h3>
-                <p class="service-desc">
+                <h3 class="service-title" data-translate="service1_title">E-Commerce & Plăți Online</h3>
+                <p class="service-desc" data-translate="service1_desc">
                     Magazine online conforme cu legislația belgiană. Integrare plăți cu 
                     Bancontact, Payconiq și card. De la BCE și GDPR până la checkout securizat.
                 </p>
@@ -1023,8 +1149,8 @@
             
             <div class="service-card reveal">
                 <div class="service-icon">🎬</div>
-                <h3 class="service-title">Evenimente Culturale</h3>
-                <p class="service-desc">
+                <h3 class="service-title" data-translate="service2_title">Evenimente Culturale</h3>
+                <p class="service-desc" data-translate="service2_desc">
                     Strategii digitale pentru organizatori de evenimente. Cinema românesc, 
                     concerte, spectacole - de la viziune la implementare.
                 </p>
@@ -1037,8 +1163,8 @@
             
             <div class="service-card reveal">
                 <div class="service-icon">🌐</div>
-                <h3 class="service-title">Web Development</h3>
-                <p class="service-desc">
+                <h3 class="service-title" data-translate="service3_title">Web Development</h3>
+                <p class="service-desc" data-translate="service3_desc">
                     Site-uri responsive, rapide și optimizate SEO. De la landing pages 
                     la aplicații web complexe, cu atenție la fiecare detaliu.
                 </p>
@@ -1051,8 +1177,8 @@
             
             <div class="service-card reveal">
                 <div class="service-icon">🖥️</div>
-                <h3 class="service-title">Infrastructură IT</h3>
-                <p class="service-desc">
+                <h3 class="service-title" data-translate="service4_title">Infrastructură IT</h3>
+                <p class="service-desc" data-translate="service4_desc">
                     Servere Proxmox, virtualizare, sisteme de supraveghere Frigate NVR. 
                     Soluții robuste pentru business-uri care au nevoie de fiabilitate.
                 </p>
@@ -1065,8 +1191,8 @@
             
             <div class="service-card reveal">
                 <div class="service-icon">🤝</div>
-                <h3 class="service-title">Consultanță</h3>
-                <p class="service-desc">
+                <h3 class="service-title" data-translate="service5_title">Consultanță</h3>
+                <p class="service-desc" data-translate="service5_desc">
                     Ajut business-uri să treacă de la idee la realitate. Strategie digitală, 
                     alegerea stack-ului potrivit, scalare și optimizare.
                 </p>
@@ -1083,8 +1209,8 @@
     <!-- SECȚIUNEA 1: PENTRU ACASĂ -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <section class="projects" id="acasa">
-        <div class="section-label">🏠 Pentru Acasă</div>
-        <h2 class="section-title">Tehnologie care îți simplifică viața</h2>
+        <div class="section-label" data-translate="home_section_label">🏠 Pentru Acasă</div>
+        <h2 class="section-title" data-translate="home_section_title">Tehnologie care îți simplifică viața</h2>
         
         <div class="projects-grid">
             <!-- Cloud Personal / Stocare Poze -->
@@ -1325,8 +1451,8 @@
     <!-- SECȚIUNEA 2: PENTRU FIRME -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <section class="projects" id="firme">
-        <div class="section-label">🏢 Pentru Firma Ta</div>
-        <h2 class="section-title">Scapi de abonamente și ai control total</h2>
+        <div class="section-label" data-translate="business_section_label">🏢 Pentru Firma Ta</div>
+        <h2 class="section-title" data-translate="business_section_title">Scapi de abonamente și ai control total</h2>
         
         <div class="projects-grid">
             <!-- Backup Firmă -->
@@ -1608,20 +1734,20 @@
     <section class="about" id="about">
         <div class="about-content">
             <div class="about-text">
-                <div class="section-label">Despre mine</div>
-                <h2 class="section-title">Povestea din spatele codului</h2>
-                <p>
+                <div class="section-label" data-translate="about_label">Despre mine</div>
+                <h2 class="section-title" data-translate="about_title">Povestea din spatele codului</h2>
+                <p data-translate="about_p1">
                     Sunt Marius, și cred că tehnologia trebuie să lucreze pentru tine, 
                     nu invers. Construiesc soluții web, automatizări și infrastructură IT 
                     pentru oameni care vor să-și simplifice viața digitală - acasă sau la firmă.
                 </p>
-                <p>
+                <p data-translate="about_p2">
                     Folosesc inteligența artificială ca partener de dezvoltare, nu ca înlocuitor. 
                     AI-ul mă ajută să livrez mai rapid și mai eficient, dar fiecare proiect 
                     e gândit de un om, pentru oameni. Rezultatul? Soluții personalizate care 
                     chiar funcționează.
                 </p>
-                <p>
+                <p data-translate="about_p3">
                     Când nu configurez servere Proxmox sau nu optimizez containere Docker, 
                     probabil testez o nouă automatizare sau caut următoarea provocare tehnică 
                     care merită rezolvată.
@@ -1631,61 +1757,61 @@
             <div class="about-stats">
                 <div class="stat-item reveal">
                     <div class="stat-icon">🎯</div>
-                    <div class="stat-number">Soluții personalizate</div>
-                    <div class="stat-label">Fiecare proiect e unic</div>
+                    <div class="stat-number" data-translate="stat1_title">Soluții personalizate</div>
+                    <div class="stat-label" data-translate="stat1_desc">Fiecare proiect e unic</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">🤝</div>
-                    <div class="stat-number">Comunicare directă</div>
-                    <div class="stat-label">Fără intermediari</div>
+                    <div class="stat-number" data-translate="stat2_title">Comunicare directă</div>
+                    <div class="stat-label" data-translate="stat2_desc">Fără intermediari</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">📈</div>
-                    <div class="stat-number">Creștere împreună</div>
-                    <div class="stat-label">Parteneriat pe termen lung</div>
+                    <div class="stat-number" data-translate="stat3_title">Creștere împreună</div>
+                    <div class="stat-label" data-translate="stat3_desc">Parteneriat pe termen lung</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">⚡</div>
-                    <div class="stat-number">Răspuns rapid</div>
-                    <div class="stat-label">Maximum 24h la mesaje</div>
+                    <div class="stat-number" data-translate="stat4_title">Răspuns rapid</div>
+                    <div class="stat-label" data-translate="stat4_desc">Maximum 24h la mesaje</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">📱</div>
-                    <div class="stat-number">Contact direct</div>
-                    <div class="stat-label">WhatsApp, nu formulare</div>
+                    <div class="stat-number" data-translate="stat5_title">Contact direct</div>
+                    <div class="stat-label" data-translate="stat5_desc">WhatsApp, nu formulare</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">💎</div>
-                    <div class="stat-number">Transparent</div>
-                    <div class="stat-label">Fără costuri ascunse</div>
+                    <div class="stat-number" data-translate="stat6_title">Transparent</div>
+                    <div class="stat-label" data-translate="stat6_desc">Fără costuri ascunse</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">🗣️</div>
-                    <div class="stat-number">Vorbim aceeași limbă</div>
-                    <div class="stat-label">Literalmente și la tech</div>
+                    <div class="stat-number" data-translate="stat7_title">Vorbim aceeași limbă</div>
+                    <div class="stat-label" data-translate="stat7_desc">Literalmente și la tech</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">🇷🇴</div>
-                    <div class="stat-number">Român pentru români</div>
-                    <div class="stat-label">Înțeleg nevoile diasporei</div>
+                    <div class="stat-number" data-translate="stat8_title">Român pentru români</div>
+                    <div class="stat-label" data-translate="stat8_desc">Înțeleg nevoile diasporei</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">☕</div>
-                    <div class="stat-number">Proiecte cu suflet</div>
-                    <div class="stat-label">Nu doar cod, ci soluții</div>
+                    <div class="stat-number" data-translate="stat9_title">Proiecte cu suflet</div>
+                    <div class="stat-label" data-translate="stat9_desc">Nu doar cod, ci soluții</div>
                 </div>
                 <div class="stat-item reveal">
                     <div class="stat-icon">🏠</div>
-                    <div class="stat-number">Bazat în Belgia</div>
-                    <div class="stat-label">Cunosc piața locală</div>
+                    <div class="stat-number" data-translate="stat10_title">Bazat în Belgia</div>
+                    <div class="stat-label" data-translate="stat10_desc">Cunosc piața locală</div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="contact" id="contact">
-        <div class="section-label">Contact</div>
-        <h2 class="contact-title">
+        <div class="section-label" data-translate="contact_label">Contact</div>
+        <h2 class="contact-title" data-translate="contact_title_html">
             Hai să construim<br>
             ceva <span class="accent">împreună</span>
         </h2>
@@ -1703,11 +1829,11 @@
 
     <footer>
         <!-- TODO: Actualizează anul dacă e necesar -->
-        <p class="footer-text">© 2025 Marius. Construit cu ☕ și AI în Belgia.</p>
+        <p class="footer-text" data-translate="footer_text">© 2025 Marius. Construit cu ☕ și AI în Belgia.</p>
         <div class="footer-links">
             <!-- TODO: Creează paginile sau șterge linkurile dacă nu ai nevoie -->
-            <a href="#">Privacy Policy</a>      <!-- TODO: privacy.html sau /privacy -->
-            <a href="#">Termeni & Condiții</a>  <!-- TODO: termeni.html sau /termeni -->
+            <a href="#" data-translate="footer_privacy">Privacy Policy</a>      <!-- TODO: privacy.html sau /privacy -->
+            <a href="#" data-translate="footer_terms">Termeni & Condiții</a>  <!-- TODO: termeni.html sau /termeni -->
         </div>
     </footer>
 
@@ -1720,6 +1846,420 @@
     </a>
 
     <script>
+        // ═══════════════════════════════════════════════════════════════
+        // TRANSLATION SYSTEM
+        // ═══════════════════════════════════════════════════════════════
+        
+        const translations = {
+            ro: {
+                // Navigation
+                nav_services: "Servicii",
+                nav_home: "Pentru Acasă",
+                nav_business: "Pentru Firme",
+                nav_about: "Despre",
+                nav_contact: "Contact",
+                
+                // Hero Section
+                hero_tagline: "Automatizări & Infrastructură IT • Belgium",
+                hero_title_html: 'Construiesc<br>experiențe <span class="accent">digitale</span><br>cu suflet',
+                hero_description: "Creator de soluții web și automatizări pentru afaceri și acasă. Servere personale, infrastructură IT și unelte digitale - toate construite cu ajutorul inteligenței artificiale ca partener de dezvoltare.",
+                hero_cta_primary_html: 'Hai să vorbim <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+                hero_cta_secondary: "Vezi soluțiile",
+                hero_card1_label: "Metodă",
+                hero_card1_subtext: "Dezvoltare asistată de AI",
+                hero_card2_label: "Infrastructură",
+                hero_card3_label: "Locație",
+                hero_card3_value: "🏠 Bazat în Belgia",
+                hero_card3_subtext: "Servere locale & cloud",
+                
+                // Services Section
+                services_label: "Ce fac",
+                services_title: "Servicii & Expertiză",
+                service1_title: "E-Commerce & Plăți Online",
+                service1_desc: "Magazine online conforme cu legislația belgiană. Integrare plăți cu Bancontact, Payconiq și card. De la BCE și GDPR până la checkout securizat.",
+                service2_title: "Evenimente Culturale",
+                service2_desc: "Strategii digitale pentru organizatori de evenimente. Cinema românesc, concerte, spectacole - de la viziune la implementare.",
+                service3_title: "Web Development",
+                service3_desc: "Site-uri responsive, rapide și optimizate SEO. De la landing pages la aplicații web complexe, cu atenție la fiecare detaliu.",
+                service4_title: "Infrastructură IT",
+                service4_desc: "Servere Proxmox, virtualizare, sisteme de supraveghere Frigate NVR. Soluții robuste pentru business-uri care au nevoie de fiabilitate.",
+                service5_title: "Consultanță",
+                service5_desc: "Ajut business-uri să treacă de la idee la realitate. Strategie digitală, alegerea stack-ului potrivit, scalare și optimizare.",
+                
+                // Home Section
+                home_section_label: "🏠 Pentru Acasă",
+                home_section_title: "Tehnologie care îți simplifică viața",
+                
+                // Business Section
+                business_section_label: "🏢 Pentru Firma Ta",
+                business_section_title: "Scapi de abonamente și ai control total",
+                
+                // About Section
+                about_label: "Despre mine",
+                about_title: "Povestea din spatele codului",
+                about_p1: "Sunt Marius, și cred că tehnologia trebuie să lucreze pentru tine, nu invers. Construiesc soluții web, automatizări și infrastructură IT pentru oameni care vor să-și simplifice viața digitală - acasă sau la firmă.",
+                about_p2: "Folosesc inteligența artificială ca partener de dezvoltare, nu ca înlocuitor. AI-ul mă ajută să livrez mai rapid și mai eficient, dar fiecare proiect e gândit de un om, pentru oameni. Rezultatul? Soluții personalizate care chiar funcționează.",
+                about_p3: "Când nu configurez servere Proxmox sau nu optimizez containere Docker, probabil testez o nouă automatizare sau caut următoarea provocare tehnică care merită rezolvată.",
+                
+                // Stats
+                stat1_title: "Soluții personalizate",
+                stat1_desc: "Fiecare proiect e unic",
+                stat2_title: "Comunicare directă",
+                stat2_desc: "Fără intermediari",
+                stat3_title: "Creștere împreună",
+                stat3_desc: "Parteneriat pe termen lung",
+                stat4_title: "Răspuns rapid",
+                stat4_desc: "Maximum 24h la mesaje",
+                stat5_title: "Contact direct",
+                stat5_desc: "WhatsApp, nu formulare",
+                stat6_title: "Transparent",
+                stat6_desc: "Fără costuri ascunse",
+                stat7_title: "Vorbim aceeași limbă",
+                stat7_desc: "Literalmente și la tech",
+                stat8_title: "Român pentru români",
+                stat8_desc: "Înțeleg nevoile diasporei",
+                stat9_title: "Proiecte cu suflet",
+                stat9_desc: "Nu doar cod, ci soluții",
+                stat10_title: "Bazat în Belgia",
+                stat10_desc: "Cunosc piața locală",
+                
+                // Contact
+                contact_label: "Contact",
+                contact_title_html: 'Hai să construim<br>ceva <span class="accent">împreună</span>',
+                
+                // Footer
+                footer_text: "© 2025 Marius. Construit cu ☕ și AI în Belgia.",
+                footer_privacy: "Privacy Policy",
+                footer_terms: "Termeni & Condiții"
+            },
+            
+            nl: {
+                // Navigation
+                nav_services: "Diensten",
+                nav_home: "Voor Thuis",
+                nav_business: "Voor Bedrijven",
+                nav_about: "Over",
+                nav_contact: "Contact",
+                
+                // Hero Section
+                hero_tagline: "Automatisering & IT-infrastructuur • België",
+                hero_title_html: 'Ik bouw<br><span class="accent">digitale</span><br>ervaringen met ziel',
+                hero_description: "Maker van weboplossingen en automatiseringen voor bedrijven en thuis. Persoonlijke servers, IT-infrastructuur en digitale tools - allemaal gebouwd met kunstmatige intelligentie als ontwikkelingspartner.",
+                hero_cta_primary_html: 'Laten we praten <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+                hero_cta_secondary: "Bekijk oplossingen",
+                hero_card1_label: "Methode",
+                hero_card1_subtext: "AI-ondersteunde ontwikkeling",
+                hero_card2_label: "Infrastructuur",
+                hero_card3_label: "Locatie",
+                hero_card3_value: "🏠 Gevestigd in België",
+                hero_card3_subtext: "Lokale & cloud servers",
+                
+                // Services Section
+                services_label: "Wat ik doe",
+                services_title: "Diensten & Expertise",
+                service1_title: "E-Commerce & Online Betalingen",
+                service1_desc: "Online winkels conform de Belgische wetgeving. Betalingsintegratie met Bancontact, Payconiq en kaart. Van BCE en GDPR tot beveiligde checkout.",
+                service2_title: "Culturele Evenementen",
+                service2_desc: "Digitale strategieën voor evenementenorganisatoren. Roemeense bioscoop, concerten, voorstellingen - van visie tot implementatie.",
+                service3_title: "Webontwikkeling",
+                service3_desc: "Responsieve, snelle en SEO-geoptimaliseerde websites. Van landingspagina's tot complexe webapplicaties, met aandacht voor elk detail.",
+                service4_title: "IT-infrastructuur",
+                service4_desc: "Proxmox-servers, virtualisatie, Frigate NVR-bewakingssystemen. Robuuste oplossingen voor bedrijven die betrouwbaarheid nodig hebben.",
+                service5_title: "Consultancy",
+                service5_desc: "Ik help bedrijven van idee naar realiteit. Digitale strategie, keuze van de juiste stack, schaling en optimalisatie.",
+                
+                // Home Section
+                home_section_label: "🏠 Voor Thuis",
+                home_section_title: "Technologie die je leven vereenvoudigt",
+                
+                // Business Section
+                business_section_label: "🏢 Voor Jouw Bedrijf",
+                business_section_title: "Geen abonnementen meer, volledige controle",
+                
+                // About Section
+                about_label: "Over mij",
+                about_title: "Het verhaal achter de code",
+                about_p1: "Ik ben Marius, en ik geloof dat technologie voor jou moet werken, niet andersom. Ik bouw weboplossingen, automatiseringen en IT-infrastructuur voor mensen die hun digitale leven willen vereenvoudigen - thuis of op het werk.",
+                about_p2: "Ik gebruik kunstmatige intelligentie als ontwikkelingspartner, niet als vervanger. AI helpt me sneller en efficiënter te leveren, maar elk project wordt bedacht door een mens, voor mensen. Het resultaat? Gepersonaliseerde oplossingen die echt werken.",
+                about_p3: "Als ik geen Proxmox-servers configureer of Docker-containers optimaliseer, test ik waarschijnlijk een nieuwe automatisering of zoek ik de volgende technische uitdaging die het waard is om op te lossen.",
+                
+                // Stats
+                stat1_title: "Gepersonaliseerde oplossingen",
+                stat1_desc: "Elk project is uniek",
+                stat2_title: "Directe communicatie",
+                stat2_desc: "Geen tussenpersonen",
+                stat3_title: "Samen groeien",
+                stat3_desc: "Langetermijnpartnerschap",
+                stat4_title: "Snelle reactie",
+                stat4_desc: "Maximaal 24u op berichten",
+                stat5_title: "Direct contact",
+                stat5_desc: "WhatsApp, geen formulieren",
+                stat6_title: "Transparant",
+                stat6_desc: "Geen verborgen kosten",
+                stat7_title: "We spreken dezelfde taal",
+                stat7_desc: "Letterlijk en in tech",
+                stat8_title: "Roemeen voor Roemenen",
+                stat8_desc: "Ik begrijp de diaspora",
+                stat9_title: "Projecten met ziel",
+                stat9_desc: "Niet alleen code, maar oplossingen",
+                stat10_title: "Gevestigd in België",
+                stat10_desc: "Ik ken de lokale markt",
+                
+                // Contact
+                contact_label: "Contact",
+                contact_title_html: 'Laten we samen<br>iets <span class="accent">bouwen</span>',
+                
+                // Footer
+                footer_text: "© 2025 Marius. Gebouwd met ☕ en AI in België.",
+                footer_privacy: "Privacybeleid",
+                footer_terms: "Algemene Voorwaarden"
+            },
+            
+            en: {
+                // Navigation
+                nav_services: "Services",
+                nav_home: "For Home",
+                nav_business: "For Business",
+                nav_about: "About",
+                nav_contact: "Contact",
+                
+                // Hero Section
+                hero_tagline: "Automation & IT Infrastructure • Belgium",
+                hero_title_html: 'I build<br><span class="accent">digital</span><br>experiences with soul',
+                hero_description: "Creator of web solutions and automations for businesses and home. Personal servers, IT infrastructure and digital tools - all built with artificial intelligence as a development partner.",
+                hero_cta_primary_html: 'Let\'s talk <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+                hero_cta_secondary: "View solutions",
+                hero_card1_label: "Method",
+                hero_card1_subtext: "AI-assisted development",
+                hero_card2_label: "Infrastructure",
+                hero_card3_label: "Location",
+                hero_card3_value: "🏠 Based in Belgium",
+                hero_card3_subtext: "Local & cloud servers",
+                
+                // Services Section
+                services_label: "What I do",
+                services_title: "Services & Expertise",
+                service1_title: "E-Commerce & Online Payments",
+                service1_desc: "Online stores compliant with Belgian legislation. Payment integration with Bancontact, Payconiq and card. From BCE and GDPR to secure checkout.",
+                service2_title: "Cultural Events",
+                service2_desc: "Digital strategies for event organizers. Romanian cinema, concerts, shows - from vision to implementation.",
+                service3_title: "Web Development",
+                service3_desc: "Responsive, fast and SEO-optimized websites. From landing pages to complex web applications, with attention to every detail.",
+                service4_title: "IT Infrastructure",
+                service4_desc: "Proxmox servers, virtualization, Frigate NVR surveillance systems. Robust solutions for businesses that need reliability.",
+                service5_title: "Consulting",
+                service5_desc: "I help businesses go from idea to reality. Digital strategy, choosing the right stack, scaling and optimization.",
+                
+                // Home Section
+                home_section_label: "🏠 For Home",
+                home_section_title: "Technology that simplifies your life",
+                
+                // Business Section
+                business_section_label: "🏢 For Your Business",
+                business_section_title: "No more subscriptions, full control",
+                
+                // About Section
+                about_label: "About me",
+                about_title: "The story behind the code",
+                about_p1: "I'm Marius, and I believe technology should work for you, not the other way around. I build web solutions, automations and IT infrastructure for people who want to simplify their digital life - at home or at work.",
+                about_p2: "I use artificial intelligence as a development partner, not a replacement. AI helps me deliver faster and more efficiently, but every project is thought through by a human, for humans. The result? Personalized solutions that actually work.",
+                about_p3: "When I'm not configuring Proxmox servers or optimizing Docker containers, I'm probably testing a new automation or looking for the next technical challenge worth solving.",
+                
+                // Stats
+                stat1_title: "Personalized solutions",
+                stat1_desc: "Every project is unique",
+                stat2_title: "Direct communication",
+                stat2_desc: "No intermediaries",
+                stat3_title: "Growing together",
+                stat3_desc: "Long-term partnership",
+                stat4_title: "Fast response",
+                stat4_desc: "Maximum 24h on messages",
+                stat5_title: "Direct contact",
+                stat5_desc: "WhatsApp, not forms",
+                stat6_title: "Transparent",
+                stat6_desc: "No hidden costs",
+                stat7_title: "We speak the same language",
+                stat7_desc: "Literally and in tech",
+                stat8_title: "Romanian for Romanians",
+                stat8_desc: "I understand diaspora needs",
+                stat9_title: "Projects with soul",
+                stat9_desc: "Not just code, but solutions",
+                stat10_title: "Based in Belgium",
+                stat10_desc: "I know the local market",
+                
+                // Contact
+                contact_label: "Contact",
+                contact_title_html: 'Let\'s build<br>something <span class="accent">together</span>',
+                
+                // Footer
+                footer_text: "© 2025 Marius. Built with ☕ and AI in Belgium.",
+                footer_privacy: "Privacy Policy",
+                footer_terms: "Terms & Conditions"
+            },
+            
+            fr: {
+                // Navigation
+                nav_services: "Services",
+                nav_home: "Pour la Maison",
+                nav_business: "Pour Entreprises",
+                nav_about: "À propos",
+                nav_contact: "Contact",
+                
+                // Hero Section
+                hero_tagline: "Automatisation & Infrastructure IT • Belgique",
+                hero_title_html: 'Je construis<br>des expériences <span class="accent">digitales</span><br>avec âme',
+                hero_description: "Créateur de solutions web et d'automatisations pour entreprises et maison. Serveurs personnels, infrastructure IT et outils digitaux - tous construits avec l'intelligence artificielle comme partenaire de développement.",
+                hero_cta_primary_html: 'Parlons-en <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+                hero_cta_secondary: "Voir les solutions",
+                hero_card1_label: "Méthode",
+                hero_card1_subtext: "Développement assisté par IA",
+                hero_card2_label: "Infrastructure",
+                hero_card3_label: "Localisation",
+                hero_card3_value: "🏠 Basé en Belgique",
+                hero_card3_subtext: "Serveurs locaux & cloud",
+                
+                // Services Section
+                services_label: "Ce que je fais",
+                services_title: "Services & Expertise",
+                service1_title: "E-Commerce & Paiements en Ligne",
+                service1_desc: "Boutiques en ligne conformes à la législation belge. Intégration des paiements avec Bancontact, Payconiq et carte. Du BCE et RGPD jusqu'au checkout sécurisé.",
+                service2_title: "Événements Culturels",
+                service2_desc: "Stratégies digitales pour organisateurs d'événements. Cinéma roumain, concerts, spectacles - de la vision à l'implémentation.",
+                service3_title: "Développement Web",
+                service3_desc: "Sites responsifs, rapides et optimisés SEO. Des landing pages aux applications web complexes, avec attention à chaque détail.",
+                service4_title: "Infrastructure IT",
+                service4_desc: "Serveurs Proxmox, virtualisation, systèmes de surveillance Frigate NVR. Solutions robustes pour entreprises qui ont besoin de fiabilité.",
+                service5_title: "Conseil",
+                service5_desc: "J'aide les entreprises à passer de l'idée à la réalité. Stratégie digitale, choix du bon stack, mise à l'échelle et optimisation.",
+                
+                // Home Section
+                home_section_label: "🏠 Pour la Maison",
+                home_section_title: "Technologie qui simplifie votre vie",
+                
+                // Business Section
+                business_section_label: "🏢 Pour Votre Entreprise",
+                business_section_title: "Fini les abonnements, contrôle total",
+                
+                // About Section
+                about_label: "À propos de moi",
+                about_title: "L'histoire derrière le code",
+                about_p1: "Je suis Marius, et je crois que la technologie doit travailler pour vous, pas l'inverse. Je construis des solutions web, des automatisations et de l'infrastructure IT pour les gens qui veulent simplifier leur vie digitale - à la maison ou au travail.",
+                about_p2: "J'utilise l'intelligence artificielle comme partenaire de développement, pas comme remplacement. L'IA m'aide à livrer plus rapidement et plus efficacement, mais chaque projet est pensé par un humain, pour des humains. Le résultat ? Des solutions personnalisées qui fonctionnent vraiment.",
+                about_p3: "Quand je ne configure pas des serveurs Proxmox ou n'optimise pas des conteneurs Docker, je teste probablement une nouvelle automatisation ou je cherche le prochain défi technique qui vaut la peine d'être résolu.",
+                
+                // Stats
+                stat1_title: "Solutions personnalisées",
+                stat1_desc: "Chaque projet est unique",
+                stat2_title: "Communication directe",
+                stat2_desc: "Sans intermédiaires",
+                stat3_title: "Grandir ensemble",
+                stat3_desc: "Partenariat à long terme",
+                stat4_title: "Réponse rapide",
+                stat4_desc: "Maximum 24h sur les messages",
+                stat5_title: "Contact direct",
+                stat5_desc: "WhatsApp, pas de formulaires",
+                stat6_title: "Transparent",
+                stat6_desc: "Pas de coûts cachés",
+                stat7_title: "On parle la même langue",
+                stat7_desc: "Littéralement et en tech",
+                stat8_title: "Roumain pour Roumains",
+                stat8_desc: "Je comprends la diaspora",
+                stat9_title: "Projets avec âme",
+                stat9_desc: "Pas que du code, des solutions",
+                stat10_title: "Basé en Belgique",
+                stat10_desc: "Je connais le marché local",
+                
+                // Contact
+                contact_label: "Contact",
+                contact_title_html: 'Construisons<br>quelque chose <span class="accent">ensemble</span>',
+                
+                // Footer
+                footer_text: "© 2025 Marius. Construit avec ☕ et IA en Belgique.",
+                footer_privacy: "Politique de Confidentialité",
+                footer_terms: "Conditions Générales"
+            }
+        };
+        
+        const langFlags = {
+            ro: '🇷🇴',
+            nl: '🇳🇱',
+            en: '🇬🇧',
+            fr: '🇫🇷'
+        };
+        
+        const langNames = {
+            ro: 'RO',
+            nl: 'NL',
+            en: 'EN',
+            fr: 'FR'
+        };
+        
+        let currentLang = localStorage.getItem('selectedLang') || 'ro';
+        
+        function toggleLangDropdown() {
+            const selector = document.getElementById('langSelector');
+            selector.classList.toggle('active');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const selector = document.getElementById('langSelector');
+            if (selector && !selector.contains(e.target)) {
+                selector.classList.remove('active');
+            }
+        });
+        
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('selectedLang', lang);
+            
+            // Update button display
+            document.getElementById('currentFlag').textContent = langFlags[lang];
+            document.getElementById('currentLang').textContent = langNames[lang];
+            
+            // Update active state in dropdown
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.lang === lang) {
+                    opt.classList.add('active');
+                }
+            });
+            
+            // Apply translations
+            applyTranslations(lang);
+            
+            // Close dropdown
+            document.getElementById('langSelector').classList.remove('active');
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+        
+        function applyTranslations(lang) {
+            const trans = translations[lang];
+            if (!trans) return;
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (trans[key]) {
+                    if (key.endsWith('_html')) {
+                        el.innerHTML = trans[key];
+                    } else {
+                        el.textContent = trans[key];
+                    }
+                }
+            });
+        }
+        
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            changeLanguage(currentLang);
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // EXISTING FUNCTIONALITY
+        // ═══════════════════════════════════════════════════════════════
+        
         // Mobile Menu Toggle
         function toggleMenu() {
             const hamburger = document.querySelector('.hamburger');
@@ -1774,10 +2314,16 @@
             if (e.key === 'Escape') {
                 const mobileMenu = document.getElementById('mobileMenu');
                 const hamburger = document.querySelector('.hamburger');
+                const langSelector = document.getElementById('langSelector');
+                
                 if (mobileMenu.classList.contains('active')) {
                     mobileMenu.classList.remove('active');
                     hamburger.classList.remove('active');
                     document.body.style.overflow = '';
+                }
+                
+                if (langSelector.classList.contains('active')) {
+                    langSelector.classList.remove('active');
                 }
             }
         });
