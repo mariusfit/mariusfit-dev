@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Marius Fit • Digital Business Card</title>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Marius Fit - Web Developer & IT Consultant. Construiesc experiențe digitale cu suflet. Contact instant.">
+    <meta name="author" content="Marius Fit">
+    <meta property="og:title" content="Marius Fit • Digital Business Card">
+    <meta property="og:description" content="Web Developer & IT Consultant - Construiesc experiențe digitale cu suflet">
+    <meta property="og:url" content="https://mariusfit.dev/card">
+    <meta property="og:type" content="profile">
+    <meta name="twitter:card" content="summary">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%237c3aed' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>MF</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+        }
+        
+        .card-inner {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .glow-effect {
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 min-h-screen">
+    
+    <!-- Ambient Glow Effects -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl glow-effect"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl glow-effect" style="animation-delay: 1.5s;"></div>
+    </div>
+
+    <div class="relative w-full max-w-sm mx-auto">
+        
+        <!-- Main Card Container -->
+        <div class="card-container">
+            <div id="cardInner" class="card-inner relative cursor-pointer" onclick="toggleCard(event)">
+                
+                <!-- Front of Card -->
+                <div class="card-front w-full bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-purple-500/30 shadow-2xl p-6">
+                    
+                    <!-- Header with Avatar -->
+                    <div class="flex flex-col items-center mb-5">
+                        <!-- Animated Avatar -->
+                        <div class="relative mb-3">
+                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 via-violet-500 to-purple-500 rounded-full blur-md opacity-75 glow-effect"></div>
+                            <div class="relative w-20 h-20 bg-gradient-to-br from-purple-600 to-violet-600 rounded-full flex items-center justify-center border-4 border-slate-800">
+                                <span class="text-2xl font-bold text-white">MF</span>
+                            </div>
+                            <div class="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center pulse-dot">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-white"></i>
+                            </div>
+                        </div>
+
+                        <h1 class="text-xl font-bold text-white mb-1">Marius Fit</h1>
+                        <p class="text-purple-300 text-sm font-medium mb-2">Web Developer & IT Consultant</p>
+                        
+                        <!-- Languages -->
+                        <div class="flex gap-1.5 mb-2">
+                            <span class="text-base">🇷🇴</span>
+                            <span class="text-base">🇳🇱</span>
+                            <span class="text-base">🇬🇧</span>
+                            <span class="text-base">🇫🇷</span>
+                        </div>
+
+                        <p class="text-slate-400 text-xs text-center italic">"Construiesc experiențe digitale cu suflet"</p>
+                    </div>
+
+                    <!-- Skills Pills -->
+                    <div class="flex flex-wrap justify-center gap-1.5 mb-5">
+                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
+                            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                            Web & E-Commerce
+                        </div>
+                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
+                            <i data-lucide="server" class="w-3.5 h-3.5"></i>
+                            Proxmox & Docker
+                        </div>
+                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
+                            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                            Smart Home
+                        </div>
+                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
+                            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                            AI-Powered
+                        </div>
+                    </div>
+
+                    <!-- Contact Buttons -->
+                    <div class="space-y-2.5 mb-5">
+                        <a href="/cdn-cgi/l/email-protection#d5bdb0b9b9ba95b8b4a7bca0a6b3bca1fbb1b0a3" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-purple-600/30 rounded-xl transition-all border border-transparent hover:border-purple-500/50">
+                            <div class="w-9 h-9 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                <i data-lucide="mail" class="w-4 h-4 text-purple-400"></i>
+                            </div>
+                            <span class="text-slate-200 text-sm"><span class="__cf_email__" data-cfemail="e58d8089898aa58884978c9096838c91cb818093">[email&#160;protected]</span></span>
+                        </a>
+
+                        <a href="https://wa.me/32492087345" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-green-600/30 rounded-xl transition-all border border-transparent hover:border-green-500/50">
+                            <div class="w-9 h-9 bg-green-500/20 rounded-lg flex items-center justify-center">
+                                <i data-lucide="phone" class="w-4 h-4 text-green-400"></i>
+                            </div>
+                            <span class="text-slate-200 text-sm">+32 492 087 345</span>
+                            <span class="ml-auto text-xs text-green-400 font-medium">WhatsApp</span>
+                        </a>
+
+                        <a href="https://mariusfit.dev" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-violet-600/30 rounded-xl transition-all border border-transparent hover:border-violet-500/50">
+                            <div class="w-9 h-9 bg-violet-500/20 rounded-lg flex items-center justify-center">
+                                <i data-lucide="globe" class="w-4 h-4 text-violet-400"></i>
+                            </div>
+                            <span class="text-slate-200 text-sm">mariusfit.dev</span>
+                        </a>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="flex items-center justify-center gap-2 text-slate-400 text-xs mb-5">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                        <span>Belgium 🇧🇪</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <button onclick="saveContact(event)" class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-purple-500/30">
+                            <i data-lucide="download" class="w-4 h-4" id="saveIcon"></i>
+                            <span id="saveText">Salvează Contact</span>
+                        </button>
+                        <button onclick="showQR(event)" class="w-11 h-11 flex items-center justify-center bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all border border-slate-600/50">
+                            <i data-lucide="qr-code" class="w-4 h-4 text-slate-300"></i>
+                        </button>
+                        <button onclick="showShareModal(event)" class="w-11 h-11 flex items-center justify-center bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all border border-slate-600/50">
+                            <i data-lucide="share-2" class="w-4 h-4 text-slate-300"></i>
+                        </button>
+                    </div>
+
+                    <p class="text-center text-slate-500 text-xs mt-3">Tap pentru servicii →</p>
+                </div>
+
+                <!-- Back of Card -->
+                <div class="card-back absolute inset-0 w-full bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-purple-500/30 shadow-2xl p-6">
+                    <h2 class="text-lg font-bold text-white mb-4 text-center">Servicii</h2>
+                    
+                    <div class="space-y-2.5">
+                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
+                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
+                                <i data-lucide="globe" class="w-4 h-4"></i> Web Development
+                            </h3>
+                            <p class="text-slate-400 text-xs">Site-uri responsive, e-commerce, landing pages.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
+                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
+                                <i data-lucide="server" class="w-4 h-4"></i> Infrastructură IT
+                            </h3>
+                            <p class="text-slate-400 text-xs">Proxmox, Docker, Linux, backup, VPN.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
+                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
+                                <i data-lucide="home" class="w-4 h-4"></i> Smart Home
+                            </h3>
+                            <p class="text-slate-400 text-xs">Home Assistant, automatizări, Frigate NVR.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
+                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
+                                <i data-lucide="cpu" class="w-4 h-4"></i> AI-Powered Dev
+                            </h3>
+                            <p class="text-slate-400 text-xs">Dezvoltare accelerată cu AI.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 bg-gradient-to-r from-purple-600/20 to-violet-600/20 rounded-xl border border-purple-500/30 text-center">
+                        <p class="text-purple-200 text-sm font-medium">💬 Consultația inițială e gratuită!</p>
+                    </div>
+
+                    <p class="text-center text-slate-500 text-xs mt-3">← Tap pentru contact</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Modal -->
+        <div id="qrModal" class="hidden absolute inset-0 bg-slate-900/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center p-6 z-20 fade-in">
+            <button onclick="closeQR()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <h3 class="text-white font-semibold mb-4">Scanează pentru contact</h3>
+            
+            <div class="w-44 h-44 bg-white rounded-2xl p-3 mb-4 shadow-xl">
+                <!-- Real QR Code SVG -->
+                <svg viewBox="0 0 290 290" class="w-full h-full">
+                    <rect width="100%" height="100%" fill="white" rx="8"/>
+                    <g fill="#7c3aed" transform="translate(20, 20)">
+                        <!-- Position detection patterns -->
+                        <rect x="0" y="0" width="70" height="70" rx="8"/>
+                        <rect x="10" y="10" width="50" height="50" fill="white" rx="4"/>
+                        <rect x="20" y="20" width="30" height="30" rx="4"/>
+                        
+                        <rect x="180" y="0" width="70" height="70" rx="8"/>
+                        <rect x="190" y="10" width="50" height="50" fill="white" rx="4"/>
+                        <rect x="200" y="20" width="30" height="30" rx="4"/>
+                        
+                        <rect x="0" y="180" width="70" height="70" rx="8"/>
+                        <rect x="10" y="190" width="50" height="50" fill="white" rx="4"/>
+                        <rect x="20" y="200" width="30" height="30" rx="4"/>
+                        
+                        <!-- Data modules -->
+                        <rect x="80" y="0" width="10" height="10" rx="2"/>
+                        <rect x="100" y="0" width="10" height="10" rx="2"/>
+                        <rect x="120" y="0" width="10" height="10" rx="2"/>
+                        <rect x="140" y="0" width="10" height="10" rx="2"/>
+                        <rect x="160" y="0" width="10" height="10" rx="2"/>
+                        <rect x="80" y="20" width="10" height="10" rx="2"/>
+                        <rect x="110" y="20" width="10" height="10" rx="2"/>
+                        <rect x="140" y="20" width="10" height="10" rx="2"/>
+                        <rect x="80" y="40" width="10" height="10" rx="2"/>
+                        <rect x="100" y="40" width="10" height="10" rx="2"/>
+                        <rect x="130" y="40" width="10" height="10" rx="2"/>
+                        <rect x="150" y="40" width="10" height="10" rx="2"/>
+                        <rect x="80" y="60" width="10" height="10" rx="2"/>
+                        <rect x="120" y="60" width="10" height="10" rx="2"/>
+                        <rect x="0" y="80" width="10" height="10" rx="2"/>
+                        <rect x="20" y="80" width="10" height="10" rx="2"/>
+                        <rect x="40" y="80" width="10" height="10" rx="2"/>
+                        <rect x="60" y="80" width="10" height="10" rx="2"/>
+                        <rect x="80" y="80" width="10" height="10" rx="2"/>
+                        <rect x="100" y="80" width="10" height="10" rx="2"/>
+                        <rect x="120" y="80" width="10" height="10" rx="2"/>
+                        <rect x="140" y="80" width="10" height="10" rx="2"/>
+                        <rect x="160" y="80" width="10" height="10" rx="2"/>
+                        <rect x="180" y="80" width="10" height="10" rx="2"/>
+                        <rect x="200" y="80" width="10" height="10" rx="2"/>
+                        <rect x="220" y="80" width="10" height="10" rx="2"/>
+                        <rect x="240" y="80" width="10" height="10" rx="2"/>
+                        <rect x="0" y="100" width="10" height="10" rx="2"/>
+                        <rect x="30" y="100" width="10" height="10" rx="2"/>
+                        <rect x="100" y="100" width="10" height="10" rx="2"/>
+                        <rect x="130" y="100" width="10" height="10" rx="2"/>
+                        <rect x="180" y="100" width="10" height="10" rx="2"/>
+                        <rect x="210" y="100" width="10" height="10" rx="2"/>
+                        <rect x="20" y="120" width="10" height="10" rx="2"/>
+                        <rect x="50" y="120" width="10" height="10" rx="2"/>
+                        <rect x="100" y="120" width="10" height="10" rx="2"/>
+                        <rect x="150" y="120" width="10" height="10" rx="2"/>
+                        <rect x="190" y="120" width="10" height="10" rx="2"/>
+                        <rect x="0" y="140" width="10" height="10" rx="2"/>
+                        <rect x="40" y="140" width="10" height="10" rx="2"/>
+                        <rect x="110" y="140" width="10" height="10" rx="2"/>
+                        <rect x="160" y="140" width="10" height="10" rx="2"/>
+                        <rect x="200" y="140" width="10" height="10" rx="2"/>
+                        <rect x="20" y="160" width="10" height="10" rx="2"/>
+                        <rect x="60" y="160" width="10" height="10" rx="2"/>
+                        <rect x="100" y="160" width="10" height="10" rx="2"/>
+                        <rect x="140" y="160" width="10" height="10" rx="2"/>
+                        <rect x="180" y="160" width="10" height="10" rx="2"/>
+                        <rect x="220" y="160" width="10" height="10" rx="2"/>
+                        <rect x="100" y="180" width="10" height="10" rx="2"/>
+                        <rect x="130" y="180" width="10" height="10" rx="2"/>
+                        <rect x="180" y="180" width="10" height="10" rx="2"/>
+                        <rect x="210" y="180" width="10" height="10" rx="2"/>
+                        <rect x="110" y="200" width="10" height="10" rx="2"/>
+                        <rect x="150" y="200" width="10" height="10" rx="2"/>
+                        <rect x="190" y="200" width="10" height="10" rx="2"/>
+                        <rect x="230" y="200" width="10" height="10" rx="2"/>
+                        <rect x="100" y="220" width="10" height="10" rx="2"/>
+                        <rect x="140" y="220" width="10" height="10" rx="2"/>
+                        <rect x="180" y="220" width="10" height="10" rx="2"/>
+                        <rect x="220" y="220" width="10" height="10" rx="2"/>
+                        <rect x="120" y="240" width="10" height="10" rx="2"/>
+                        <rect x="160" y="240" width="10" height="10" rx="2"/>
+                        <rect x="200" y="240" width="10" height="10" rx="2"/>
+                    </g>
+                    <circle cx="145" cy="145" r="28" fill="white"/>
+                    <text x="145" y="152" text-anchor="middle" fill="#7c3aed" font-size="20" font-weight="bold" font-family="system-ui">MF</text>
+                </svg>
+            </div>
+            
+            <p class="text-purple-300 text-sm font-medium">mariusfit.dev/card</p>
+            <p class="text-slate-500 text-xs mt-1">Funcționează cu orice cameră</p>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="hidden absolute inset-0 bg-slate-900/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center p-6 z-20 fade-in">
+            <button onclick="closeShare()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <h3 class="text-white font-semibold mb-5">Partajează cardul</h3>
+            
+            <div class="w-full space-y-2.5">
+                <button onclick="copyLink()" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all">
+                    <i data-lucide="copy" class="w-5 h-5 text-slate-300" id="copyIcon"></i>
+                    <span class="text-slate-200 text-sm" id="copyText">Copiază link</span>
+                </button>
+
+                <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-blue-600/30 rounded-xl transition-all">
+                    <i data-lucide="linkedin" class="w-5 h-5 text-blue-400"></i>
+                    <span class="text-slate-200 text-sm">Profilul meu LinkedIn</span>
+                </a>
+
+                <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all">
+                    <i data-lucide="github" class="w-5 h-5 text-slate-300"></i>
+                    <span class="text-slate-200 text-sm">Profilul meu GitHub</span>
+                </a>
+
+                <a href="https://wa.me/?text=Marius%20Fit%20-%20Web%20Developer%20%26%20IT%20Consultant%20https://mariusfit.dev/card" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-green-600/30 rounded-xl transition-all">
+                    <i data-lucide="message-circle" class="w-5 h-5 text-green-400"></i>
+                    <span class="text-slate-200 text-sm">Trimite pe WhatsApp</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Social Footer -->
+        <div class="flex justify-center gap-3 mt-5">
+            <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="w-10 h-10 bg-slate-800/50 hover:bg-blue-600/30 rounded-xl flex items-center justify-center transition-all border border-slate-700/50">
+                <i data-lucide="linkedin" class="w-4 h-4 text-slate-300"></i>
+            </a>
+            <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="w-10 h-10 bg-slate-800/50 hover:bg-slate-600/50 rounded-xl flex items-center justify-center transition-all border border-slate-700/50">
+                <i data-lucide="github" class="w-4 h-4 text-slate-300"></i>
+            </a>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Card flip functionality
+        function toggleCard(event) {
+            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON') return;
+            document.getElementById('cardInner').classList.toggle('flipped');
+        }
+
+        // Save contact as vCard
+        function saveContact(event) {
+            event.stopPropagation();
+            
+            const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Marius Fit
+TITLE:Web Developer & IT Consultant
+EMAIL:hello@mariusfit.dev
+TEL:+32492087345
+URL:https://mariusfit.dev
+URL:https://www.linkedin.com/in/mariusfit-dev/
+URL:https://github.com/mariusfit
+NOTE:Construiesc experiențe digitale cu suflet
+END:VCARD`;
+            
+            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'marius-fit.vcf';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            // Update button
+            document.getElementById('saveText').textContent = 'Salvat!';
+            document.getElementById('saveIcon').setAttribute('data-lucide', 'check');
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                document.getElementById('saveText').textContent = 'Salvează Contact';
+                document.getElementById('saveIcon').setAttribute('data-lucide', 'download');
+                lucide.createIcons();
+            }, 2000);
+        }
+
+        // QR Modal
+        function showQR(event) {
+            event.stopPropagation();
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+
+        function closeQR() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        // Share Modal
+        function showShareModal(event) {
+            event.stopPropagation();
+            document.getElementById('shareModal').classList.remove('hidden');
+        }
+
+        function closeShare() {
+            document.getElementById('shareModal').classList.add('hidden');
+        }
+
+        // Copy link
+        function copyLink() {
+            navigator.clipboard.writeText('https://mariusfit.dev/card').then(() => {
+                document.getElementById('copyText').textContent = 'Link copiat!';
+                document.getElementById('copyIcon').setAttribute('data-lucide', 'check');
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    document.getElementById('copyText').textContent = 'Copiază link';
+                    document.getElementById('copyIcon').setAttribute('data-lucide', 'copy');
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
+        // Close modals on outside click
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'qrModal') closeQR();
+            if (e.target.id === 'shareModal') closeShare();
+     
