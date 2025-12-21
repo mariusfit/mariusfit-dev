@@ -672,6 +672,101 @@
         .contact-whatsapp a:hover {
             text-decoration: underline;
         }
+        
+        /* Intermediate CTA Sections */
+        .cta-banner {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 115, 51, 0.05) 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+        
+        .cta-banner-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cta-banner h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .cta-banner p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-banner .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--bg-primary);
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .cta-banner .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.35);
+        }
+        
+        .cta-banner .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--accent-gold);
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-banner .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--accent-gold);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 600px) {
+            .cta-banner h3 { font-size: 1.4rem; }
+            .cta-buttons { flex-direction: column; }
+            .cta-banner .btn-secondary { margin-left: 0; }
+        }
 
         /* Cookie Notice - Simple informative banner */
         .cookie-notice {
@@ -1289,6 +1384,17 @@
         </div>
     </section>
 
+    <!-- CTA Banner 1: After Services -->
+    <div class="cta-banner reveal">
+        <div class="cta-banner-content">
+            <h3 data-translate="cta1_title">Ai o idee? Hai să vorbim!</h3>
+            <p data-translate="cta1_desc">Consultația inițială e gratuită. Îți spun sincer dacă pot să te ajut.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-primary" data-translate="cta1_btn">💬 Contactează-mă</a>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- SECȚIUNEA 1: PENTRU ACASĂ -->
     <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -1530,6 +1636,18 @@
             </div>
         </div>
     </section>
+
+    <!-- CTA Banner 2: After Home Section -->
+    <div class="cta-banner reveal">
+        <div class="cta-banner-content">
+            <h3 data-translate="cta2_title">Vrei să-ți automatizezi casa?</h3>
+            <p data-translate="cta2_desc">De la smart home la servere personale - îți configurez totul de la distanță.</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/32492087345" target="_blank" class="btn-primary">📱 WhatsApp</a>
+                <a href="#firme" class="btn-secondary" data-translate="cta2_btn_alt">Vezi și pentru firme →</a>
+            </div>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════════════════════════ -->
     <!-- SECȚIUNEA 2: PENTRU FIRME -->
@@ -1815,6 +1933,18 @@
         </div>
     </section>
 
+    <!-- CTA Banner 3: After Business Section -->
+    <div class="cta-banner reveal">
+        <div class="cta-banner-content">
+            <h3 data-translate="cta3_title">Pregătit să-ți digitalizezi afacerea?</h3>
+            <p data-translate="cta3_desc">Hai să discutăm ce soluții se potrivesc pentru tine. Fără obligații.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-primary" data-translate="cta3_btn">📧 Trimite un mesaj</a>
+                <a href="blog.html" class="btn-secondary" data-translate="cta3_btn_alt">📚 Citește blogul</a>
+            </div>
+        </div>
+    </div>
+
     <section class="about" id="about">
         <div class="about-content">
             <div class="about-text">
@@ -1999,6 +2129,17 @@
                 stat8_desc: "Colaborez cu clienți din toată Europa",
                 stat9_title: "Proiecte cu suflet",
                 stat9_desc: "Nu doar cod, ci soluții",
+                // CTA Banners
+                cta1_title: "Ai o idee? Hai să vorbim!",
+                cta1_desc: "Consultația inițială e gratuită. Îți spun sincer dacă pot să te ajut.",
+                cta1_btn: "💬 Contactează-mă",
+                cta2_title: "Vrei să-ți automatizezi casa?",
+                cta2_desc: "De la smart home la servere personale - îți configurez totul de la distanță.",
+                cta2_btn_alt: "Vezi și pentru firme →",
+                cta3_title: "Pregătit să-ți digitalizezi afacerea?",
+                cta3_desc: "Hai să discutăm ce soluții se potrivesc pentru tine. Fără obligații.",
+                cta3_btn: "📧 Trimite un mesaj",
+                cta3_btn_alt: "📚 Citește blogul",
                 stat10_title: "Bazat în Belgia",
                 stat10_desc: "Cunosc piața locală",
                 
@@ -2086,6 +2227,17 @@
                 stat8_desc: "Ik werk met klanten uit heel Europa",
                 stat9_title: "Projecten met ziel",
                 stat9_desc: "Niet alleen code, maar oplossingen",
+                // CTA Banners
+                cta1_title: "Heb je een idee? Laten we praten!",
+                cta1_desc: "De eerste consultatie is gratis. Ik vertel je eerlijk of ik kan helpen.",
+                cta1_btn: "💬 Neem contact op",
+                cta2_title: "Wil je je huis automatiseren?",
+                cta2_desc: "Van smart home tot persoonlijke servers - ik configureer alles op afstand.",
+                cta2_btn_alt: "Bekijk ook voor bedrijven →",
+                cta3_title: "Klaar om je bedrijf te digitaliseren?",
+                cta3_desc: "Laten we bespreken welke oplossingen bij jou passen. Vrijblijvend.",
+                cta3_btn: "📧 Stuur een bericht",
+                cta3_btn_alt: "📚 Lees de blog",
                 stat10_title: "Gevestigd in België",
                 stat10_desc: "Ik ken de lokale markt",
                 
@@ -2173,6 +2325,17 @@
                 stat8_desc: "I work with clients across Europe",
                 stat9_title: "Projects with soul",
                 stat9_desc: "Not just code, but solutions",
+                // CTA Banners
+                cta1_title: "Got an idea? Let's talk!",
+                cta1_desc: "Initial consultation is free. I'll honestly tell you if I can help.",
+                cta1_btn: "💬 Contact me",
+                cta2_title: "Want to automate your home?",
+                cta2_desc: "From smart home to personal servers - I configure everything remotely.",
+                cta2_btn_alt: "See business solutions →",
+                cta3_title: "Ready to digitalize your business?",
+                cta3_desc: "Let's discuss what solutions fit you best. No obligations.",
+                cta3_btn: "📧 Send a message",
+                cta3_btn_alt: "📚 Read the blog",
                 stat10_title: "Based in Belgium",
                 stat10_desc: "I know the local market",
                 
@@ -2260,6 +2423,17 @@
                 stat8_desc: "Je travaille avec des clients de toute l'Europe",
                 stat9_title: "Projets avec âme",
                 stat9_desc: "Pas que du code, des solutions",
+                // CTA Banners
+                cta1_title: "Vous avez une idée? Parlons-en!",
+                cta1_desc: "La consultation initiale est gratuite. Je vous dis honnêtement si je peux vous aider.",
+                cta1_btn: "💬 Contactez-moi",
+                cta2_title: "Vous voulez automatiser votre maison?",
+                cta2_desc: "Du smart home aux serveurs personnels - je configure tout à distance.",
+                cta2_btn_alt: "Voir pour les entreprises →",
+                cta3_title: "Prêt à digitaliser votre entreprise?",
+                cta3_desc: "Discutons des solutions qui vous conviennent. Sans engagement.",
+                cta3_btn: "📧 Envoyer un message",
+                cta3_btn_alt: "📚 Lire le blog",
                 stat10_title: "Basé en Belgique",
                 stat10_desc: "Je connais le marché local",
                 
