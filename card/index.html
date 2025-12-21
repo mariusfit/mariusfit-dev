@@ -17,16 +17,16 @@
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%237c3aed' width='100' height='100' rx='20'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>MF</text></svg>">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
@@ -34,19 +34,67 @@
         body {
             background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
             overflow-x: hidden;
         }
         
-        .card-container {
-            perspective: 1000px;
+        /* Ambient Glow */
+        .glow-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
         
-        .card-inner {
+        .glow-orb {
+            position: absolute;
+            width: 256px;
+            height: 256px;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .glow-orb:first-child {
+            top: 25%;
+            left: 25%;
+        }
+        
+        .glow-orb:last-child {
+            bottom: 25%;
+            right: 25%;
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        
+        /* Card Container */
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 24px;
+            cursor: pointer;
             transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
         
-        .card-inner.flipped {
+        .card.flipped {
             transform: rotateY(180deg);
         }
         
@@ -56,19 +104,74 @@
         }
         
         .card-back {
+            position: absolute;
+            inset: 0;
             transform: rotateY(180deg);
+            padding: 24px;
+            display: none;
         }
         
-        .glow-effect {
+        .card.flipped .card-front {
+            visibility: hidden;
+        }
+        
+        .card.flipped .card-back {
+            display: block;
+        }
+        
+        /* Avatar */
+        .avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .avatar-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        
+        .avatar-glow {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6, #7c3aed);
+            border-radius: 50%;
+            filter: blur(12px);
+            opacity: 0.75;
             animation: glow 3s ease-in-out infinite;
         }
         
-        @keyframes glow {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
+        .avatar {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #1e293b;
         }
         
-        .pulse-dot {
+        .avatar-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .status-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 2px solid #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             animation: pulse 2s ease-in-out infinite;
         }
         
@@ -77,8 +180,304 @@
             50% { transform: scale(1.1); }
         }
         
-        .fade-in {
-            animation: fadeIn 0.3s ease-out;
+        .status-dot svg {
+            width: 12px;
+            height: 12px;
+            color: white;
+        }
+        
+        /* Name & Title */
+        .name {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+        
+        .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #c4b5fd;
+            margin-bottom: 8px;
+        }
+        
+        /* Languages */
+        .languages {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .languages span {
+            font-size: 16px;
+        }
+        
+        /* Tagline */
+        .tagline {
+            font-size: 12px;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        /* Skills */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .skill {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #e9d5ff;
+        }
+        
+        .skill svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        /* Contact Links */
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            background: rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .contact-link:hover {
+            background: rgba(124, 58, 237, 0.3);
+            border-color: rgba(124, 58, 237, 0.5);
+        }
+        
+        .contact-link.whatsapp:hover {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+        
+        .contact-link.website:hover {
+            background: rgba(139, 92, 246, 0.3);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+        
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-icon.email {
+            background: rgba(124, 58, 237, 0.2);
+        }
+        
+        .contact-icon.phone {
+            background: rgba(34, 197, 94, 0.2);
+        }
+        
+        .contact-icon.web {
+            background: rgba(139, 92, 246, 0.2);
+        }
+        
+        .contact-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .contact-icon.email svg { color: #a78bfa; }
+        .contact-icon.phone svg { color: #4ade80; }
+        .contact-icon.web svg { color: #a78bfa; }
+        
+        .contact-text {
+            font-size: 14px;
+            color: #e2e8f0;
+            flex: 1;
+        }
+        
+        .contact-badge {
+            font-size: 12px;
+            font-weight: 500;
+            color: #4ade80;
+        }
+        
+        /* Location */
+        .location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .location svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-save {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        
+        .btn-save:hover {
+            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+        }
+        
+        .btn-save svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-icon:hover {
+            background: rgba(71, 85, 105, 0.5);
+        }
+        
+        .btn-icon svg {
+            width: 16px;
+            height: 16px;
+            color: #cbd5e1;
+        }
+        
+        /* Flip hint */
+        .flip-hint {
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 12px;
+        }
+        
+        /* Back Card - Services */
+        .back-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .services {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .service {
+            padding: 12px;
+            background: rgba(51, 65, 85, 0.3);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 12px;
+        }
+        
+        .service-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-bottom: 4px;
+        }
+        
+        .service-title svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .service-desc {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        
+        .cta-box {
+            margin-top: 16px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .cta-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #e9d5ff;
+        }
+        
+        /* Modals */
+        .modal {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 20;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
         }
         
         @keyframes fadeIn {
@@ -86,323 +485,380 @@
             to { opacity: 1; transform: scale(1); }
         }
         
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            color: white;
+        }
+        
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 16px;
+        }
+        
+        /* QR Code */
+        .qr-container {
+            width: 176px;
+            height: 176px;
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .qr-url {
+            font-size: 14px;
+            font-weight: 500;
+            color: #c4b5fd;
+        }
+        
+        .qr-hint {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        /* Share Modal */
+        .share-options {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .share-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            background: rgba(51, 65, 85, 0.5);
+            border: none;
+            border-radius: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            background: rgba(71, 85, 105, 0.5);
+        }
+        
+        .share-btn.linkedin:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+        
+        .share-btn.whatsapp:hover {
+            background: rgba(34, 197, 94, 0.3);
+        }
+        
+        .share-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .share-btn span {
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+        
+        /* Social Footer */
+        .social-footer {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: rgba(51, 65, 85, 0.5);
+        }
+        
+        .social-link.linkedin:hover {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        .social-link svg {
+            width: 16px;
+            height: 16px;
+            color: #cbd5e1;
+        }
+        
         /* Hide scrollbar */
         ::-webkit-scrollbar { display: none; }
         body { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="flex items-center justify-center p-4 min-h-screen">
-    
-    <!-- Ambient Glow Effects -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl glow-effect"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl glow-effect" style="animation-delay: 1.5s;"></div>
+<body>
+    <!-- Ambient Glow -->
+    <div class="glow-container">
+        <div class="glow-orb"></div>
+        <div class="glow-orb"></div>
     </div>
 
-    <div class="relative w-full max-w-sm mx-auto">
-        
-        <!-- Main Card Container -->
-        <div class="card-container">
-            <div id="cardInner" class="card-inner relative cursor-pointer" onclick="toggleCard(event)">
-                
-                <!-- Front of Card -->
-                <div class="card-front w-full bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-purple-500/30 shadow-2xl p-6">
-                    
-                    <!-- Header with Avatar -->
-                    <div class="flex flex-col items-center mb-5">
-                        <!-- Animated Avatar -->
-                        <div class="relative mb-3">
-                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 via-violet-500 to-purple-500 rounded-full blur-md opacity-75 glow-effect"></div>
-                            <div class="relative w-20 h-20 bg-gradient-to-br from-purple-600 to-violet-600 rounded-full flex items-center justify-center border-4 border-slate-800">
-                                <span class="text-2xl font-bold text-white">MF</span>
-                            </div>
-                            <div class="absolute bottom-0 right-0 w-5 h-5 bg-green-500 rounded-full border-2 border-slate-800 flex items-center justify-center pulse-dot">
-                                <i data-lucide="sparkles" class="w-3 h-3 text-white"></i>
-                            </div>
+    <div class="card-wrapper">
+        <!-- Main Card -->
+        <div class="card" id="card" onclick="handleCardClick(event)">
+            <!-- Front -->
+            <div class="card-front">
+                <!-- Avatar -->
+                <div class="avatar-container">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-glow"></div>
+                        <div class="avatar">
+                            <span class="avatar-text">MF</span>
                         </div>
-
-                        <h1 class="text-xl font-bold text-white mb-1">Marius Fit</h1>
-                        <p class="text-purple-300 text-sm font-medium mb-2">Web Developer & IT Consultant</p>
-                        
-                        <!-- Languages -->
-                        <div class="flex gap-1.5 mb-2">
-                            <span class="text-base">🇷🇴</span>
-                            <span class="text-base">🇳🇱</span>
-                            <span class="text-base">🇬🇧</span>
-                            <span class="text-base">🇫🇷</span>
+                        <div class="status-dot">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+                            </svg>
                         </div>
-
-                        <p class="text-slate-400 text-xs text-center italic">"Construiesc experiențe digitale cu suflet"</p>
                     </div>
+                    <h1 class="name">Marius Fit</h1>
+                    <p class="title">Web Developer & IT Consultant</p>
+                    <div class="languages">
+                        <span>🇷🇴</span>
+                        <span>🇳🇱</span>
+                        <span>🇬🇧</span>
+                        <span>🇫🇷</span>
+                    </div>
+                    <p class="tagline">"Construiesc experiențe digitale cu suflet"</p>
+                </div>
 
-                    <!-- Skills Pills -->
-                    <div class="flex flex-wrap justify-center gap-1.5 mb-5">
-                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
-                            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-                            Web & E-Commerce
+                <!-- Skills -->
+                <div class="skills">
+                    <div class="skill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        Web & E-Commerce
+                    </div>
+                    <div class="skill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+                        Proxmox & Docker
+                    </div>
+                    <div class="skill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        Smart Home
+                    </div>
+                    <div class="skill">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+                        AI-Powered
+                    </div>
+                </div>
+
+                <!-- Contact Links -->
+                <div class="contact-links">
+                    <a href="mailto:hello@mariusfit.dev" class="contact-link" onclick="event.stopPropagation()">
+                        <div class="contact-icon email">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
                         </div>
-                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
-                            <i data-lucide="server" class="w-3.5 h-3.5"></i>
-                            Proxmox & Docker
+                        <span class="contact-text">hello@mariusfit.dev</span>
+                    </a>
+                    <a href="https://wa.me/32492087345" target="_blank" rel="noopener" class="contact-link whatsapp" onclick="event.stopPropagation()">
+                        <div class="contact-icon phone">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                         </div>
-                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
-                            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                        <span class="contact-text">+32 492 087 345</span>
+                        <span class="contact-badge">WhatsApp</span>
+                    </a>
+                    <a href="https://mariusfit.dev" target="_blank" rel="noopener" class="contact-link website" onclick="event.stopPropagation()">
+                        <div class="contact-icon web">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <span class="contact-text">mariusfit.dev</span>
+                    </a>
+                </div>
+
+                <!-- Location -->
+                <div class="location">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Belgium 🇧🇪</span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="actions">
+                    <button class="btn-save" onclick="saveContact(event)" id="saveBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="saveIcon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span id="saveText">Salvează Contact</span>
+                    </button>
+                    <button class="btn-icon" onclick="showQR(event)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    </button>
+                    <button class="btn-icon" onclick="showShare(event)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    </button>
+                </div>
+
+                <p class="flip-hint">Tap pentru servicii →</p>
+            </div>
+
+            <!-- Back -->
+            <div class="card-back">
+                <h2 class="back-title">Servicii</h2>
+                
+                <div class="services">
+                    <div class="service">
+                        <div class="service-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            Web Development
+                        </div>
+                        <p class="service-desc">Site-uri responsive, e-commerce, landing pages.</p>
+                    </div>
+                    <div class="service">
+                        <div class="service-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+                            Infrastructură IT
+                        </div>
+                        <p class="service-desc">Proxmox, Docker, Linux, backup, VPN.</p>
+                    </div>
+                    <div class="service">
+                        <div class="service-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                             Smart Home
                         </div>
-                        <div class="flex items-center gap-1 px-2.5 py-1 bg-purple-500/20 rounded-full border border-purple-500/30 text-purple-200 text-xs">
-                            <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-                            AI-Powered
+                        <p class="service-desc">Home Assistant, automatizări, Frigate NVR.</p>
+                    </div>
+                    <div class="service">
+                        <div class="service-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+                            AI-Powered Dev
                         </div>
+                        <p class="service-desc">Dezvoltare accelerată cu AI.</p>
                     </div>
-
-                    <!-- Contact Buttons -->
-                    <div class="space-y-2.5 mb-5">
-                        <a href="/cdn-cgi/l/email-protection#d5bdb0b9b9ba95b8b4a7bca0a6b3bca1fbb1b0a3" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-purple-600/30 rounded-xl transition-all border border-transparent hover:border-purple-500/50">
-                            <div class="w-9 h-9 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                                <i data-lucide="mail" class="w-4 h-4 text-purple-400"></i>
-                            </div>
-                            <span class="text-slate-200 text-sm"><span class="__cf_email__" data-cfemail="e58d8089898aa58884978c9096838c91cb818093">[email&#160;protected]</span></span>
-                        </a>
-
-                        <a href="https://wa.me/32492087345" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-green-600/30 rounded-xl transition-all border border-transparent hover:border-green-500/50">
-                            <div class="w-9 h-9 bg-green-500/20 rounded-lg flex items-center justify-center">
-                                <i data-lucide="phone" class="w-4 h-4 text-green-400"></i>
-                            </div>
-                            <span class="text-slate-200 text-sm">+32 492 087 345</span>
-                            <span class="ml-auto text-xs text-green-400 font-medium">WhatsApp</span>
-                        </a>
-
-                        <a href="https://mariusfit.dev" target="_blank" rel="noopener" onclick="event.stopPropagation()" class="flex items-center gap-3 w-full p-2.5 bg-slate-700/50 hover:bg-violet-600/30 rounded-xl transition-all border border-transparent hover:border-violet-500/50">
-                            <div class="w-9 h-9 bg-violet-500/20 rounded-lg flex items-center justify-center">
-                                <i data-lucide="globe" class="w-4 h-4 text-violet-400"></i>
-                            </div>
-                            <span class="text-slate-200 text-sm">mariusfit.dev</span>
-                        </a>
-                    </div>
-
-                    <!-- Location -->
-                    <div class="flex items-center justify-center gap-2 text-slate-400 text-xs mb-5">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-                        <span>Belgium 🇧🇪</span>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex gap-2">
-                        <button onclick="saveContact(event)" class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-purple-500/30">
-                            <i data-lucide="download" class="w-4 h-4" id="saveIcon"></i>
-                            <span id="saveText">Salvează Contact</span>
-                        </button>
-                        <button onclick="showQR(event)" class="w-11 h-11 flex items-center justify-center bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all border border-slate-600/50">
-                            <i data-lucide="qr-code" class="w-4 h-4 text-slate-300"></i>
-                        </button>
-                        <button onclick="showShareModal(event)" class="w-11 h-11 flex items-center justify-center bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all border border-slate-600/50">
-                            <i data-lucide="share-2" class="w-4 h-4 text-slate-300"></i>
-                        </button>
-                    </div>
-
-                    <p class="text-center text-slate-500 text-xs mt-3">Tap pentru servicii →</p>
                 </div>
 
-                <!-- Back of Card -->
-                <div class="card-back absolute inset-0 w-full bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-purple-500/30 shadow-2xl p-6">
-                    <h2 class="text-lg font-bold text-white mb-4 text-center">Servicii</h2>
-                    
-                    <div class="space-y-2.5">
-                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
-                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
-                                <i data-lucide="globe" class="w-4 h-4"></i> Web Development
-                            </h3>
-                            <p class="text-slate-400 text-xs">Site-uri responsive, e-commerce, landing pages.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
-                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
-                                <i data-lucide="server" class="w-4 h-4"></i> Infrastructură IT
-                            </h3>
-                            <p class="text-slate-400 text-xs">Proxmox, Docker, Linux, backup, VPN.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
-                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
-                                <i data-lucide="home" class="w-4 h-4"></i> Smart Home
-                            </h3>
-                            <p class="text-slate-400 text-xs">Home Assistant, automatizări, Frigate NVR.</p>
-                        </div>
-
-                        <div class="p-3 bg-slate-700/30 rounded-xl border border-slate-600/30">
-                            <h3 class="text-purple-300 font-semibold text-sm mb-1 flex items-center gap-2">
-                                <i data-lucide="cpu" class="w-4 h-4"></i> AI-Powered Dev
-                            </h3>
-                            <p class="text-slate-400 text-xs">Dezvoltare accelerată cu AI.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 p-3 bg-gradient-to-r from-purple-600/20 to-violet-600/20 rounded-xl border border-purple-500/30 text-center">
-                        <p class="text-purple-200 text-sm font-medium">💬 Consultația inițială e gratuită!</p>
-                    </div>
-
-                    <p class="text-center text-slate-500 text-xs mt-3">← Tap pentru contact</p>
+                <div class="cta-box">
+                    <p class="cta-text">💬 Consultația inițială e gratuită!</p>
                 </div>
+
+                <p class="flip-hint">← Tap pentru contact</p>
             </div>
         </div>
 
         <!-- QR Modal -->
-        <div id="qrModal" class="hidden absolute inset-0 bg-slate-900/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center p-6 z-20 fade-in">
-            <button onclick="closeQR()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
+        <div class="modal" id="qrModal">
+            <button class="modal-close" onclick="closeQR()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-            
-            <h3 class="text-white font-semibold mb-4">Scanează pentru contact</h3>
-            
-            <div class="w-44 h-44 bg-white rounded-2xl p-3 mb-4 shadow-xl">
-                <!-- Real QR Code SVG -->
-                <svg viewBox="0 0 290 290" class="w-full h-full">
-                    <rect width="100%" height="100%" fill="white" rx="8"/>
-                    <g fill="#7c3aed" transform="translate(20, 20)">
-                        <!-- Position detection patterns -->
-                        <rect x="0" y="0" width="70" height="70" rx="8"/>
-                        <rect x="10" y="10" width="50" height="50" fill="white" rx="4"/>
-                        <rect x="20" y="20" width="30" height="30" rx="4"/>
-                        
-                        <rect x="180" y="0" width="70" height="70" rx="8"/>
-                        <rect x="190" y="10" width="50" height="50" fill="white" rx="4"/>
-                        <rect x="200" y="20" width="30" height="30" rx="4"/>
-                        
-                        <rect x="0" y="180" width="70" height="70" rx="8"/>
-                        <rect x="10" y="190" width="50" height="50" fill="white" rx="4"/>
-                        <rect x="20" y="200" width="30" height="30" rx="4"/>
-                        
-                        <!-- Data modules -->
-                        <rect x="80" y="0" width="10" height="10" rx="2"/>
-                        <rect x="100" y="0" width="10" height="10" rx="2"/>
-                        <rect x="120" y="0" width="10" height="10" rx="2"/>
-                        <rect x="140" y="0" width="10" height="10" rx="2"/>
-                        <rect x="160" y="0" width="10" height="10" rx="2"/>
-                        <rect x="80" y="20" width="10" height="10" rx="2"/>
-                        <rect x="110" y="20" width="10" height="10" rx="2"/>
-                        <rect x="140" y="20" width="10" height="10" rx="2"/>
-                        <rect x="80" y="40" width="10" height="10" rx="2"/>
-                        <rect x="100" y="40" width="10" height="10" rx="2"/>
-                        <rect x="130" y="40" width="10" height="10" rx="2"/>
-                        <rect x="150" y="40" width="10" height="10" rx="2"/>
-                        <rect x="80" y="60" width="10" height="10" rx="2"/>
-                        <rect x="120" y="60" width="10" height="10" rx="2"/>
-                        <rect x="0" y="80" width="10" height="10" rx="2"/>
-                        <rect x="20" y="80" width="10" height="10" rx="2"/>
-                        <rect x="40" y="80" width="10" height="10" rx="2"/>
-                        <rect x="60" y="80" width="10" height="10" rx="2"/>
-                        <rect x="80" y="80" width="10" height="10" rx="2"/>
-                        <rect x="100" y="80" width="10" height="10" rx="2"/>
-                        <rect x="120" y="80" width="10" height="10" rx="2"/>
-                        <rect x="140" y="80" width="10" height="10" rx="2"/>
-                        <rect x="160" y="80" width="10" height="10" rx="2"/>
-                        <rect x="180" y="80" width="10" height="10" rx="2"/>
-                        <rect x="200" y="80" width="10" height="10" rx="2"/>
-                        <rect x="220" y="80" width="10" height="10" rx="2"/>
-                        <rect x="240" y="80" width="10" height="10" rx="2"/>
-                        <rect x="0" y="100" width="10" height="10" rx="2"/>
-                        <rect x="30" y="100" width="10" height="10" rx="2"/>
-                        <rect x="100" y="100" width="10" height="10" rx="2"/>
-                        <rect x="130" y="100" width="10" height="10" rx="2"/>
-                        <rect x="180" y="100" width="10" height="10" rx="2"/>
-                        <rect x="210" y="100" width="10" height="10" rx="2"/>
-                        <rect x="20" y="120" width="10" height="10" rx="2"/>
-                        <rect x="50" y="120" width="10" height="10" rx="2"/>
-                        <rect x="100" y="120" width="10" height="10" rx="2"/>
-                        <rect x="150" y="120" width="10" height="10" rx="2"/>
-                        <rect x="190" y="120" width="10" height="10" rx="2"/>
-                        <rect x="0" y="140" width="10" height="10" rx="2"/>
-                        <rect x="40" y="140" width="10" height="10" rx="2"/>
-                        <rect x="110" y="140" width="10" height="10" rx="2"/>
-                        <rect x="160" y="140" width="10" height="10" rx="2"/>
-                        <rect x="200" y="140" width="10" height="10" rx="2"/>
-                        <rect x="20" y="160" width="10" height="10" rx="2"/>
-                        <rect x="60" y="160" width="10" height="10" rx="2"/>
-                        <rect x="100" y="160" width="10" height="10" rx="2"/>
-                        <rect x="140" y="160" width="10" height="10" rx="2"/>
-                        <rect x="180" y="160" width="10" height="10" rx="2"/>
-                        <rect x="220" y="160" width="10" height="10" rx="2"/>
-                        <rect x="100" y="180" width="10" height="10" rx="2"/>
-                        <rect x="130" y="180" width="10" height="10" rx="2"/>
-                        <rect x="180" y="180" width="10" height="10" rx="2"/>
-                        <rect x="210" y="180" width="10" height="10" rx="2"/>
-                        <rect x="110" y="200" width="10" height="10" rx="2"/>
-                        <rect x="150" y="200" width="10" height="10" rx="2"/>
-                        <rect x="190" y="200" width="10" height="10" rx="2"/>
-                        <rect x="230" y="200" width="10" height="10" rx="2"/>
-                        <rect x="100" y="220" width="10" height="10" rx="2"/>
-                        <rect x="140" y="220" width="10" height="10" rx="2"/>
-                        <rect x="180" y="220" width="10" height="10" rx="2"/>
-                        <rect x="220" y="220" width="10" height="10" rx="2"/>
-                        <rect x="120" y="240" width="10" height="10" rx="2"/>
-                        <rect x="160" y="240" width="10" height="10" rx="2"/>
-                        <rect x="200" y="240" width="10" height="10" rx="2"/>
-                    </g>
-                    <circle cx="145" cy="145" r="28" fill="white"/>
-                    <text x="145" y="152" text-anchor="middle" fill="#7c3aed" font-size="20" font-weight="bold" font-family="system-ui">MF</text>
+            <h3 class="modal-title">Scanează pentru contact</h3>
+            <div class="qr-container">
+                <svg viewBox="0 0 100 100" width="100%" height="100%">
+                    <rect fill="#7c3aed" x="5" y="5" width="25" height="25" rx="3"/>
+                    <rect fill="white" x="10" y="10" width="15" height="15" rx="2"/>
+                    <rect fill="#7c3aed" x="13" y="13" width="9" height="9" rx="1"/>
+                    <rect fill="#7c3aed" x="70" y="5" width="25" height="25" rx="3"/>
+                    <rect fill="white" x="75" y="10" width="15" height="15" rx="2"/>
+                    <rect fill="#7c3aed" x="78" y="13" width="9" height="9" rx="1"/>
+                    <rect fill="#7c3aed" x="5" y="70" width="25" height="25" rx="3"/>
+                    <rect fill="white" x="10" y="75" width="15" height="15" rx="2"/>
+                    <rect fill="#7c3aed" x="13" y="78" width="9" height="9" rx="1"/>
+                    <rect fill="#7c3aed" x="35" y="5" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="45" y="5" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="55" y="5" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="35" y="15" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="50" y="15" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="35" y="35" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="45" y="40" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="55" y="35" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="40" y="50" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="50" y="55" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="60" y="50" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="35" y="60" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="50" y="65" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="70" y="40" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="80" y="45" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="75" y="55" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="85" y="60" width="5" height="5"/>
+                    <rect fill="#7c3aed" x="70" y="70" width="25" height="25" rx="3"/>
+                    <rect fill="white" x="75" y="75" width="15" height="15" rx="2"/>
+                    <rect fill="#7c3aed" x="78" y="78" width="9" height="9" rx="1"/>
+                    <circle cx="50" cy="50" r="12" fill="white"/>
+                    <text x="50" y="54" text-anchor="middle" fill="#7c3aed" font-size="10" font-weight="bold" font-family="system-ui">MF</text>
                 </svg>
             </div>
-            
-            <p class="text-purple-300 text-sm font-medium">mariusfit.dev/card</p>
-            <p class="text-slate-500 text-xs mt-1">Funcționează cu orice cameră</p>
+            <p class="qr-url">mariusfit.dev/card</p>
+            <p class="qr-hint">Funcționează cu orice cameră</p>
         </div>
 
         <!-- Share Modal -->
-        <div id="shareModal" class="hidden absolute inset-0 bg-slate-900/98 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center p-6 z-20 fade-in">
-            <button onclick="closeShare()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-5 h-5"></i>
+        <div class="modal" id="shareModal">
+            <button class="modal-close" onclick="closeShare()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-            
-            <h3 class="text-white font-semibold mb-5">Partajează cardul</h3>
-            
-            <div class="w-full space-y-2.5">
-                <button onclick="copyLink()" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all">
-                    <i data-lucide="copy" class="w-5 h-5 text-slate-300" id="copyIcon"></i>
-                    <span class="text-slate-200 text-sm" id="copyText">Copiază link</span>
+            <h3 class="modal-title">Partajează cardul</h3>
+            <div class="share-options">
+                <button class="share-btn" onclick="copyLink()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" id="copyIcon"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span id="copyText">Copiază link</span>
                 </button>
-
-                <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-blue-600/30 rounded-xl transition-all">
-                    <i data-lucide="linkedin" class="w-5 h-5 text-blue-400"></i>
-                    <span class="text-slate-200 text-sm">Profilul meu LinkedIn</span>
+                <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="share-btn linkedin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    <span>Profilul meu LinkedIn</span>
                 </a>
-
-                <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-slate-600/50 rounded-xl transition-all">
-                    <i data-lucide="github" class="w-5 h-5 text-slate-300"></i>
-                    <span class="text-slate-200 text-sm">Profilul meu GitHub</span>
+                <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="share-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    <span>Profilul meu GitHub</span>
                 </a>
-
-                <a href="https://wa.me/?text=Marius%20Fit%20-%20Web%20Developer%20%26%20IT%20Consultant%20https://mariusfit.dev/card" target="_blank" rel="noopener" class="flex items-center gap-3 w-full p-3 bg-slate-700/50 hover:bg-green-600/30 rounded-xl transition-all">
-                    <i data-lucide="message-circle" class="w-5 h-5 text-green-400"></i>
-                    <span class="text-slate-200 text-sm">Trimite pe WhatsApp</span>
+                <a href="https://wa.me/?text=Marius%20Fit%20-%20Web%20Developer%20%26%20IT%20Consultant%20https://mariusfit.dev/card" target="_blank" rel="noopener" class="share-btn whatsapp">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <span>Trimite pe WhatsApp</span>
                 </a>
             </div>
         </div>
 
         <!-- Social Footer -->
-        <div class="flex justify-center gap-3 mt-5">
-            <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="w-10 h-10 bg-slate-800/50 hover:bg-blue-600/30 rounded-xl flex items-center justify-center transition-all border border-slate-700/50">
-                <i data-lucide="linkedin" class="w-4 h-4 text-slate-300"></i>
+        <div class="social-footer">
+            <a href="https://www.linkedin.com/in/mariusfit-dev/" target="_blank" rel="noopener" class="social-link linkedin">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             </a>
-            <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="w-10 h-10 bg-slate-800/50 hover:bg-slate-600/50 rounded-xl flex items-center justify-center transition-all border border-slate-700/50">
-                <i data-lucide="github" class="w-4 h-4 text-slate-300"></i>
+            <a href="https://github.com/mariusfit" target="_blank" rel="noopener" class="social-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
             </a>
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // Card flip functionality
-        function toggleCard(event) {
-            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON') return;
-            document.getElementById('cardInner').classList.toggle('flipped');
+    <script>
+        function handleCardClick(event) {
+            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON' || event.target.closest('button')) return;
+            document.getElementById('card').classList.toggle('flipped');
         }
 
-        // Save contact as vCard
         function saveContact(event) {
             event.stopPropagation();
-            
             const vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:Marius Fit
@@ -423,55 +879,49 @@ END:VCARD`;
             a.click();
             URL.revokeObjectURL(url);
             
-            // Update button
             document.getElementById('saveText').textContent = 'Salvat!';
-            document.getElementById('saveIcon').setAttribute('data-lucide', 'check');
-            lucide.createIcons();
-            
+            document.getElementById('saveIcon').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
             setTimeout(() => {
                 document.getElementById('saveText').textContent = 'Salvează Contact';
-                document.getElementById('saveIcon').setAttribute('data-lucide', 'download');
-                lucide.createIcons();
+                document.getElementById('saveIcon').innerHTML = '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>';
             }, 2000);
         }
 
-        // QR Modal
         function showQR(event) {
             event.stopPropagation();
-            document.getElementById('qrModal').classList.remove('hidden');
+            document.getElementById('qrModal').classList.add('active');
         }
 
         function closeQR() {
-            document.getElementById('qrModal').classList.add('hidden');
+            document.getElementById('qrModal').classList.remove('active');
         }
 
-        // Share Modal
-        function showShareModal(event) {
+        function showShare(event) {
             event.stopPropagation();
-            document.getElementById('shareModal').classList.remove('hidden');
+            document.getElementById('shareModal').classList.add('active');
         }
 
         function closeShare() {
-            document.getElementById('shareModal').classList.add('hidden');
+            document.getElementById('shareModal').classList.remove('active');
         }
 
-        // Copy link
         function copyLink() {
             navigator.clipboard.writeText('https://mariusfit.dev/card').then(() => {
                 document.getElementById('copyText').textContent = 'Link copiat!';
-                document.getElementById('copyIcon').setAttribute('data-lucide', 'check');
-                lucide.createIcons();
-                
+                document.getElementById('copyIcon').innerHTML = '<polyline points="20 6 9 17 4 12"/>';
                 setTimeout(() => {
                     document.getElementById('copyText').textContent = 'Copiază link';
-                    document.getElementById('copyIcon').setAttribute('data-lucide', 'copy');
-                    lucide.createIcons();
+                    document.getElementById('copyIcon').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>';
                 }, 2000);
             });
         }
 
-        // Close modals on outside click
-        document.addEventListener('click', (e) => {
-            if (e.target.id === 'qrModal') closeQR();
-            if (e.target.id === 'shareModal') closeShare();
-     
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeQR();
+                closeShare();
+            }
+        });
+    </script>
+</body>
+</html>
