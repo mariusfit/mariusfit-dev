@@ -3,443 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="blog_title">Blog | Marius Fit - Articole despre IT, Automatizări și Smart Home</title>
-    <meta name="description" content="Articole și ghiduri despre automatizări, Proxmox, smart home, și soluții IT pentru afaceri și acasă.">
-    <meta name="keywords" content="blog IT, Proxmox tutorial, smart home, automatizări, Home Assistant, Docker">
-    <meta name="author" content="Marius Fit">
-    <meta property="og:title" content="Blog | Marius Fit">
-    <meta property="og:description" content="Articole și ghiduri despre automatizări, Proxmox, smart home, și soluții IT.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mariusfit.dev/blog">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect x='2' y='2' width='42' height='42' rx='10' fill='%230a0a0f' stroke='%23d4af37' stroke-width='2'/%3E%3Cpath d='M8 34V12h3l7 11 7-11h3v22h-4V20l-6 9.5-6-9.5v14H8z' fill='%23d4af37'/%3E%3Cpath d='M32 12v22h-4V12h4z' fill='%23d4af37'/%3E%3Cpath d='M32 12h6v3.5h-6V12z' fill='%23d4af37'/%3E%3Cpath d='M32 19.5h5v3.5h-5v-3.5z' fill='%23d4af37'/%3E%3C/svg%3E">
+    <title>Blog | Marius Fit - Articole despre IT, Automatizări și Smart Home</title>
+    <meta name="description" content="Ghiduri practice pentru români din Belgia: servere, smart home, automatizări AI și digitalizare. Explicații simple, fără jargon tehnic.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --text-primary: #f5f5f5;
-            --text-secondary: #a0a0a0;
-            --text-muted: #666666;
-            --accent-gold: #d4af37;
-            --accent-copper: #b87333;
+            --bg-dark: #0a0a0f;
+            --bg-card: #111118;
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --text: #e8e8e8;
+            --text-muted: #8a8a9a;
+            --border: rgba(212, 175, 55, 0.15);
         }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.8;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 0 24px;
         }
         
         header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
+        .back-link {
+            color: var(--gold);
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
         }
         
-        .back-home {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .back-home:hover { text-decoration: underline; }
-        
-        /* Language Selector */
-        .language-selector {
-            position: relative;
-        }
-        
-        .lang-btn {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .lang-btn:hover {
-            background: rgba(212, 175, 55, 0.2);
-            border-color: var(--accent-gold);
-        }
-        
-        .lang-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            background: var(--bg-secondary);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            overflow: hidden;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            min-width: 150px;
-        }
-        
-        .lang-dropdown.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        .lang-option {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: background 0.2s ease;
-            color: var(--text-primary);
-        }
-        
-        .lang-option:hover {
-            background: rgba(212, 175, 55, 0.1);
-        }
-        
-        .lang-option.active {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--accent-gold);
+        .back-link:hover {
+            color: var(--gold-light);
         }
         
         .hero {
             text-align: center;
-            padding: 4rem 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 80px 0 60px;
         }
         
-        h1 {
+        .hero h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
         .hero p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 600px;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 650px;
             margin: 0 auto;
         }
         
-        .articles {
-            padding: 3rem 0;
+        .articles-grid {
+            display: grid;
+            gap: 32px;
+            padding-bottom: 80px;
         }
         
         .article-card {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transform: scaleX(0);
+            transition: transform 0.4s;
         }
         
         .article-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.1);
         }
         
-        .article-card a {
-            text-decoration: none;
+        .article-card:hover::before {
+            transform: scaleX(1);
         }
         
-        .article-meta {
+        .card-header {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
         }
         
-        .article-tag {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent-gold);
-            padding: 0.25rem 0.75rem;
+        .card-tag {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
         }
         
         .article-card h2 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.5rem;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-        
-        .article-card h2:hover {
-            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--text);
         }
         
         .article-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
         }
         
         .read-more {
-            color: var(--accent-gold);
+            color: var(--gold);
             font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .read-more::after {
+            content: '→';
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover .read-more::after {
+            transform: translateX(4px);
+        }
+        
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .coming-soon .card-tag {
+            background: rgba(138, 138, 154, 0.2);
+            color: var(--text-muted);
         }
         
         footer {
-            padding: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
             text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         
-        footer a { color: var(--accent-gold); }
-        
-        @media (max-width: 600px) {
-            .header-right { gap: 1rem; }
-            .back-home { font-size: 0.8rem; }
-            h1 { font-size: 2rem; }
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">
-            <svg width="40" height="40" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="42" height="42" rx="10" fill="rgba(212, 175, 55, 0.08)" stroke="url(#logoGradient)" stroke-width="2"/>
-                <path d="M8 34V12h3l7 11 7-11h3v22h-4V20l-6 9.5-6-9.5v14H8z" fill="url(#logoGradient)"/>
-                <path d="M32 12v22h-4V12h4z" fill="url(#logoGradient)"/>
-                <path d="M32 12h6v3.5h-6V12z" fill="url(#logoGradient)"/>
-                <path d="M32 19.5h5v3.5h-5v-3.5z" fill="url(#logoGradient)"/>
-                <defs>
-                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d4af37"/>
-                        <stop offset="100%" stop-color="#b87333"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </a>
-        <div class="header-right">
-            <a href="index.html" class="back-home" data-translate="back_home">← Înapoi la site</a>
-            <div class="language-selector">
-                <button class="lang-btn" onclick="toggleLangDropdown()">
-                    <span id="currentFlag">🇷🇴</span>
-                    <span id="currentLang">RO</span>
-                    <span>▼</span>
-                </button>
-                <div class="lang-dropdown" id="langDropdown">
-                    <div class="lang-option active" onclick="setLanguage('ro')">🇷🇴 Română</div>
-                    <div class="lang-option" onclick="setLanguage('nl')">🇳🇱 Nederlands</div>
-                    <div class="lang-option" onclick="setLanguage('en')">🇬🇧 English</div>
-                    <div class="lang-option" onclick="setLanguage('fr')">🇫🇷 Français</div>
-                </div>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="back-link">← Înapoi la site</a>
             </div>
         </div>
     </header>
     
-    <section class="hero">
-        <h1 data-translate="blog_heading">Blog</h1>
-        <p data-translate="blog_subtitle">Articole practice despre automatizări, servere, smart home și tot ce înseamnă digitalizare inteligentă.</p>
-    </section>
-    
-    <div class="container">
-        <section class="articles">
-            
-            <article class="article-card">
-                <a href="blog/proxmox-ghid-incepatori-2024.html">
-                    <div class="article-meta">
-                        <span class="article-tag">Proxmox</span>
-                        <span>📅 <span data-translate="date_dec_21">21 Decembrie 2024</span></span>
-                        <span>⏱️ <span data-translate="read_time_10">10 min citire</span></span>
-                    </div>
-                    <h2 data-translate="article1_title">Ce este Proxmox și de ce ar trebui să-l folosești în 2024</h2>
-                    <p data-translate="article1_desc">Ghid complet pentru începători despre Proxmox VE - platforma gratuită de virtualizare care îți permite să rulezi mai multe sisteme de operare pe un singur server.</p>
-                    <span class="read-more" data-translate="read_article">Citește articolul →</span>
-                </a>
-            </article>
-            
-            <article class="article-card">
-                <a href="blog/home-assistant-smart-home-belgia.html">
-                    <div class="article-meta">
-                        <span class="article-tag">Smart Home</span>
-                        <span>📅 <span data-translate="coming_soon">În curând</span></span>
-                    </div>
-                    <h2 data-translate="article2_title">Cum să-ți automatizezi casa cu Home Assistant în Belgia</h2>
-                    <p data-translate="article2_desc">Ghid pas cu pas pentru configurarea unui smart home local, fără dependență de cloud, cu dispozitive disponibile în Belgia.</p>
-                    <span class="read-more" data-translate="coming_soon_link">În curând →</span>
-                </a>
-            </article>
-            
-            <article class="article-card">
-                <a href="blog/automatizari-business-ai-2024.html">
-                    <div class="article-meta">
-                        <span class="article-tag" data-translate="tag_automation">Automatizări</span>
-                        <span>📅 <span data-translate="coming_soon">În curând</span></span>
-                    </div>
-                    <h2 data-translate="article3_title">5 Automatizări cu AI care economisesc timp pentru afaceri mici</h2>
-                    <p data-translate="article3_desc">Exemple practice de automatizări cu inteligență artificială pe care le poți implementa în afacerea ta fără cunoștințe tehnice avansate.</p>
-                    <span class="read-more" data-translate="coming_soon_link">În curând →</span>
-                </a>
-            </article>
-            
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Blog</h1>
+                <p>Ghiduri practice pentru români din diaspora: cum să-ți digitalizezi afacerea, să-ți automatizezi casa și să economisești timp. Explicații simple, fără jargon tehnic.</p>
+            </div>
         </section>
-    </div>
+        
+        <section class="container">
+            <div class="articles-grid">
+                
+                <!-- ARTICOL 1: Proxmox - ACTUALIZAT 2026 -->
+                <a href="blog/proxmox-ghid-incepatori-2026.html" class="article-card">
+                    <div class="card-header">
+                        <span class="card-tag">Servere</span>
+                        <div class="card-meta">
+                            <span>📅 Ianuarie 2026</span>
+                            <span>⏱️ 12 min citire</span>
+                        </div>
+                    </div>
+                    <h2>Ce este Proxmox VE 9 și cum te ajută în 2026</h2>
+                    <p>Ai auzit că firmele mari plătesc mii de euro pentru servere virtuale? Cu Proxmox, poți avea aceleași capabilități gratuit, pe un computer vechi de acasă sau într-un mini-PC. Îți arăt pas cu pas cum să instalezi și să rulezi mai multe "calculatoare virtuale" pe un singur aparat - ideal pentru backup-uri, teste sau chiar să-ți faci propriul cloud privat.</p>
+                    <span class="read-more">Citește ghidul complet</span>
+                </a>
+                
+                <!-- ARTICOL 2: Home Assistant - ACTUALIZAT 2026 -->
+                <a href="blog/home-assistant-smart-home-belgia-2026.html" class="article-card">
+                    <div class="card-header">
+                        <span class="card-tag">Smart Home</span>
+                        <div class="card-meta">
+                            <span>📅 Ianuarie 2026</span>
+                            <span>⏱️ 15 min citire</span>
+                        </div>
+                    </div>
+                    <h2>Casa inteligentă în Belgia: Ghid complet Home Assistant 2026</h2>
+                    <p>Imaginează-ți: pleci de acasă și luminile se sting automat, termostatul se ajustează, și primești alertă dacă ai uitat ușa deschisă. Fără abonamente lunare, fără dependență de Google sau Amazon. Cu echipamente din Brico, IKEA sau Coolblue, îți arăt cum să-ți automatizezi casa în Belgia - și să economisești la factura de energie în același timp.</p>
+                    <span class="read-more">Citește ghidul complet</span>
+                </a>
+                
+                <!-- ARTICOL 3: Automatizări AI - NOU 2026 -->
+                <a href="blog/automatizari-ai-afaceri-mici-2026.html" class="article-card">
+                    <div class="card-header">
+                        <span class="card-tag">Automatizări AI</span>
+                        <div class="card-meta">
+                            <span>📅 Ianuarie 2026</span>
+                            <span>⏱️ 10 min citire</span>
+                        </div>
+                    </div>
+                    <h2>5 Automatizări AI care economisesc ore întregi pentru afaceri mici</h2>
+                    <p>Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Îți arăt 5 automatizări concrete pe care le poți implementa azi, fără cunoștințe tehnice: răspunsuri automate la emailuri, generare de facturi, programări online, și social media. Unele sunt gratuite, altele costă cât o cafea pe lună.</p>
+                    <span class="read-more">Citește ghidul complet</span>
+                </a>
+                
+                <!-- ARTICOL 4: Website pentru afacere - NOU -->
+                <a href="blog/website-afacere-belgia-2026.html" class="article-card">
+                    <div class="card-header">
+                        <span class="card-tag">Web & Business</span>
+                        <div class="card-meta">
+                            <span>📅 Februarie 2026</span>
+                            <span>⏱️ 8 min citire</span>
+                        </div>
+                    </div>
+                    <h2>Site pentru afacerea ta în Belgia: Ce trebuie să știi legal și practic</h2>
+                    <p>Vrei un site pentru afacerea ta, dar nu știi de unde să începi? Îți explic ce este obligatoriu în Belgia (număr BCE, GDPR, politică de cookies), cât costă realistic un site profesional, și cum să alegi între a-l face singur sau a apela la un specialist. Plus: cum să accepți plăți cu Bancontact și Payconiq.</p>
+                    <span class="read-more">Citește ghidul complet</span>
+                </a>
+                
+            </div>
+        </section>
+    </main>
     
     <footer>
-        <p data-translate="footer_text">© 2024 Marius Fit | <a href="index.html">mariusfit.dev</a> | <a href="privacy.html">Privacy Policy</a></p>
+        <div class="container">
+            <p>© 2026 Marius Fit | <a href="index.html">mariusfit.dev</a> | <a href="privacy.html">Politica de Confidențialitate</a></p>
+        </div>
     </footer>
-    
-    <script>
-        const translations = {
-            ro: {
-                back_home: "← Înapoi la site",
-                blog_heading: "Blog",
-                blog_subtitle: "Articole practice despre automatizări, servere, smart home și tot ce înseamnă digitalizare inteligentă.",
-                date_dec_21: "21 Decembrie 2024",
-                read_time_10: "10 min citire",
-                article1_title: "Ce este Proxmox și de ce ar trebui să-l folosești în 2024",
-                article1_desc: "Ghid complet pentru începători despre Proxmox VE - platforma gratuită de virtualizare care îți permite să rulezi mai multe sisteme de operare pe un singur server.",
-                read_article: "Citește articolul →",
-                coming_soon: "În curând",
-                coming_soon_link: "În curând →",
-                article2_title: "Cum să-ți automatizezi casa cu Home Assistant în Belgia",
-                article2_desc: "Ghid pas cu pas pentru configurarea unui smart home local, fără dependență de cloud, cu dispozitive disponibile în Belgia.",
-                article3_title: "5 Automatizări cu AI care economisesc timp pentru afaceri mici",
-                article3_desc: "Exemple practice de automatizări cu inteligență artificială pe care le poți implementa în afacerea ta fără cunoștințe tehnice avansate.",
-                tag_automation: "Automatizări",
-                footer_text: "© 2024 Marius Fit"
-            },
-            nl: {
-                back_home: "← Terug naar site",
-                blog_heading: "Blog",
-                blog_subtitle: "Praktische artikelen over automatisering, servers, smart home en alles wat slimme digitalisering betekent.",
-                date_dec_21: "21 December 2024",
-                read_time_10: "10 min lezen",
-                article1_title: "Wat is Proxmox en waarom zou je het in 2024 moeten gebruiken",
-                article1_desc: "Complete gids voor beginners over Proxmox VE - het gratis virtualisatieplatform waarmee je meerdere besturingssystemen op één server kunt draaien.",
-                read_article: "Lees artikel →",
-                coming_soon: "Binnenkort",
-                coming_soon_link: "Binnenkort →",
-                article2_title: "Hoe je je huis automatiseert met Home Assistant in België",
-                article2_desc: "Stap voor stap gids voor het opzetten van een lokaal smart home, zonder cloudafhankelijkheid, met apparaten beschikbaar in België.",
-                article3_title: "5 AI-automatiseringen die tijd besparen voor kleine bedrijven",
-                article3_desc: "Praktische voorbeelden van automatiseringen met kunstmatige intelligentie die je zonder geavanceerde technische kennis kunt implementeren.",
-                tag_automation: "Automatisering",
-                footer_text: "© 2024 Marius Fit"
-            },
-            en: {
-                back_home: "← Back to site",
-                blog_heading: "Blog",
-                blog_subtitle: "Practical articles about automation, servers, smart home and everything that means smart digitalization.",
-                date_dec_21: "December 21, 2024",
-                read_time_10: "10 min read",
-                article1_title: "What is Proxmox and why you should use it in 2024",
-                article1_desc: "Complete beginner's guide to Proxmox VE - the free virtualization platform that lets you run multiple operating systems on a single server.",
-                read_article: "Read article →",
-                coming_soon: "Coming soon",
-                coming_soon_link: "Coming soon →",
-                article2_title: "How to automate your home with Home Assistant in Belgium",
-                article2_desc: "Step by step guide for setting up a local smart home, without cloud dependency, with devices available in Belgium.",
-                article3_title: "5 AI automations that save time for small businesses",
-                article3_desc: "Practical examples of artificial intelligence automations you can implement in your business without advanced technical knowledge.",
-                tag_automation: "Automation",
-                footer_text: "© 2024 Marius Fit"
-            },
-            fr: {
-                back_home: "← Retour au site",
-                blog_heading: "Blog",
-                blog_subtitle: "Articles pratiques sur l'automatisation, les serveurs, la maison intelligente et tout ce qui signifie numérisation intelligente.",
-                date_dec_21: "21 Décembre 2024",
-                read_time_10: "10 min de lecture",
-                article1_title: "Qu'est-ce que Proxmox et pourquoi l'utiliser en 2024",
-                article1_desc: "Guide complet pour débutants sur Proxmox VE - la plateforme de virtualisation gratuite qui vous permet d'exécuter plusieurs systèmes d'exploitation sur un seul serveur.",
-                read_article: "Lire l'article →",
-                coming_soon: "Bientôt",
-                coming_soon_link: "Bientôt →",
-                article2_title: "Comment automatiser votre maison avec Home Assistant en Belgique",
-                article2_desc: "Guide étape par étape pour configurer une maison intelligente locale, sans dépendance au cloud, avec des appareils disponibles en Belgique.",
-                article3_title: "5 automatisations IA qui font gagner du temps aux petites entreprises",
-                article3_desc: "Exemples pratiques d'automatisations avec intelligence artificielle que vous pouvez implémenter sans connaissances techniques avancées.",
-                tag_automation: "Automatisation",
-                footer_text: "© 2024 Marius Fit"
-            }
-        };
-        
-        const flags = { ro: '🇷🇴', nl: '🇳🇱', en: '🇬🇧', fr: '🇫🇷' };
-        const langNames = { ro: 'RO', nl: 'NL', en: 'EN', fr: 'FR' };
-        
-        let currentLang = localStorage.getItem('selectedLanguage') || 'ro';
-        
-        function toggleLangDropdown() {
-            document.getElementById('langDropdown').classList.toggle('active');
-        }
-        
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('selectedLanguage', lang);
-            
-            document.getElementById('currentFlag').textContent = flags[lang];
-            document.getElementById('currentLang').textContent = langNames[lang];
-            
-            document.querySelectorAll('.lang-option').forEach(opt => {
-                opt.classList.remove('active');
-                if (opt.textContent.includes(langNames[lang])) {
-                    opt.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('[data-translate]').forEach(el => {
-                const key = el.getAttribute('data-translate');
-                if (translations[lang] && translations[lang][key]) {
-                    el.textContent = translations[lang][key];
-                }
-            });
-            
-            document.getElementById('langDropdown').classList.remove('active');
-        }
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.language-selector')) {
-                document.getElementById('langDropdown').classList.remove('active');
-            }
-        });
-        
-        // Initialize with saved language
-        document.addEventListener('DOMContentLoaded', () => {
-            setLanguage(currentLang);
-        });
-    </script>
 </body>
 </html>
