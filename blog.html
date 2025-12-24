@@ -12,11 +12,15 @@
         :root {
             --bg-dark: #0a0a0f;
             --bg-card: #111118;
+            --bg-secondary: #16161f;
             --gold: #d4af37;
             --gold-light: #f0d060;
             --text: #e8e8e8;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0b0;
             --text-muted: #8a8a9a;
             --border: rgba(212, 175, 55, 0.15);
+            --accent-gold: #d4af37;
         }
         
         * {
@@ -59,6 +63,88 @@
         
         .back-link:hover {
             color: var(--gold-light);
+        }
+        
+        /* Language Selector */
+        .lang-selector {
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-primary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .lang-btn .flag {
+            font-size: 1.1rem;
+        }
+
+        .lang-btn .arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-selector.active .lang-btn .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            min-width: 140px;
+        }
+
+        .lang-selector.active .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .lang-option:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--text-primary);
+        }
+
+        .lang-option.active {
+            color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
         }
         
         .hero {
@@ -130,6 +216,7 @@
             align-items: center;
             gap: 16px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .card-tag {
@@ -180,16 +267,6 @@
             transform: translateX(4px);
         }
         
-        .coming-soon {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        
-        .coming-soon .card-tag {
-            background: rgba(138, 138, 154, 0.2);
-            color: var(--text-muted);
-        }
-        
         footer {
             text-align: center;
             padding: 40px 0;
@@ -202,13 +279,46 @@
             color: var(--gold);
             text-decoration: none;
         }
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <div class="header-content">
-                <a href="index.html" class="back-link">← Înapoi la site</a>
+                <a href="index.html" class="back-link" data-translate="back_link">← Înapoi la site</a>
+                
+                <div class="lang-selector" id="langSelector">
+                    <button class="lang-btn" onclick="toggleLangDropdown()">
+                        <span class="flag" id="currentFlag">🇷🇴</span>
+                        <span id="currentLang">RO</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="lang-dropdown">
+                        <div class="lang-option active" data-lang="ro" onclick="changeLanguage('ro')">
+                            <span class="flag">🇷🇴</span> Română
+                        </div>
+                        <div class="lang-option" data-lang="nl" onclick="changeLanguage('nl')">
+                            <span class="flag">🇳🇱</span> Nederlands
+                        </div>
+                        <div class="lang-option" data-lang="en" onclick="changeLanguage('en')">
+                            <span class="flag">🇬🇧</span> English
+                        </div>
+                        <div class="lang-option" data-lang="fr" onclick="changeLanguage('fr')">
+                            <span class="flag">🇫🇷</span> Français
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -216,68 +326,68 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1>Blog</h1>
-                <p>Ghiduri practice pentru români din diaspora: cum să-ți digitalizezi afacerea, să-ți automatizezi casa și să economisești timp. Explicații simple, fără jargon tehnic.</p>
+                <h1 data-translate="blog_title">Blog</h1>
+                <p data-translate="blog_subtitle">Ghiduri practice pentru români din diaspora: cum să-ți digitalizezi afacerea, să-ți automatizezi casa și să economisești timp. Explicații simple, fără jargon tehnic.</p>
             </div>
         </section>
         
         <section class="container">
             <div class="articles-grid">
                 
-                <!-- ARTICOL 1: Proxmox - ACTUALIZAT 2026 -->
+                <!-- ARTICOL 1: Proxmox 2026 -->
                 <a href="blog/proxmox-ghid-incepatori-2026.html" class="article-card">
                     <div class="card-header">
-                        <span class="card-tag">Servere</span>
+                        <span class="card-tag" data-translate="tag_servers">Servere</span>
                         <div class="card-meta">
-                            <span>📅 Ianuarie 2026</span>
-                            <span>⏱️ 12 min citire</span>
+                            <span>📅 <span data-translate="date_jan_2026">Ianuarie 2026</span></span>
+                            <span>⏱️ 12 min <span data-translate="read_time">citire</span></span>
                         </div>
                     </div>
-                    <h2>Ce este Proxmox VE 9 și cum te ajută în 2026</h2>
-                    <p>Ai auzit că firmele mari plătesc mii de euro pentru servere virtuale? Cu Proxmox, poți avea aceleași capabilități gratuit, pe un computer vechi de acasă sau într-un mini-PC. Îți arăt pas cu pas cum să instalezi și să rulezi mai multe "calculatoare virtuale" pe un singur aparat - ideal pentru backup-uri, teste sau chiar să-ți faci propriul cloud privat.</p>
-                    <span class="read-more">Citește ghidul complet</span>
+                    <h2 data-translate="article1_title">Ce este Proxmox VE 9 și cum te ajută în 2026</h2>
+                    <p data-translate="article1_desc">Ai auzit că firmele mari plătesc mii de euro pentru servere virtuale? Cu Proxmox, poți avea aceleași capabilități gratuit, pe un computer vechi de acasă sau într-un mini-PC. Îți arăt pas cu pas cum să instalezi și să rulezi mai multe "calculatoare virtuale" pe un singur aparat.</p>
+                    <span class="read-more" data-translate="read_full">Citește ghidul complet</span>
                 </a>
                 
-                <!-- ARTICOL 2: Home Assistant - ACTUALIZAT 2026 -->
+                <!-- ARTICOL 2: Home Assistant 2026 -->
                 <a href="blog/home-assistant-smart-home-belgia-2026.html" class="article-card">
                     <div class="card-header">
-                        <span class="card-tag">Smart Home</span>
+                        <span class="card-tag" data-translate="tag_smarthome">Smart Home</span>
                         <div class="card-meta">
-                            <span>📅 Ianuarie 2026</span>
-                            <span>⏱️ 15 min citire</span>
+                            <span>📅 <span data-translate="date_jan_2026">Ianuarie 2026</span></span>
+                            <span>⏱️ 15 min <span data-translate="read_time">citire</span></span>
                         </div>
                     </div>
-                    <h2>Casa inteligentă în Belgia: Ghid complet Home Assistant 2026</h2>
-                    <p>Imaginează-ți: pleci de acasă și luminile se sting automat, termostatul se ajustează, și primești alertă dacă ai uitat ușa deschisă. Fără abonamente lunare, fără dependență de Google sau Amazon. Cu echipamente din Brico, IKEA sau Coolblue, îți arăt cum să-ți automatizezi casa în Belgia - și să economisești la factura de energie în același timp.</p>
-                    <span class="read-more">Citește ghidul complet</span>
+                    <h2 data-translate="article2_title">Casa inteligentă în Belgia: Ghid complet Home Assistant 2026</h2>
+                    <p data-translate="article2_desc">Imaginează-ți: pleci de acasă și luminile se sting automat, termostatul se ajustează, și primești alertă dacă ai uitat ușa deschisă. Fără abonamente lunare, fără dependență de Google sau Amazon. Cu echipamente din Brico, IKEA sau Coolblue.</p>
+                    <span class="read-more" data-translate="read_full">Citește ghidul complet</span>
                 </a>
                 
-                <!-- ARTICOL 3: Automatizări AI - NOU 2026 -->
+                <!-- ARTICOL 3: Automatizări AI 2026 -->
                 <a href="blog/automatizari-ai-afaceri-mici-2026.html" class="article-card">
                     <div class="card-header">
-                        <span class="card-tag">Automatizări AI</span>
+                        <span class="card-tag" data-translate="tag_ai">Automatizări AI</span>
                         <div class="card-meta">
-                            <span>📅 Ianuarie 2026</span>
-                            <span>⏱️ 10 min citire</span>
+                            <span>📅 <span data-translate="date_jan_2026">Ianuarie 2026</span></span>
+                            <span>⏱️ 10 min <span data-translate="read_time">citire</span></span>
                         </div>
                     </div>
-                    <h2>5 Automatizări AI care economisesc ore întregi pentru afaceri mici</h2>
-                    <p>Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Îți arăt 5 automatizări concrete pe care le poți implementa azi, fără cunoștințe tehnice: răspunsuri automate la emailuri, generare de facturi, programări online, și social media. Unele sunt gratuite, altele costă cât o cafea pe lună.</p>
-                    <span class="read-more">Citește ghidul complet</span>
+                    <h2 data-translate="article3_title">5 Automatizări AI care economisesc ore întregi pentru afaceri mici</h2>
+                    <p data-translate="article3_desc">Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Îți arăt 5 automatizări concrete pe care le poți implementa azi, fără cunoștințe tehnice: răspunsuri automate la emailuri, generare de facturi, programări online, și social media.</p>
+                    <span class="read-more" data-translate="read_full">Citește ghidul complet</span>
                 </a>
                 
-                <!-- ARTICOL 4: Website pentru afacere - NOU -->
+                <!-- ARTICOL 4: Website pentru afacere -->
                 <a href="blog/website-afacere-belgia-2026.html" class="article-card">
                     <div class="card-header">
-                        <span class="card-tag">Web & Business</span>
+                        <span class="card-tag" data-translate="tag_web">Web & Business</span>
                         <div class="card-meta">
-                            <span>📅 Februarie 2026</span>
-                            <span>⏱️ 8 min citire</span>
+                            <span>📅 <span data-translate="date_feb_2026">Februarie 2026</span></span>
+                            <span>⏱️ 8 min <span data-translate="read_time">citire</span></span>
                         </div>
                     </div>
-                    <h2>Site pentru afacerea ta în Belgia: Ce trebuie să știi legal și practic</h2>
-                    <p>Vrei un site pentru afacerea ta, dar nu știi de unde să începi? Îți explic ce este obligatoriu în Belgia (număr BCE, GDPR, politică de cookies), cât costă realistic un site profesional, și cum să alegi între a-l face singur sau a apela la un specialist. Plus: cum să accepți plăți cu Bancontact și Payconiq.</p>
-                    <span class="read-more">Citește ghidul complet</span>
+                    <h2 data-translate="article4_title">Site pentru afacerea ta în Belgia: Ce trebuie să știi legal și practic</h2>
+                    <p data-translate="article4_desc">Vrei un site pentru afacerea ta, dar nu știi de unde să începi? Îți explic ce este obligatoriu în Belgia (număr BCE, GDPR, politică de cookies), cât costă realistic un site profesional, și cum să accepți plăți cu Bancontact și Payconiq.</p>
+                    <span class="read-more" data-translate="read_full">Citește ghidul complet</span>
                 </a>
                 
             </div>
@@ -286,8 +396,148 @@
     
     <footer>
         <div class="container">
-            <p>© 2026 Marius Fit | <a href="index.html">mariusfit.dev</a> | <a href="privacy.html">Politica de Confidențialitate</a></p>
+            <p>© 2026 Marius Fit | <a href="index.html">mariusfit.dev</a> | <a href="privacy.html" data-translate="privacy">Politica de Confidențialitate</a></p>
         </div>
     </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            ro: {
+                back_link: "← Înapoi la site",
+                blog_title: "Blog",
+                blog_subtitle: "Ghiduri practice pentru români din diaspora: cum să-ți digitalizezi afacerea, să-ți automatizezi casa și să economisești timp. Explicații simple, fără jargon tehnic.",
+                tag_servers: "Servere",
+                tag_smarthome: "Smart Home",
+                tag_ai: "Automatizări AI",
+                tag_web: "Web & Business",
+                date_jan_2026: "Ianuarie 2026",
+                date_feb_2026: "Februarie 2026",
+                read_time: "citire",
+                read_full: "Citește ghidul complet",
+                article1_title: "Ce este Proxmox VE 9 și cum te ajută în 2026",
+                article1_desc: "Ai auzit că firmele mari plătesc mii de euro pentru servere virtuale? Cu Proxmox, poți avea aceleași capabilități gratuit, pe un computer vechi de acasă sau într-un mini-PC. Îți arăt pas cu pas cum să instalezi și să rulezi mai multe \"calculatoare virtuale\" pe un singur aparat.",
+                article2_title: "Casa inteligentă în Belgia: Ghid complet Home Assistant 2026",
+                article2_desc: "Imaginează-ți: pleci de acasă și luminile se sting automat, termostatul se ajustează, și primești alertă dacă ai uitat ușa deschisă. Fără abonamente lunare, fără dependență de Google sau Amazon. Cu echipamente din Brico, IKEA sau Coolblue.",
+                article3_title: "5 Automatizări AI care economisesc ore întregi pentru afaceri mici",
+                article3_desc: "Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Îți arăt 5 automatizări concrete pe care le poți implementa azi, fără cunoștințe tehnice: răspunsuri automate la emailuri, generare de facturi, programări online, și social media.",
+                article4_title: "Site pentru afacerea ta în Belgia: Ce trebuie să știi legal și practic",
+                article4_desc: "Vrei un site pentru afacerea ta, dar nu știi de unde să începi? Îți explic ce este obligatoriu în Belgia (număr BCE, GDPR, politică de cookies), cât costă realistic un site profesional, și cum să accepți plăți cu Bancontact și Payconiq.",
+                privacy: "Politica de Confidențialitate"
+            },
+            nl: {
+                back_link: "← Terug naar site",
+                blog_title: "Blog",
+                blog_subtitle: "Praktische gidsen voor Roemenen in België: digitaliseer je bedrijf, automatiseer je huis en bespaar tijd. Eenvoudige uitleg, zonder technisch jargon.",
+                tag_servers: "Servers",
+                tag_smarthome: "Smart Home",
+                tag_ai: "AI Automatisering",
+                tag_web: "Web & Business",
+                date_jan_2026: "Januari 2026",
+                date_feb_2026: "Februari 2026",
+                read_time: "leestijd",
+                read_full: "Lees de complete gids",
+                article1_title: "Wat is Proxmox VE 9 en hoe helpt het je in 2026",
+                article1_desc: "Heb je gehoord dat grote bedrijven duizenden euro's betalen voor virtuele servers? Met Proxmox krijg je dezelfde mogelijkheden gratis, op een oude computer of een mini-PC. Ik laat je stap voor stap zien hoe je meerdere \"virtuele computers\" op één apparaat installeert.",
+                article2_title: "Slim huis in België: Complete Home Assistant Gids 2026",
+                article2_desc: "Stel je voor: je vertrekt en de lichten gaan automatisch uit, de thermostaat past zich aan, en je krijgt een melding als je de deur open hebt gelaten. Zonder maandelijkse abonnementen, zonder afhankelijkheid van Google of Amazon. Met apparatuur van Brico, IKEA of Coolblue.",
+                article3_title: "5 AI-automatiseringen die uren besparen voor kleine bedrijven",
+                article3_desc: "Als zelfstandige of kleine ondernemer in België is je tijd kostbaar. Ik toon je 5 concrete automatiseringen die je vandaag kunt implementeren, zonder technische kennis: automatische e-mailantwoorden, factuurgeneratie, online planning en social media.",
+                article4_title: "Website voor je bedrijf in België: Wat je moet weten",
+                article4_desc: "Wil je een website voor je bedrijf, maar weet je niet waar te beginnen? Ik leg uit wat verplicht is in België (KBO-nummer, GDPR, cookiebeleid), wat een professionele website realistisch kost, en hoe je betalingen met Bancontact en Payconiq accepteert.",
+                privacy: "Privacybeleid"
+            },
+            en: {
+                back_link: "← Back to site",
+                blog_title: "Blog",
+                blog_subtitle: "Practical guides for Romanians in Belgium: digitize your business, automate your home and save time. Simple explanations, without technical jargon.",
+                tag_servers: "Servers",
+                tag_smarthome: "Smart Home",
+                tag_ai: "AI Automation",
+                tag_web: "Web & Business",
+                date_jan_2026: "January 2026",
+                date_feb_2026: "February 2026",
+                read_time: "read",
+                read_full: "Read the complete guide",
+                article1_title: "What is Proxmox VE 9 and how it helps you in 2026",
+                article1_desc: "Have you heard that big companies pay thousands of euros for virtual servers? With Proxmox, you get the same capabilities for free, on an old computer or a mini-PC. I'll show you step by step how to install and run multiple \"virtual computers\" on a single device.",
+                article2_title: "Smart Home in Belgium: Complete Home Assistant Guide 2026",
+                article2_desc: "Imagine: you leave home and the lights turn off automatically, the thermostat adjusts, and you get an alert if you forgot the door open. No monthly subscriptions, no dependency on Google or Amazon. With equipment from Brico, IKEA or Coolblue.",
+                article3_title: "5 AI Automations that save hours for small businesses",
+                article3_desc: "As a freelancer or small entrepreneur in Belgium, your time is precious. I'll show you 5 concrete automations you can implement today, without technical knowledge: automatic email responses, invoice generation, online scheduling, and social media.",
+                article4_title: "Website for your business in Belgium: What you need to know",
+                article4_desc: "Want a website for your business, but don't know where to start? I explain what's mandatory in Belgium (BCE number, GDPR, cookie policy), what a professional website realistically costs, and how to accept payments with Bancontact and Payconiq.",
+                privacy: "Privacy Policy"
+            },
+            fr: {
+                back_link: "← Retour au site",
+                blog_title: "Blog",
+                blog_subtitle: "Guides pratiques pour les Roumains en Belgique: digitalisez votre entreprise, automatisez votre maison et gagnez du temps. Explications simples, sans jargon technique.",
+                tag_servers: "Serveurs",
+                tag_smarthome: "Maison Intelligente",
+                tag_ai: "Automatisation IA",
+                tag_web: "Web & Business",
+                date_jan_2026: "Janvier 2026",
+                date_feb_2026: "Février 2026",
+                read_time: "lecture",
+                read_full: "Lire le guide complet",
+                article1_title: "Qu'est-ce que Proxmox VE 9 et comment ça vous aide en 2026",
+                article1_desc: "Avez-vous entendu que les grandes entreprises paient des milliers d'euros pour des serveurs virtuels? Avec Proxmox, vous obtenez les mêmes capacités gratuitement, sur un vieil ordinateur ou un mini-PC. Je vous montre étape par étape comment installer et exécuter plusieurs \"ordinateurs virtuels\" sur un seul appareil.",
+                article2_title: "Maison intelligente en Belgique: Guide complet Home Assistant 2026",
+                article2_desc: "Imaginez: vous partez et les lumières s'éteignent automatiquement, le thermostat s'ajuste, et vous recevez une alerte si vous avez oublié la porte ouverte. Sans abonnements mensuels, sans dépendance à Google ou Amazon. Avec des équipements de Brico, IKEA ou Coolblue.",
+                article3_title: "5 Automatisations IA qui économisent des heures pour les petites entreprises",
+                article3_desc: "En tant qu'indépendant ou petit entrepreneur en Belgique, votre temps est précieux. Je vous montre 5 automatisations concrètes que vous pouvez implémenter aujourd'hui, sans connaissances techniques: réponses automatiques aux emails, génération de factures, planification en ligne et médias sociaux.",
+                article4_title: "Site web pour votre entreprise en Belgique: Ce que vous devez savoir",
+                article4_desc: "Vous voulez un site web pour votre entreprise, mais ne savez pas par où commencer? J'explique ce qui est obligatoire en Belgique (numéro BCE, RGPD, politique de cookies), combien coûte réalistement un site professionnel, et comment accepter les paiements avec Bancontact et Payconiq.",
+                privacy: "Politique de Confidentialité"
+            }
+        };
+
+        // Language functions
+        function toggleLangDropdown() {
+            document.getElementById('langSelector').classList.toggle('active');
+        }
+
+        function changeLanguage(lang) {
+            const flags = { ro: '🇷🇴', nl: '🇳🇱', en: '🇬🇧', fr: '🇫🇷' };
+            const names = { ro: 'RO', nl: 'NL', en: 'EN', fr: 'FR' };
+            
+            document.getElementById('currentFlag').textContent = flags[lang];
+            document.getElementById('currentLang').textContent = names[lang];
+            
+            // Update active state
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.lang === lang) opt.classList.add('active');
+            });
+            
+            // Apply translations
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.dataset.translate;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('preferred_language', lang);
+            
+            // Close dropdown
+            document.getElementById('langSelector').classList.remove('active');
+        }
+
+        // Close dropdown on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                document.getElementById('langSelector').classList.remove('active');
+            }
+        });
+
+        // Load saved language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred_language') || 'ro';
+            changeLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
