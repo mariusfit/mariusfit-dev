@@ -4,24 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5 Automatizări AI pentru Afaceri Mici în 2026 | Marius Fit</title>
-    <meta name="description" content="Automatizări practice cu AI pentru independenți și firme mici în Belgia. Fără cunoștințe tehnice. Unele gratuite, altele costă cât o cafea pe lună.">
+    <meta name="description" content="Automatizări practice cu AI pentru independenți și firme mici în Belgia. Fără cunoștințe tehnice, soluții adaptate nevoilor tale.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0a0a0f;
             --bg-card: #111118;
+            --bg-secondary: #16161f;
             --gold: #d4af37;
             --gold-light: #f0d060;
             --text: #e8e8e8;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0b0;
             --text-muted: #8a8a9a;
             --border: rgba(212, 175, 55, 0.15);
+            --accent-gold: #d4af37;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
         .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
         header { padding: 24px 0; border-bottom: 1px solid var(--border); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
         .back-link { color: var(--gold); text-decoration: none; font-weight: 500; }
+        
+        /* Language Selector */
+        .lang-selector { position: relative; margin-left: 1rem; }
+        .lang-btn { display: flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: var(--text-primary); padding: 0.5rem 0.8rem; border-radius: 6px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.85rem; transition: all 0.3s ease; }
+        .lang-btn:hover { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); }
+        .lang-btn .flag { font-size: 1.1rem; }
+        .lang-btn .arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
+        .lang-selector.active .lang-btn .arrow { transform: rotate(180deg); }
+        .lang-dropdown { position: absolute; top: calc(100% + 0.5rem); right: 0; background: var(--bg-secondary); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 100; min-width: 140px; }
+        .lang-selector.active .lang-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-option { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; font-size: 0.9rem; }
+        .lang-option:hover { background: rgba(212, 175, 55, 0.1); color: var(--text-primary); }
+        .lang-option.active { color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); }
+        
         article { padding: 60px 0; }
         h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; line-height: 1.2; margin-bottom: 20px; }
         .lead { font-size: 1.2rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 48px; }
@@ -55,40 +74,67 @@
         }
         .automation-card h3 { margin-top: 0; color: var(--text); }
         .automation-card .benefit { color: var(--gold); font-weight: 500; margin: 16px 0; }
-        .automation-card .tools { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; margin-top: 16px; }
-        .automation-card .tools h5 { color: var(--gold); font-size: 0.9rem; margin-bottom: 8px; }
-        .automation-card .price-tag { display: inline-block; background: rgba(212, 175, 55, 0.2); color: var(--gold); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; margin-top: 12px; }
+        .automation-card .how-it-works { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; margin-top: 16px; }
+        .automation-card .how-it-works h5 { color: var(--gold); font-size: 0.9rem; margin-bottom: 8px; }
         
         .cta-box { background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05)); border: 1px solid var(--gold); border-radius: 16px; padding: 32px; text-align: center; margin: 48px 0; }
         .cta-box h3 { margin-top: 0; color: var(--gold); }
-        .button { display: inline-block; background: var(--gold); color: var(--bg-dark); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; }
+        .button { display: inline-block; background: var(--gold); color: var(--bg-dark); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; transition: all 0.3s; }
+        .button:hover { background: var(--gold-light); transform: translateY(-2px); }
         .author-box { display: flex; gap: 20px; align-items: center; padding: 32px; background: var(--bg-card); border-radius: 16px; margin-top: 48px; }
         .author-avatar { width: 64px; height: 64px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-dark); flex-shrink: 0; }
         footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-muted); }
         footer a { color: var(--gold); text-decoration: none; }
+        
+        @media (max-width: 600px) {
+            .header-content { flex-wrap: wrap; gap: 16px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+            <div class="header-content">
+                <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+                <div class="lang-selector" id="langSelector">
+                    <button class="lang-btn" onclick="toggleLangDropdown()">
+                        <span class="flag" id="currentFlag">🇷🇴</span>
+                        <span id="currentLang">RO</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="lang-dropdown">
+                        <div class="lang-option active" data-lang="ro" onclick="changeLanguage('ro')">
+                            <span class="flag">🇷🇴</span> Română
+                        </div>
+                        <div class="lang-option" data-lang="nl" onclick="changeLanguage('nl')">
+                            <span class="flag">🇳🇱</span> Nederlands
+                        </div>
+                        <div class="lang-option" data-lang="en" onclick="changeLanguage('en')">
+                            <span class="flag">🇬🇧</span> English
+                        </div>
+                        <div class="lang-option" data-lang="fr" onclick="changeLanguage('fr')">
+                            <span class="flag">🇫🇷</span> Français
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     
     <article>
         <div class="container">
-            <div class="article-meta" style="display:flex; gap:20px; color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">
-                <span>📅 Ianuarie 2026</span>
-                <span>⏱️ 10 min citire</span>
+            <div class="article-meta" style="display:flex; gap:20px; color:var(--text-muted); font-size:0.95rem; margin-bottom:20px; flex-wrap:wrap;">
+                <span>📅 2026</span>
+                <span>⏱️ 8 min citire</span>
                 <span>🏷️ Automatizări AI</span>
             </div>
             
             <h1>5 Automatizări AI care economisesc ore întregi pentru afaceri mici</h1>
-            <p class="lead">Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Nu ai departament IT, nu ai secretară. Dar poți avea un asistent digital care lucrează 24/7 - și costă mai puțin decât o cafea pe zi.</p>
+            <p class="lead">Ca independent sau mic antreprenor în Belgia, timpul tău e prețios. Nu ai departament IT, nu ai secretară. Dar poți avea un asistent digital care lucrează 24/7 - adaptat exact nevoilor și bugetului tău.</p>
             
             <div class="highlight-box">
-                <h4>📊 Contextul 2026</h4>
-                <p>84% dintre companii folosesc deja unelte low-code sau no-code. Automatizările cu AI au crescut de la 3% la 25% din procesele enterprise în doar un an. Nu mai e viitor - e prezent. Și e accesibil oricui.</p>
+                <h4>📊 De ce contează în 2026</h4>
+                <p>Majoritatea companiilor folosesc deja unelte de automatizare. Nu mai e un avantaj competitiv - e o necesitate. Vestea bună: soluțiile sunt accesibile și pentru afaceri mici, nu doar pentru corporații.</p>
             </div>
             
             <!-- AUTOMATIZARE 1 -->
@@ -99,15 +145,10 @@
                 
                 <p class="benefit">⏱️ Economie: 5-10 ore/săptămână pentru afaceri cu volum mare de emailuri</p>
                 
-                <div class="tools">
-                    <h5>🛠️ Cum faci:</h5>
-                    <ul style="margin:0; padding-left:20px;">
-                        <li><strong>Zapier + ChatGPT</strong> - Analizează emailul, generează răspuns, îl trimite sau îți cere aprobare</li>
-                        <li><strong>n8n (self-hosted)</strong> - Similar cu Zapier, dar gratuit și rulează pe serverul tău</li>
-                        <li><strong>Gmail + AI</strong> - Funcția nativă "Help me write" pentru răspunsuri rapide</li>
-                    </ul>
+                <div class="how-it-works">
+                    <h5>🔄 Cum funcționează:</h5>
+                    <p style="margin:0;">Emailul intră → AI-ul îl analizează și identifică tipul cererii → generează un răspuns personalizat → îl trimite automat sau îți cere aprobare. Tu intervii doar când e ceva complex sau neobișnuit.</p>
                 </div>
-                <span class="price-tag">Gratuit - €20/lună</span>
             </div>
             
             <!-- AUTOMATIZARE 2 -->
@@ -118,15 +159,10 @@
                 
                 <p class="benefit">⏱️ Economie: 30 min - 2 ore/săptămână + mai puține întâlniri ratate</p>
                 
-                <div class="tools">
-                    <h5>🛠️ Unelte recomandate:</h5>
-                    <ul style="margin:0; padding-left:20px;">
-                        <li><strong>Cal.com</strong> - Gratuit pentru uz personal, open-source</li>
-                        <li><strong>Calendly</strong> - Standard în industrie, integrare cu totul</li>
-                        <li><strong>TidyCal</strong> - €29 o singură dată (lifetime), fără abonament</li>
-                    </ul>
+                <div class="how-it-works">
+                    <h5>🔄 Cum funcționează:</h5>
+                    <p style="margin:0;">Trimiți un link clientului → vede doar orele când ești disponibil → alege ce-i convine → ambii primiți confirmare și calendar actualizat → reminder automat cu o zi/oră înainte.</p>
                 </div>
-                <span class="price-tag">Gratuit - €29 (one-time)</span>
             </div>
             
             <!-- AUTOMATIZARE 3 -->
@@ -137,16 +173,10 @@
                 
                 <p class="benefit">⏱️ Economie: 2-5 ore/lună + cash flow îmbunătățit</p>
                 
-                <div class="tools">
-                    <h5>🛠️ Soluții pentru Belgia:</h5>
-                    <ul style="margin:0; padding-left:20px;">
-                        <li><strong>Billtobox</strong> - Popular în Belgia, acceptat de contabili</li>
-                        <li><strong>Dexxter</strong> - Specific pentru independenți belgieni</li>
-                        <li><strong>Invoice Ninja</strong> - Gratuit, self-hosted, profesional</li>
-                        <li><strong>Zapier</strong> - Conectează CRM/Excel cu sistemul de facturare</li>
-                    </ul>
+                <div class="how-it-works">
+                    <h5>🔄 Cum funcționează:</h5>
+                    <p style="margin:0;">Completezi datele proiectului o singură dată → sistemul generează factura conformă legislației belgiene (număr BCE, TVA corect) → o trimite clientului → urmărește dacă e plătită → trimite reminder-uri.</p>
                 </div>
-                <span class="price-tag">Gratuit - €15/lună</span>
             </div>
             
             <!-- AUTOMATIZARE 4 -->
@@ -157,16 +187,10 @@
                 
                 <p class="benefit">⏱️ Economie: 3-6 ore/săptămână pentru afaceri active pe social media</p>
                 
-                <div class="tools">
-                    <h5>🛠️ Workflow concret:</h5>
-                    <ul style="margin:0; padding-left:20px;">
-                        <li><strong>ChatGPT/Claude</strong> - Generează 10 postări din 1 articol de blog</li>
-                        <li><strong>Buffer sau Later</strong> - Programează postările pentru săptămâna întreagă</li>
-                        <li><strong>Canva AI</strong> - Creează imagini pentru postări în 30 secunde</li>
-                        <li><strong>Make.com</strong> - Automatizare completă: blog nou → postare generată → programată</li>
-                    </ul>
+                <div class="how-it-works">
+                    <h5>🔄 Cum funcționează:</h5>
+                    <p style="margin:0;">Scrii un articol de blog sau ai o idee → AI-ul generează variante pentru fiecare platformă → le programezi pentru toată săptămâna → postările apar automat la orele optime.</p>
                 </div>
-                <span class="price-tag">€10-30/lună</span>
             </div>
             
             <!-- AUTOMATIZARE 5 -->
@@ -177,57 +201,41 @@
                 
                 <p class="benefit">⏱️ Economie: 5-15 ore/lună + captezi clienți și la 2 noaptea</p>
                 
-                <div class="tools">
-                    <h5>🛠️ Opțiuni testate:</h5>
-                    <ul style="margin:0; padding-left:20px;">
-                        <li><strong>Tidio</strong> - Gratuit pentru 50 conversații/lună, foarte ușor de instalat</li>
-                        <li><strong>Crisp</strong> - Plan gratuit generos, suportă multiple limbi</li>
-                        <li><strong>Chatbase</strong> - Antrenezi AI-ul pe documentele tale (prețuri, FAQ)</li>
-                        <li><strong>Custom cu n8n + Claude</strong> - Complet personalizat, rulează pe serverul tău</li>
-                    </ul>
+                <div class="how-it-works">
+                    <h5>🔄 Cum funcționează:</h5>
+                    <p style="margin:0;">Vizitatorul pune o întrebare pe site → chatbot-ul răspunde instant bazat pe informațiile tale (prețuri, FAQ, servicii) → dacă e interesat serios, colectează datele de contact → tu primești notificare cu un lead calificat.</p>
                 </div>
-                <span class="price-tag">Gratuit - €50/lună</span>
             </div>
             
-            <h2>Cum să începi - plan concret</h2>
+            <h2>Cum să începi</h2>
+            
+            <p>Nu încerca să automatizezi totul odată. Iată o abordare pas cu pas:</p>
             
             <ol>
-                <li><strong>Săptămâna 1:</strong> Implementează programări online (Cal.com/TidyCal) - impact imediat, zero cost</li>
-                <li><strong>Săptămâna 2:</strong> Setează răspunsuri automate pentru cele mai frecvente 5 întrebări prin email</li>
-                <li><strong>Luna 1:</strong> Automatizează facturarea cu unul din tool-urile menționate</li>
-                <li><strong>Luna 2:</strong> Adaugă chatbot pe site sau automatizare social media</li>
+                <li><strong>Identifică:</strong> Care proces îți consumă cel mai mult timp repetitiv?</li>
+                <li><strong>Prioritizează:</strong> Alege unul singur pentru început</li>
+                <li><strong>Implementează:</strong> Setează automatizarea și testează</li>
+                <li><strong>Optimizează:</strong> Ajustează după primele săptămâni de folosire</li>
+                <li><strong>Extinde:</strong> Treci la următoarea automatizare</li>
             </ol>
             
             <div class="highlight-box">
                 <h4>💡 Sfatul meu</h4>
-                <p>Nu încerca să automatizezi totul odată. Alege UN proces care te consumă cel mai mult, automatizează-l bine, apoi treci la următorul. În 3 luni vei avea un sistem care lucrează pentru tine.</p>
+                <p>Fiecare afacere e diferită. Nu există soluție universală. Uneltele potrivite depind de volumul tău, buget, și cum preferi să lucrezi. De aceea ofer consultație gratuită - să înțeleg exact ce ai nevoie înainte să recomand ceva.</p>
             </div>
             
-            <h2>Cât costă toate astea?</h2>
-            
-            <p>Buget minim pentru un independent:</p>
-            <ul>
-                <li>Programări: €0-29 (one-time cu TidyCal)</li>
-                <li>Facturare: €0-15/lună</li>
-                <li>Chatbot: €0 (plan gratuit Tidio/Crisp)</li>
-                <li>Social media scheduling: €0-15/lună</li>
-            </ul>
-            
-            <p><strong>Total: €0-60/lună</strong> pentru a economisi 10-20 ore/lună.</p>
-            <p>Dacă ora ta valorează €50, economisești €500-1000/lună investind €60.</p>
-            
-            <h2>Când să ceri ajutor?</h2>
+            <h2>Când merită să ceri ajutor?</h2>
             
             <ul>
-                <li>Nu ai timp să înveți tool-urile - vrei să meargă din prima</li>
-                <li>Ai nevoie de integrări personalizate (CRM propriu, bază de date specifică)</li>
+                <li>Nu ai timp să înveți și să configurezi uneltele - vrei să meargă din prima</li>
+                <li>Ai nevoie de integrări personalizate între sistemele tale existente</li>
                 <li>Vrei automatizări complexe care comunică între ele</li>
                 <li>Preferi să ai pe cineva care menține și optimizează sistemul</li>
             </ul>
             
             <div class="cta-box">
                 <h3>Vrei să-ți automatizez afacerea?</h3>
-                <p>Analizez procesele tale, identific ce se poate automatiza, și implementez soluțiile potrivite. Tu te concentrezi pe clienți, automatizările lucrează în fundal.</p>
+                <p>Analizez procesele tale, identific ce se poate automatiza, și implementez soluțiile potrivite bugetului și nevoilor tale. Tu te concentrezi pe clienți, automatizările lucrează în fundal.</p>
                 <a href="../index.html#contact" class="button">Programează o consultație gratuită</a>
             </div>
             
@@ -235,7 +243,7 @@
                 <div class="author-avatar">MF</div>
                 <div class="author-info">
                     <h4>Marius Fit</h4>
-                    <p>Consultant IT în Belgia, specialist în automatizări pentru afaceri mici. Folosesc AI-ul zilnic pentru propria activitate și ajut alți antreprenori să economisească timp și bani cu aceleași unelte.</p>
+                    <p>Consultant IT în Belgia, specialist în automatizări pentru afaceri mici. Folosesc AI-ul zilnic pentru propria activitate și ajut alți antreprenori să economisească timp cu soluții adaptate.</p>
                 </div>
             </div>
         </div>
@@ -246,5 +254,32 @@
             <p>© 2026 Marius Fit | <a href="../index.html">mariusfit.dev</a> | <a href="../blog.html">Blog</a> | <a href="../privacy.html">Privacy Policy</a></p>
         </div>
     </footer>
+
+    <script>
+        function toggleLangDropdown() {
+            document.getElementById('langSelector').classList.toggle('active');
+        }
+        function changeLanguage(lang) {
+            const flags = { ro: '🇷🇴', nl: '🇳🇱', en: '🇬🇧', fr: '🇫🇷' };
+            const names = { ro: 'RO', nl: 'NL', en: 'EN', fr: 'FR' };
+            document.getElementById('currentFlag').textContent = flags[lang];
+            document.getElementById('currentLang').textContent = names[lang];
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.lang === lang) opt.classList.add('active');
+            });
+            localStorage.setItem('preferred_language', lang);
+            document.getElementById('langSelector').classList.remove('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                document.getElementById('langSelector').classList.remove('active');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred_language') || 'ro';
+            changeLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
