@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ce este Proxmox VE 9 și cum te ajută în 2026 | Marius Fit</title>
-    <meta name="description" content="Ghid complet Proxmox pentru începători: ce este, de ce e gratuit, cum îl instalezi pe un mini-PC și cum îți faci propriul server acasă sau la firmă.">
+    <title>Propriul tău server: Cum îți ajută afacerea în 2026 | Marius Fit</title>
+    <meta name="description" content="De ce să ai propriul server pentru afacerea ta? Vorbește cu facturile tale prin AI, analizează vânzările, automatizează backup-uri. Explicat simplu, fără termeni tehnici.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -54,9 +54,60 @@
         .highlight-box h4 { color: var(--gold); margin-bottom: 12px; }
         ul, ol { margin: 20px 0; padding-left: 24px; }
         li { margin-bottom: 12px; }
-        .comparison-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
-        .comparison-table th, .comparison-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
-        .comparison-table th { color: var(--gold); font-weight: 600; }
+        
+        .use-case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 24px 0;
+        }
+        .use-case-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .use-case-card h3 {
+            margin: 0 0 12px 0;
+            color: var(--gold);
+        }
+        .use-case-card .example {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .use-case-card .example strong {
+            color: var(--gold);
+            font-style: normal;
+        }
+        
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
+        }
+        .comparison-box .option {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .comparison-box .option h4 {
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .comparison-box .option.highlight {
+            border-color: var(--gold);
+        }
+        
+        @media (max-width: 600px) {
+            .comparison-box { grid-template-columns: 1fr; }
+            .header-content { flex-wrap: wrap; gap: 16px; }
+        }
+        
         .cta-box { background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05)); border: 1px solid var(--gold); border-radius: 16px; padding: 32px; text-align: center; margin: 48px 0; }
         .cta-box h3 { margin-top: 0; color: var(--gold); }
         .button { display: inline-block; background: var(--gold); color: var(--bg-dark); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; transition: all 0.3s; }
@@ -65,10 +116,6 @@
         .author-avatar { width: 64px; height: 64px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-dark); flex-shrink: 0; }
         footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-muted); }
         footer a { color: var(--gold); text-decoration: none; }
-        
-        @media (max-width: 600px) {
-            .header-content { flex-wrap: wrap; gap: 16px; }
-        }
     </style>
 </head>
 <body>
@@ -106,177 +153,187 @@
             <div class="article-header">
                 <div class="article-meta">
                     <span>📅 2026</span>
-                    <span>⏱️ 12 min citire</span>
-                    <span>🏷️ Servere</span>
+                    <span>⏱️ 10 min citire</span>
+                    <span>🏷️ Servere & AI</span>
                 </div>
-                <h1>Ce este Proxmox VE și cum te ajută în 2026</h1>
-                <p class="lead">Imaginează-ți că ai un calculator pe care poți rula 5, 10 sau chiar 20 de "calculatoare" în același timp. Fiecare cu sistemul lui de operare, complet izolat. Asta face Proxmox - și e complet gratuit.</p>
+                <h1>Propriul tău server: Cum îți ajută afacerea în 2026</h1>
+                <p class="lead">Imaginează-ți să poți întreba "Cât am vândut luna trecută?" sau "Care client nu a plătit?" și să primești răspuns instant. Fără să cauți prin dosare, fără Excel. Asta poate face un server propriu cu AI - și e mai simplu decât crezi.</p>
             </div>
             
-            <h2>Ce este Proxmox, pe scurt?</h2>
+            <h2>Ce înseamnă "propriul server" - pe înțelesul tuturor</h2>
             
-            <p>Proxmox VE (Virtual Environment) este un program care transformă un calculator obișnuit într-un "hotel pentru calculatoare virtuale". În loc să ai 5 calculatoare fizice pentru 5 sarcini diferite, ai un singur aparat puternic care le rulează pe toate.</p>
+            <p>Gândește-te la server ca la un <strong>calculator care lucrează pentru tine non-stop</strong>. Stă undeva în birou sau acasă, consumă puțin curent, și face treabă 24/7:</p>
             
-            <p><strong>Un exemplu din viața reală:</strong> Să zicem că ai o firmă mică și ai nevoie de:</p>
             <ul>
-                <li>Un server pentru fișiere (să accesezi documentele de oriunde)</li>
-                <li>Un server pentru email</li>
-                <li>Un calculator cu Windows pentru un program specific</li>
-                <li>Un sistem de backup</li>
+                <li>Ține toate documentele tale la un loc, accesibile de oriunde</li>
+                <li>Face backup automat la tot ce ai important</li>
+                <li>Poate răspunde la întrebări despre afacerea ta (cu AI)</li>
+                <li>Nu plătești abonament lunar nimănui</li>
             </ul>
             
-            <p>În loc să cumperi 4 calculatoare separate (și să plătești curent pentru toate), instalezi Proxmox pe un singur mini-PC și creezi 4 "mașini virtuale". Fiecare funcționează independent, ca și cum ar fi un calculator separat.</p>
+            <p>E ca și cum ai avea un angajat digital care nu doarme, nu ia pauză, și nu uită nimic.</p>
             
             <div class="highlight-box">
-                <h4>💡 De ce e gratuit?</h4>
-                <p>Proxmox e open-source - codul sursă e public, oricine poate contribui. Compania din spatele lui face bani din suport tehnic pentru firme mari, nu din licențe. Pentru tine, versiunea gratuită e identică cu cea plătită.</p>
+                <h4>💡 De ce acum?</h4>
+                <p>Până acum, serverele erau complicate și scumpe. În 2026, cu AI și software gratuit, poți avea un sistem inteligent care înțelege ce-l întrebi - fără să fii expert în calculatoare.</p>
             </div>
             
-            <h2>Ce e nou în Proxmox VE 9 (2025-2026)?</h2>
+            <h2>Ce poate face concret pentru afacerea ta</h2>
             
-            <p>Versiunea 9, lansată în iulie 2025, aduce îmbunătățiri importante:</p>
+            <div class="use-case-card">
+                <div class="icon">🧾</div>
+                <h3>Vorbește cu facturile tale</h3>
+                <p>Toate facturile (emise și primite) stau într-un loc. AI-ul le citește și le înțelege. Tu doar întrebi ce vrei să știi.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Cât am plătit pe materiale în ultimele 3 luni?"<br>
+                    <strong>AI:</strong> "În perioada septembrie-noiembrie ai plătit 4.230€ pe materiale, distribuit astfel: furnizor X - 2.100€, furnizor Y - 1.450€..."
+                </div>
+            </div>
             
-            <ul>
-                <li><strong>Suport pentru containere OCI</strong> - Poți rula aplicații Docker direct, fără configurări complicate</li>
-                <li><strong>Reguli de afinitate pentru clustere</strong> - Controlezi unde rulează fiecare mașină virtuală</li>
-                <li><strong>Snapshots pe stocare LVM</strong> - Backup-uri instantanee pe orice tip de stocare</li>
-                <li><strong>Bazat pe Debian Trixie</strong> - Sistem de operare proaspăt actualizat</li>
-            </ul>
+            <div class="use-case-card">
+                <div class="icon">📦</div>
+                <h3>Discută cu stocul tău</h3>
+                <p>Știi exact ce ai, ce se vinde bine, ce stă pe raft. Fără să numeri manual sau să cauți prin tabele.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Ce produse trebuie să recomand? Ce nu s-a vândut de 2 luni?"<br>
+                    <strong>AI:</strong> "Ai 3 produse cu stoc scăzut care trebuie comandate săptămâna asta. Și 12 produse care nu s-au mișcat de peste 60 de zile - poate o promoție?"
+                </div>
+            </div>
             
-            <p>Dacă ai deja Proxmox 8.4, upgrade-ul la versiunea 9 se face simplu, direct din interfață.</p>
+            <div class="use-case-card">
+                <div class="icon">📊</div>
+                <h3>Analizează vânzările instant</h3>
+                <p>Nu mai aștepți rapoarte de la contabil. Întrebi și afli pe loc cum merge afacerea.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Cum a fost luna asta comparativ cu anul trecut?"<br>
+                    <strong>AI:</strong> "Vânzările din noiembrie sunt cu 23% mai mari decât noiembrie anul trecut. Cel mai bine s-a vândut categoria X, cu o creștere de 45%."
+                </div>
+            </div>
             
-            <h2>Cine folosește Proxmox?</h2>
+            <div class="use-case-card">
+                <div class="icon">📧</div>
+                <h3>Găsește orice în emailuri</h3>
+                <p>Ai mii de emailuri și nu mai găsești acea conversație importantă? AI-ul caută pentru tine.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Ce am discutat cu furnizorul Y despre reducere acum câteva luni?"<br>
+                    <strong>AI:</strong> "În august ai negociat o reducere de 15% pentru comenzi peste 500 de bucăți. Iată conversația completă..."
+                </div>
+            </div>
             
-            <table class="comparison-table">
-                <tr>
-                    <th>Utilizator</th>
-                    <th>Cum îl folosește</th>
-                </tr>
-                <tr>
-                    <td>Acasă / Homelab</td>
-                    <td>Server de fișiere, Plex pentru filme, Home Assistant, experimente</td>
-                </tr>
-                <tr>
-                    <td>Freelanceri / Independenți</td>
-                    <td>Backup automat, mediu de test pentru proiecte, VPN propriu</td>
-                </tr>
-                <tr>
-                    <td>Firme mici</td>
-                    <td>Server de fișiere partajat, email, aplicații interne</td>
-                </tr>
-                <tr>
-                    <td>Companii mari</td>
-                    <td>Înlocuitor pentru VMware (care a devenit foarte scump)</td>
-                </tr>
-            </table>
+            <div class="use-case-card">
+                <div class="icon">👥</div>
+                <h3>Urmărește clienții</h3>
+                <p>Cine a cumpărat, cine nu a plătit, cine nu a mai revenit de mult. Toate într-o întrebare.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Care clienți fideli nu au mai comandat de 3 luni?"<br>
+                    <strong>AI:</strong> "Ai 8 clienți care cumpărau regulat dar nu au mai comandat. Iată lista și ce cumpărau de obicei - poate îi contactezi?"
+                </div>
+            </div>
             
-            <h2>Ce hardware îți trebuie?</h2>
+            <div class="use-case-card">
+                <div class="icon">📁</div>
+                <h3>Propriul tău Google Drive - fără limită</h3>
+                <p>Toate documentele, pozele, contractele - accesibile de pe telefon, laptop, oriunde. Fără să plătești pentru spațiu.</p>
+                <div class="example">
+                    <strong>Tu:</strong> "Găsește contractul cu clientul X din 2023"<br>
+                    <strong>AI:</strong> "L-am găsit. E semnat în martie 2023, valabil 2 ani. Iată documentul."
+                </div>
+            </div>
             
-            <p>Vestea bună: Proxmox rulează pe aproape orice. Nu ai nevoie de echipamente scumpe pentru a începe.</p>
+            <h2>Cloud vs. Server propriu - ce alegi?</h2>
             
-            <h3>Varianta economică</h3>
-            <p>Poți folosi un calculator vechi pe care îl ai deja:</p>
-            <ul>
-                <li>Procesor Intel Core i5 (generația 4+) sau AMD Ryzen</li>
-                <li>8 GB RAM (16 GB ideal)</li>
-                <li>SSD de 256 GB pentru sistem</li>
-                <li>HDD pentru stocare (opțional)</li>
-            </ul>
-            
-            <h3>Varianta recomandată</h3>
-            <p>Un mini-PC nou, compact și silențios:</p>
-            <ul>
-                <li>Intel NUC sau echivalent (Beelink, Minisforum)</li>
-                <li>Procesor Intel N100 sau Ryzen 5</li>
-                <li>16-32 GB RAM</li>
-                <li>SSD NVMe 500 GB+</li>
-                <li>Consum redus (15-30W) - perfect pentru funcționare 24/7</li>
-            </ul>
+            <div class="comparison-box">
+                <div class="option">
+                    <h4>☁️ Servicii cloud (Google, Dropbox, etc.)</h4>
+                    <ul>
+                        <li>Plătești lunar, pentru totdeauna</li>
+                        <li>Datele tale sunt la ei</li>
+                        <li>Limitări de spațiu și funcții</li>
+                        <li>Depinzi de conexiunea la internet</li>
+                        <li>Simplu de început</li>
+                    </ul>
+                </div>
+                <div class="option highlight">
+                    <h4>🏠 Server propriu</h4>
+                    <ul>
+                        <li>Plătești o dată, e al tău</li>
+                        <li>Datele rămân la tine</li>
+                        <li>Fără limite, adaugi cât vrei</li>
+                        <li>Funcționează și fără internet</li>
+                        <li>Necesită configurare inițială</li>
+                    </ul>
+                </div>
+            </div>
             
             <div class="highlight-box">
-                <h4>🔌 Cât curent consumă?</h4>
-                <p>Un mini-PC eficient consumă foarte puțin curent - de obicei mai puțin decât un abonament lunar la un serviciu cloud. Și ai control total asupra datelor tale.</p>
+                <h4>🔒 De ce contează unde stau datele?</h4>
+                <p>Facturile, contractele, datele clienților - sunt afacerea ta. Când le ții pe serverul tău, nimeni nu le poate accesa, nu le poate șterge "din greșeală", și nu te poate bloca dacă nu mai plătești un abonament.</p>
             </div>
             
-            <h2>Cum instalezi Proxmox - pe scurt</h2>
+            <h2>Ce primești concret</h2>
             
-            <ol>
-                <li><strong>Descarcă ISO-ul</strong> de pe proxmox.com (gratuit)</li>
-                <li><strong>Creează un USB bootabil</strong> cu Rufus sau Balena Etcher</li>
-                <li><strong>Pornește de pe USB</strong> și urmează pașii (ca la Windows)</li>
-                <li><strong>Accesează interfața web</strong> de pe orice calculator din rețea</li>
-                <li><strong>Creează prima mașină virtuală</strong> - durează 5 minute</li>
-            </ol>
-            
-            <p>Toată administrarea se face din browser - nu trebuie să știi comenzi Linux.</p>
-            
-            <h2>Ce poți face după ce l-ai instalat?</h2>
+            <p>Un server configurat pentru afacerea ta include:</p>
             
             <ul>
-                <li><strong>Nextcloud</strong> - Propriul tău Google Drive, fără limită de spațiu</li>
-                <li><strong>Home Assistant</strong> - Automatizare casă inteligentă</li>
-                <li><strong>Pi-hole</strong> - Blochează reclamele în toată casa</li>
-                <li><strong>Plex / Jellyfin</strong> - Server de filme și muzică</li>
-                <li><strong>Windows virtual</strong> - Pentru programe care nu merg pe Mac/Linux</li>
-                <li><strong>Camere IP</strong> - Cu software de detectare persoane</li>
+                <li><strong>Stocare de fișiere</strong> - Ca Google Drive, dar al tău. Accesibil de pe telefon și calculator.</li>
+                <li><strong>Backup automat</strong> - Tot ce e important se salvează singur, în fiecare noapte.</li>
+                <li><strong>AI privat</strong> - Întrebi în română, primești răspunsuri despre datele tale. Fără să plece informațiile la OpenAI sau Google.</li>
+                <li><strong>Sincronizare</strong> - Modifici un document pe laptop, apare și pe telefon.</li>
+                <li><strong>Acces de oriunde</strong> - De acasă, din mașină, din vacanță - datele tale sunt acolo.</li>
             </ul>
             
-            <h2>Proxmox vs. alternativele</h2>
+            <h2>Cine folosește deja așa ceva?</h2>
             
-            <table class="comparison-table">
-                <tr>
-                    <th>Soluție</th>
-                    <th>Cost</th>
-                    <th>Dificultate</th>
-                    <th>Pentru cine</th>
-                </tr>
-                <tr>
-                    <td>Proxmox VE</td>
-                    <td>Gratuit</td>
-                    <td>Medie</td>
-                    <td>Homelab, firme mici/mari</td>
-                </tr>
-                <tr>
-                    <td>VMware vSphere</td>
-                    <td>Foarte scump</td>
-                    <td>Complexă</td>
-                    <td>Enterprise</td>
-                </tr>
-                <tr>
-                    <td>TrueNAS Scale</td>
-                    <td>Gratuit</td>
-                    <td>Medie</td>
-                    <td>Focusat pe stocare</td>
-                </tr>
-                <tr>
-                    <td>Unraid</td>
-                    <td>Licență plătită</td>
-                    <td>Ușoară</td>
-                    <td>Homelab media server</td>
-                </tr>
-            </table>
+            <ul>
+                <li><strong>Freelanceri și independenți</strong> - Țin toate proiectele organizate, facturează mai rapid</li>
+                <li><strong>Magazine mici</strong> - Urmăresc stocul, vânzările, și clienții</li>
+                <li><strong>Firme de construcții</strong> - Poze de pe șantier sincronizate, oferte găsite instant</li>
+                <li><strong>Contabili</strong> - Dosare digitale pentru fiecare client, căutare rapidă</li>
+                <li><strong>Restaurante</strong> - Rețete, comenzi furnizori, costuri calculate automat</li>
+            </ul>
             
-            <h2>Sfaturi pentru începători</h2>
+            <h2>Cum arată în practică</h2>
             
+            <p>Primești un mic calculator (de mărimea unei cărți) care stă lângă router. Îl conectezi la priză și la internet - atât.</p>
+            
+            <p>Apoi, de pe telefon sau laptop:</p>
             <ol>
-                <li><strong>Începe simplu</strong> - Prima mașină virtuală să fie un Ubuntu Server, să înveți bazele</li>
-                <li><strong>Folosește containere LXC</strong> - Consumă mai puține resurse decât mașinile virtuale complete</li>
-                <li><strong>Configurează backup-uri</strong> - Prima setare după instalare, nu ultima</li>
-                <li><strong>Notează ce faci</strong> - Peste 6 luni nu-ți vei aminti de ce ai configurat ceva</li>
-                <li><strong>Intră în comunitate</strong> - Forum-ul Proxmox și comunitățile de pe Reddit sunt foarte utile</li>
+                <li>Intri pe o adresă (gen firma-ta.local)</li>
+                <li>Vezi toate fișierele tale organizate</li>
+                <li>Ai o căsuță unde poți întreba orice despre datele tale</li>
+                <li>Primești răspunsuri în câteva secunde</li>
             </ol>
+            
+            <p>Nu trebuie să înveți nimic nou. Dacă știi să folosești telefonul, știi să folosești asta.</p>
+            
+            <h2>Întrebări frecvente</h2>
+            
+            <h3>Trebuie să știu ceva tehnic?</h3>
+            <p>Nu. Eu configurez tot. Tu primești un sistem gata de folosit. Dacă ceva nu merge, mă suni.</p>
+            
+            <h3>Ce se întâmplă dacă se strică?</h3>
+            <p>Datele sunt salvate în mai multe locuri (backup). Și hardware-ul e simplu de înlocuit - nu pierzi nimic.</p>
+            
+            <h3>Consumă mult curent?</h3>
+            <p>Mai puțin decât un bec. Serios - cam cât o lampă de noapte. Rulează liniștit 24/7.</p>
+            
+            <h3>Pot accesa datele și când nu sunt acasă/la birou?</h3>
+            <p>Da, de oriunde ai internet. Sigur și criptat, ca la bancă.</p>
+            
+            <h3>E legal să țin datele clienților pe server propriu?</h3>
+            <p>Da, chiar e mai bine pentru GDPR. Tu controlezi datele, nu le dai la terți.</p>
             
             <div class="cta-box">
-                <h3>Vrei să-ți configurez Proxmox?</h3>
-                <p>Îți instalez și configurez totul: de la instalare până la prima mașină virtuală funcțională. Remote sau la tine, adaptat nevoilor tale.</p>
-                <a href="../index.html#contact" class="button">Solicită ofertă</a>
+                <h3>Vrei să vezi cum ar funcționa pentru tine?</h3>
+                <p>Îți arăt concret ce poți face cu un server propriu pentru afacerea ta. Fără obligații, fără termeni tehnici - doar o discuție despre ce ai nevoie.</p>
+                <a href="../index.html#contact" class="button">Programează o demonstrație gratuită</a>
             </div>
             
             <div class="author-box">
                 <div class="author-avatar">MF</div>
                 <div class="author-info">
                     <h4>Marius Fit</h4>
-                    <p>Dezvoltator web și consultant IT în Belgia. Ajut românii din diaspora să-și digitalizeze afacerile și să-și automatizeze casele - cu soluții practice.</p>
+                    <p>Ajut afaceri mici să-și digitalizeze operațiunile cu soluții simple și practice. Fără jargon tehnic, fără complicații - doar unelte care te ajută să lucrezi mai eficient.</p>
                 </div>
             </div>
         </div>
