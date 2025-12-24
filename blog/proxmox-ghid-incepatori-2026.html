@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ce este Proxmox VE 9 și cum te ajută în 2026 | Marius Fit</title>
+    <meta name="description" content="Ghid complet Proxmox pentru începători: ce este, de ce e gratuit, cum îl instalezi pe un mini-PC și cum îți faci propriul server acasă sau la firmă.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #111118;
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --text: #e8e8e8;
+            --text-muted: #8a8a9a;
+            --border: rgba(212, 175, 55, 0.15);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+        
+        header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .back-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        article { padding: 60px 0; }
+        
+        .article-header { margin-bottom: 48px; }
+        
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            margin: 48px 0 20px;
+            color: var(--gold);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            margin: 32px 0 16px;
+        }
+        
+        p { margin-bottom: 20px; }
+        
+        .highlight-box {
+            background: var(--bg-card);
+            border-left: 4px solid var(--gold);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 24px;
+        }
+        
+        li { margin-bottom: 12px; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comparison-table th {
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        
+        .cta-box h3 { margin-top: 0; color: var(--gold); }
+        
+        .button {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--bg-dark);
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 16px;
+            transition: all 0.3s;
+        }
+        
+        .button:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        
+        .author-box {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding: 32px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-top: 48px;
+        }
+        
+        .author-avatar {
+            width: 64px;
+            height: 64px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-dark);
+            flex-shrink: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+        
+        footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+        </div>
+    </header>
+    
+    <article>
+        <div class="container">
+            <div class="article-header">
+                <div class="article-meta">
+                    <span>📅 Ianuarie 2026</span>
+                    <span>⏱️ 12 min citire</span>
+                    <span>🏷️ Servere</span>
+                </div>
+                <h1>Ce este Proxmox VE și cum te ajută în 2026</h1>
+                <p class="lead">Imaginează-ți că ai un calculator pe care poți rula 5, 10 sau chiar 20 de "calculatoare" în același timp. Fiecare cu sistemul lui de operare, complet izolat. Asta face Proxmox - și e complet gratuit.</p>
+            </div>
+            
+            <h2>Ce este Proxmox, pe scurt?</h2>
+            
+            <p>Proxmox VE (Virtual Environment) este un program care transformă un calculator obișnuit într-un "hotel pentru calculatoare virtuale". În loc să ai 5 calculatoare fizice pentru 5 sarcini diferite, ai un singur aparat puternic care le rulează pe toate.</p>
+            
+            <p><strong>Un exemplu din viața reală:</strong> Să zicem că ai o firmă mică și ai nevoie de:</p>
+            <ul>
+                <li>Un server pentru fișiere (să accesezi documentele de oriunde)</li>
+                <li>Un server pentru email</li>
+                <li>Un calculator cu Windows pentru un program specific</li>
+                <li>Un sistem de backup</li>
+            </ul>
+            
+            <p>În loc să cumperi 4 calculatoare separate (și să plătești curent pentru toate), instalezi Proxmox pe un singur mini-PC și creezi 4 "mașini virtuale". Fiecare funcționează independent, ca și cum ar fi un calculator separat.</p>
+            
+            <div class="highlight-box">
+                <h4>💡 De ce e gratuit?</h4>
+                <p>Proxmox e open-source - codul sursă e public, oricine poate contribui. Compania din spatele lui face bani din suport tehnic pentru firme mari, nu din licențe. Pentru tine, versiunea gratuită e identică cu cea plătită.</p>
+            </div>
+            
+            <h2>Ce e nou în Proxmox VE 9 (2025-2026)?</h2>
+            
+            <p>Versiunea 9, lansată în iulie 2025, aduce îmbunătățiri importante:</p>
+            
+            <ul>
+                <li><strong>Suport pentru containere OCI</strong> - Poți rula aplicații Docker direct, fără configurări complicate</li>
+                <li><strong>Reguli de afinitate pentru clustere</strong> - Controlezi unde rulează fiecare mașină virtuală</li>
+                <li><strong>Snapshots pe stocare LVM</strong> - Backup-uri instantanee pe orice tip de stocare</li>
+                <li><strong>Bazat pe Debian Trixie</strong> - Sistem de operare proaspăt actualizat</li>
+            </ul>
+            
+            <p>Dacă ai deja Proxmox 8.4, upgrade-ul la versiunea 9 se face simplu, direct din interfață.</p>
+            
+            <h2>Cine folosește Proxmox?</h2>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Utilizator</th>
+                    <th>Cum îl folosește</th>
+                </tr>
+                <tr>
+                    <td>Acasă / Homelab</td>
+                    <td>Server de fișiere, Plex pentru filme, Home Assistant, experimente</td>
+                </tr>
+                <tr>
+                    <td>Freelanceri / Independenți</td>
+                    <td>Backup automat, mediu de test pentru proiecte, VPN propriu</td>
+                </tr>
+                <tr>
+                    <td>Firme mici</td>
+                    <td>Server de fișiere partajat, email, aplicații interne</td>
+                </tr>
+                <tr>
+                    <td>Companii mari</td>
+                    <td>Înlocuitor pentru VMware (care a devenit foarte scump)</td>
+                </tr>
+            </table>
+            
+            <h2>Ce hardware îți trebuie?</h2>
+            
+            <p>Vestea bună: Proxmox rulează pe aproape orice. Vestea și mai bună: nu ai nevoie de echipamente scumpe.</p>
+            
+            <h3>Varianta economică (€100-200)</h3>
+            <p>Un calculator vechi cu:</p>
+            <ul>
+                <li>Procesor Intel Core i5 (generația 4+) sau AMD Ryzen</li>
+                <li>8 GB RAM (16 GB ideal)</li>
+                <li>SSD de 256 GB pentru sistem</li>
+                <li>HDD pentru stocare (opțional)</li>
+            </ul>
+            
+            <h3>Varianta recomandată (€300-500)</h3>
+            <p>Mini-PC nou, tip:</p>
+            <ul>
+                <li>Intel NUC sau echivalent (Beelink, Minisforum)</li>
+                <li>Procesor Intel N100 sau Ryzen 5</li>
+                <li>16-32 GB RAM</li>
+                <li>SSD NVMe 500 GB+</li>
+                <li>Consum redus (15-30W) - perfect pentru 24/7</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h4>🔌 Cât curent consumă?</h4>
+                <p>Un mini-PC Intel N100 consumă în medie 10-15W. La prețul curentului în Belgia (~€0.35/kWh), asta înseamnă aproximativ €3-4 pe lună - mai puțin decât un abonament cloud.</p>
+            </div>
+            
+            <h2>Cum instalezi Proxmox - pe scurt</h2>
+            
+            <ol>
+                <li><strong>Descarcă ISO-ul</strong> de pe proxmox.com (gratuit)</li>
+                <li><strong>Creează un USB bootabil</strong> cu Rufus sau Balena Etcher</li>
+                <li><strong>Pornește de pe USB</strong> și urmează pașii (ca la Windows)</li>
+                <li><strong>Accesează interfața web</strong> de pe orice calculator din rețea</li>
+                <li><strong>Creează prima mașină virtuală</strong> - durează 5 minute</li>
+            </ol>
+            
+            <p>Toată administrarea se face din browser - nu trebuie să știi comenzi Linux.</p>
+            
+            <h2>Ce poți face după ce l-ai instalat?</h2>
+            
+            <ul>
+                <li><strong>Nextcloud</strong> - Propriul tău Google Drive, fără limită de spațiu</li>
+                <li><strong>Home Assistant</strong> - Automatizare casă inteligentă</li>
+                <li><strong>Pi-hole</strong> - Blochează reclamele în toată casa</li>
+                <li><strong>Plex / Jellyfin</strong> - Server de filme și muzică</li>
+                <li><strong>Windows virtual</strong> - Pentru programe care nu merg pe Mac/Linux</li>
+                <li><strong>Camere IP</strong> - Cu Frigate pentru detectare persoane</li>
+            </ul>
+            
+            <h2>Proxmox vs. alternativele</h2>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Soluție</th>
+                    <th>Preț</th>
+                    <th>Dificultate</th>
+                    <th>Pentru cine</th>
+                </tr>
+                <tr>
+                    <td>Proxmox VE</td>
+                    <td>Gratuit</td>
+                    <td>Medie</td>
+                    <td>Homelab, firme mici/mari</td>
+                </tr>
+                <tr>
+                    <td>VMware vSphere</td>
+                    <td>€€€€</td>
+                    <td>Complexă</td>
+                    <td>Enterprise (foarte scump acum)</td>
+                </tr>
+                <tr>
+                    <td>TrueNAS Scale</td>
+                    <td>Gratuit</td>
+                    <td>Medie</td>
+                    <td>Focusat pe stocare</td>
+                </tr>
+                <tr>
+                    <td>Unraid</td>
+                    <td>$59-129</td>
+                    <td>Ușoară</td>
+                    <td>Homelab media server</td>
+                </tr>
+            </table>
+            
+            <h2>Sfaturi pentru începători</h2>
+            
+            <ol>
+                <li><strong>Începe simplu</strong> - Prima mașină virtuală să fie un Ubuntu Server, să înveți bazele</li>
+                <li><strong>Folosește containere LXC</strong> - Consumă mai puține resurse decât mașinile virtuale complete</li>
+                <li><strong>Configurează backup-uri</strong> - Prima setare după instalare, nu ultima</li>
+                <li><strong>Notează ce faci</strong> - Peste 6 luni nu-ți vei aminti de ce ai configurat ceva</li>
+                <li><strong>Intră în comunitate</strong> - Forum-ul Proxmox și r/Proxmox pe Reddit sunt foarte utile</li>
+            </ol>
+            
+            <div class="cta-box">
+                <h3>Vrei să-ți configurez Proxmox?</h3>
+                <p>Îți instalez și configurez totul: de la instalare până la prima mașină virtuală funcțională. Remote sau la tine acasă în zona Kortrijk/Gent.</p>
+                <a href="../index.html#contact" class="button">Solicită ofertă</a>
+            </div>
+            
+            <div class="author-box">
+                <div class="author-avatar">MF</div>
+                <div class="author-info">
+                    <h4>Marius Fit</h4>
+                    <p>Dezvoltator web și consultant IT în Belgia. Ajut românii din diaspora să-și digitalizeze afacerile și să-și automatizeze casele - cu soluții practice, la prețuri corecte.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <footer>
+        <div class="container">
+            <p>© 2026 Marius Fit | <a href="../index.html">mariusfit.dev</a> | <a href="../blog.html">Blog</a> | <a href="../privacy.html">Privacy Policy</a></p>
+        </div>
+    </footer>
+</body>
+</html>
