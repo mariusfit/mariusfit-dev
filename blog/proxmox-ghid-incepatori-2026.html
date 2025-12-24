@@ -12,178 +12,92 @@
         :root {
             --bg-dark: #0a0a0f;
             --bg-card: #111118;
+            --bg-secondary: #16161f;
             --gold: #d4af37;
             --gold-light: #f0d060;
             --text: #e8e8e8;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0b0;
             --text-muted: #8a8a9a;
             --border: rgba(212, 175, 55, 0.15);
+            --accent-gold: #d4af37;
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            line-height: 1.8;
-        }
-        
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.8; }
         .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+        header { padding: 24px 0; border-bottom: 1px solid var(--border); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .back-link { color: var(--gold); text-decoration: none; font-weight: 500; }
         
-        header {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .back-link {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 500;
-        }
+        /* Language Selector */
+        .lang-selector { position: relative; margin-left: 1rem; }
+        .lang-btn { display: flex; align-items: center; gap: 0.4rem; background: transparent; border: 1px solid rgba(212, 175, 55, 0.3); color: var(--text-primary); padding: 0.5rem 0.8rem; border-radius: 6px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.85rem; transition: all 0.3s ease; }
+        .lang-btn:hover { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); }
+        .lang-btn .flag { font-size: 1.1rem; }
+        .lang-btn .arrow { font-size: 0.7rem; transition: transform 0.3s ease; }
+        .lang-selector.active .lang-btn .arrow { transform: rotate(180deg); }
+        .lang-dropdown { position: absolute; top: calc(100% + 0.5rem); right: 0; background: var(--bg-secondary); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 100; min-width: 140px; }
+        .lang-selector.active .lang-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .lang-option { display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1rem; color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; font-size: 0.9rem; }
+        .lang-option:hover { background: rgba(212, 175, 55, 0.1); color: var(--text-primary); }
+        .lang-option.active { color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); }
         
         article { padding: 60px 0; }
-        
         .article-header { margin-bottom: 48px; }
-        
-        .article-meta {
-            display: flex;
-            gap: 20px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 600;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-        
-        .lead {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-        
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            margin: 48px 0 20px;
-            color: var(--gold);
-        }
-        
-        h3 {
-            font-size: 1.25rem;
-            margin: 32px 0 16px;
-        }
-        
+        .article-meta { display: flex; gap: 20px; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex-wrap: wrap; }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; line-height: 1.2; margin-bottom: 20px; }
+        .lead { font-size: 1.2rem; color: var(--text-muted); line-height: 1.7; }
+        h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; margin: 48px 0 20px; color: var(--gold); }
+        h3 { font-size: 1.25rem; margin: 32px 0 16px; }
         p { margin-bottom: 20px; }
-        
-        .highlight-box {
-            background: var(--bg-card);
-            border-left: 4px solid var(--gold);
-            padding: 24px;
-            margin: 32px 0;
-            border-radius: 0 12px 12px 0;
-        }
-        
-        .highlight-box h4 {
-            color: var(--gold);
-            margin-bottom: 12px;
-        }
-        
-        ul, ol {
-            margin: 20px 0;
-            padding-left: 24px;
-        }
-        
+        .highlight-box { background: var(--bg-card); border-left: 4px solid var(--gold); padding: 24px; margin: 32px 0; border-radius: 0 12px 12px 0; }
+        .highlight-box h4 { color: var(--gold); margin-bottom: 12px; }
+        ul, ol { margin: 20px 0; padding-left: 24px; }
         li { margin-bottom: 12px; }
-        
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 32px 0;
-        }
-        
-        .comparison-table th,
-        .comparison-table td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .comparison-table th {
-            color: var(--gold);
-            font-weight: 600;
-        }
-        
-        .cta-box {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
-            border: 1px solid var(--gold);
-            border-radius: 16px;
-            padding: 32px;
-            text-align: center;
-            margin: 48px 0;
-        }
-        
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
+        .comparison-table th, .comparison-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .comparison-table th { color: var(--gold); font-weight: 600; }
+        .cta-box { background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05)); border: 1px solid var(--gold); border-radius: 16px; padding: 32px; text-align: center; margin: 48px 0; }
         .cta-box h3 { margin-top: 0; color: var(--gold); }
-        
-        .button {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--bg-dark);
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 16px;
-            transition: all 0.3s;
-        }
-        
-        .button:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-        
-        .author-box {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            padding: 32px;
-            background: var(--bg-card);
-            border-radius: 16px;
-            margin-top: 48px;
-        }
-        
-        .author-avatar {
-            width: 64px;
-            height: 64px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--bg-dark);
-            flex-shrink: 0;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-        }
-        
+        .button { display: inline-block; background: var(--gold); color: var(--bg-dark); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; transition: all 0.3s; }
+        .button:hover { background: var(--gold-light); transform: translateY(-2px); }
+        .author-box { display: flex; gap: 20px; align-items: center; padding: 32px; background: var(--bg-card); border-radius: 16px; margin-top: 48px; }
+        .author-avatar { width: 64px; height: 64px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-dark); flex-shrink: 0; }
+        footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-muted); }
         footer a { color: var(--gold); text-decoration: none; }
+        
+        @media (max-width: 600px) {
+            .header-content { flex-wrap: wrap; gap: 16px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+            <div class="header-content">
+                <a href="../blog.html" class="back-link">← Înapoi la Blog</a>
+                <div class="lang-selector" id="langSelector">
+                    <button class="lang-btn" onclick="toggleLangDropdown()">
+                        <span class="flag" id="currentFlag">🇷🇴</span>
+                        <span id="currentLang">RO</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="lang-dropdown">
+                        <div class="lang-option active" data-lang="ro" onclick="changeLanguage('ro')">
+                            <span class="flag">🇷🇴</span> Română
+                        </div>
+                        <div class="lang-option" data-lang="nl" onclick="changeLanguage('nl')">
+                            <span class="flag">🇳🇱</span> Nederlands
+                        </div>
+                        <div class="lang-option" data-lang="en" onclick="changeLanguage('en')">
+                            <span class="flag">🇬🇧</span> English
+                        </div>
+                        <div class="lang-option" data-lang="fr" onclick="changeLanguage('fr')">
+                            <span class="flag">🇫🇷</span> Français
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     
@@ -191,7 +105,7 @@
         <div class="container">
             <div class="article-header">
                 <div class="article-meta">
-                    <span>📅 Ianuarie 2026</span>
+                    <span>📅 2026</span>
                     <span>⏱️ 12 min citire</span>
                     <span>🏷️ Servere</span>
                 </div>
@@ -258,10 +172,10 @@
             
             <h2>Ce hardware îți trebuie?</h2>
             
-            <p>Vestea bună: Proxmox rulează pe aproape orice. Vestea și mai bună: nu ai nevoie de echipamente scumpe.</p>
+            <p>Vestea bună: Proxmox rulează pe aproape orice. Nu ai nevoie de echipamente scumpe pentru a începe.</p>
             
-            <h3>Varianta economică (€100-200)</h3>
-            <p>Un calculator vechi cu:</p>
+            <h3>Varianta economică</h3>
+            <p>Poți folosi un calculator vechi pe care îl ai deja:</p>
             <ul>
                 <li>Procesor Intel Core i5 (generația 4+) sau AMD Ryzen</li>
                 <li>8 GB RAM (16 GB ideal)</li>
@@ -269,19 +183,19 @@
                 <li>HDD pentru stocare (opțional)</li>
             </ul>
             
-            <h3>Varianta recomandată (€300-500)</h3>
-            <p>Mini-PC nou, tip:</p>
+            <h3>Varianta recomandată</h3>
+            <p>Un mini-PC nou, compact și silențios:</p>
             <ul>
                 <li>Intel NUC sau echivalent (Beelink, Minisforum)</li>
                 <li>Procesor Intel N100 sau Ryzen 5</li>
                 <li>16-32 GB RAM</li>
                 <li>SSD NVMe 500 GB+</li>
-                <li>Consum redus (15-30W) - perfect pentru 24/7</li>
+                <li>Consum redus (15-30W) - perfect pentru funcționare 24/7</li>
             </ul>
             
             <div class="highlight-box">
                 <h4>🔌 Cât curent consumă?</h4>
-                <p>Un mini-PC Intel N100 consumă în medie 10-15W. La prețul curentului în Belgia (~€0.35/kWh), asta înseamnă aproximativ €3-4 pe lună - mai puțin decât un abonament cloud.</p>
+                <p>Un mini-PC eficient consumă foarte puțin curent - de obicei mai puțin decât un abonament lunar la un serviciu cloud. Și ai control total asupra datelor tale.</p>
             </div>
             
             <h2>Cum instalezi Proxmox - pe scurt</h2>
@@ -304,7 +218,7 @@
                 <li><strong>Pi-hole</strong> - Blochează reclamele în toată casa</li>
                 <li><strong>Plex / Jellyfin</strong> - Server de filme și muzică</li>
                 <li><strong>Windows virtual</strong> - Pentru programe care nu merg pe Mac/Linux</li>
-                <li><strong>Camere IP</strong> - Cu Frigate pentru detectare persoane</li>
+                <li><strong>Camere IP</strong> - Cu software de detectare persoane</li>
             </ul>
             
             <h2>Proxmox vs. alternativele</h2>
@@ -312,7 +226,7 @@
             <table class="comparison-table">
                 <tr>
                     <th>Soluție</th>
-                    <th>Preț</th>
+                    <th>Cost</th>
                     <th>Dificultate</th>
                     <th>Pentru cine</th>
                 </tr>
@@ -324,9 +238,9 @@
                 </tr>
                 <tr>
                     <td>VMware vSphere</td>
-                    <td>€€€€</td>
+                    <td>Foarte scump</td>
                     <td>Complexă</td>
-                    <td>Enterprise (foarte scump acum)</td>
+                    <td>Enterprise</td>
                 </tr>
                 <tr>
                     <td>TrueNAS Scale</td>
@@ -336,7 +250,7 @@
                 </tr>
                 <tr>
                     <td>Unraid</td>
-                    <td>$59-129</td>
+                    <td>Licență plătită</td>
                     <td>Ușoară</td>
                     <td>Homelab media server</td>
                 </tr>
@@ -349,12 +263,12 @@
                 <li><strong>Folosește containere LXC</strong> - Consumă mai puține resurse decât mașinile virtuale complete</li>
                 <li><strong>Configurează backup-uri</strong> - Prima setare după instalare, nu ultima</li>
                 <li><strong>Notează ce faci</strong> - Peste 6 luni nu-ți vei aminti de ce ai configurat ceva</li>
-                <li><strong>Intră în comunitate</strong> - Forum-ul Proxmox și r/Proxmox pe Reddit sunt foarte utile</li>
+                <li><strong>Intră în comunitate</strong> - Forum-ul Proxmox și comunitățile de pe Reddit sunt foarte utile</li>
             </ol>
             
             <div class="cta-box">
                 <h3>Vrei să-ți configurez Proxmox?</h3>
-                <p>Îți instalez și configurez totul: de la instalare până la prima mașină virtuală funcțională. Remote sau la tine acasă în zona Kortrijk/Gent.</p>
+                <p>Îți instalez și configurez totul: de la instalare până la prima mașină virtuală funcțională. Remote sau la tine, adaptat nevoilor tale.</p>
                 <a href="../index.html#contact" class="button">Solicită ofertă</a>
             </div>
             
@@ -362,7 +276,7 @@
                 <div class="author-avatar">MF</div>
                 <div class="author-info">
                     <h4>Marius Fit</h4>
-                    <p>Dezvoltator web și consultant IT în Belgia. Ajut românii din diaspora să-și digitalizeze afacerile și să-și automatizeze casele - cu soluții practice, la prețuri corecte.</p>
+                    <p>Dezvoltator web și consultant IT în Belgia. Ajut românii din diaspora să-și digitalizeze afacerile și să-și automatizeze casele - cu soluții practice.</p>
                 </div>
             </div>
         </div>
@@ -373,5 +287,32 @@
             <p>© 2026 Marius Fit | <a href="../index.html">mariusfit.dev</a> | <a href="../blog.html">Blog</a> | <a href="../privacy.html">Privacy Policy</a></p>
         </div>
     </footer>
+
+    <script>
+        function toggleLangDropdown() {
+            document.getElementById('langSelector').classList.toggle('active');
+        }
+        function changeLanguage(lang) {
+            const flags = { ro: '🇷🇴', nl: '🇳🇱', en: '🇬🇧', fr: '🇫🇷' };
+            const names = { ro: 'RO', nl: 'NL', en: 'EN', fr: 'FR' };
+            document.getElementById('currentFlag').textContent = flags[lang];
+            document.getElementById('currentLang').textContent = names[lang];
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.dataset.lang === lang) opt.classList.add('active');
+            });
+            localStorage.setItem('preferred_language', lang);
+            document.getElementById('langSelector').classList.remove('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                document.getElementById('langSelector').classList.remove('active');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred_language') || 'ro';
+            changeLanguage(savedLang);
+        });
+    </script>
 </body>
 </html>
