@@ -228,6 +228,65 @@
             color: var(--accent-gold);
         }
 
+
+        /* Navigation Tabs - Home vs Business */
+        .nav-tabs-section {
+            padding: 60px 0 40px;
+            background: var(--bg-primary);
+        }
+        .nav-tabs-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .nav-tabs-title {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .nav-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 32px 24px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            border-radius: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-tab:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+        }
+        .nav-tab-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        .nav-tab-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .nav-tab-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .nav-tabs {
+                grid-template-columns: 1fr;
+            }
+        }
         /* Hero Visual */
         .hero-visual {
             position: relative;
@@ -1307,6 +1366,25 @@
         </div>
     </section>
 
+    <!-- Navigation Tabs: Home vs Business -->
+    <section class="nav-tabs-section">
+        <div class="nav-tabs-container">
+            <p class="nav-tabs-title" data-translate="nav_tabs_title">Ce te interesează?</p>
+            <div class="nav-tabs">
+                <a href="#acasa" class="nav-tab">
+                    <span class="nav-tab-icon">🏠</span>
+                    <span class="nav-tab-title" data-translate="nav_tab_home_title">Pentru Casa Ta</span>
+                    <span class="nav-tab-desc" data-translate="nav_tab_home_desc">Backup, smart home, streaming, protecție familie</span>
+                </a>
+                <a href="#firme" class="nav-tab">
+                    <span class="nav-tab-icon">🏢</span>
+                    <span class="nav-tab-title" data-translate="nav_tab_business_title">Pentru Afacerea Ta</span>
+                    <span class="nav-tab-desc" data-translate="nav_tab_business_desc">Email profesional, VPN, backup firmă, website</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section class="services" id="services">
         <div class="section-label" data-translate="services_label">Ce fac</div>
         <h2 class="section-title" data-translate="services_title">Servicii & Expertiză</h2>
@@ -2077,6 +2155,13 @@
                 hero_card3_label: "Locație",
                 hero_card3_value: "🏠 Bazat în Belgia",
                 hero_card3_subtext: "Servere locale & cloud",
+
+                // Navigation Tabs
+                nav_tabs_title: "Ce te interesează?",
+                nav_tab_home_title: "Pentru Casa Ta",
+                nav_tab_home_desc: "Backup, smart home, streaming, protecție familie",
+                nav_tab_business_title: "Pentru Afacerea Ta",
+                nav_tab_business_desc: "Email profesional, VPN, backup firmă, website",
                 
                 // Services Section
                 services_label: "Ce fac",
@@ -2406,6 +2491,13 @@
                 hero_card3_label: "Locatie",
                 hero_card3_value: "🏠 Gevestigd in België",
                 hero_card3_subtext: "Lokale & cloud servers",
+
+                // Navigation Tabs
+                nav_tabs_title: "Waar ben je in geïnteresseerd?",
+                nav_tab_home_title: "Voor Je Thuis",
+                nav_tab_home_desc: "Backup, smart home, streaming, gezinsbescherming",
+                nav_tab_business_title: "Voor Je Bedrijf",
+                nav_tab_business_desc: "Professionele e-mail, VPN, bedrijfsbackup, website",
                 
                 // Services Section
                 services_label: "Wat ik doe",
@@ -2798,6 +2890,13 @@
                 hero_card3_label: "Location",
                 hero_card3_value: "🏠 Based in Belgium",
                 hero_card3_subtext: "Local & cloud servers",
+
+                // Navigation Tabs
+                nav_tabs_title: "What are you interested in?",
+                nav_tab_home_title: "For Your Home",
+                nav_tab_home_desc: "Backup, smart home, streaming, family protection",
+                nav_tab_business_title: "For Your Business",
+                nav_tab_business_desc: "Professional email, VPN, company backup, website",
                 
                 // Services Section
                 services_label: "What I do",
@@ -3213,6 +3312,13 @@
                 hero_card3_label: "Localisation",
                 hero_card3_value: "🏠 Basé en Belgique",
                 hero_card3_subtext: "Serveurs locaux & cloud",
+
+                // Navigation Tabs
+                nav_tabs_title: "Qu'est-ce qui vous intéresse?",
+                nav_tab_home_title: "Pour Votre Maison",
+                nav_tab_home_desc: "Backup, maison connectée, streaming, protection famille",
+                nav_tab_business_title: "Pour Votre Entreprise",
+                nav_tab_business_desc: "Email professionnel, VPN, backup entreprise, site web",
                 
                 // Services Section
                 services_label: "Ce que je fais",
