@@ -2,6 +2,34 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
+    <!-- Maintenance Mode Check -->
+    <script>
+        (function() {
+            // Skip check for coming-soon page itself
+            if (window.location.pathname.includes('coming-soon')) return;
+            
+            // Check maintenance.json
+            fetch('/maintenance.json?v=' + Date.now())
+                .then(r => r.json())
+                .then(data => {
+                    if (data.enabled === true) {
+                        window.location.replace('/coming-soon.html');
+                    } else {
+                        document.documentElement.classList.add('site-ready');
+                    }
+                })
+                .catch(() => {
+                    // If file doesn't exist or error, show site
+                    document.documentElement.classList.add('site-ready');
+                });
+        })();
+    </script>
+    <style>
+        /* Hide content until maintenance check completes */
+        html:not(.site-ready) body { opacity: 0; }
+        html.site-ready body { opacity: 1; transition: opacity 0.2s; }
+    </style>
+    <!-- End Maintenance Mode -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marius Fit • Soluții Web & Automatizări cu AI</title>
     <meta name="description" content="Creator de soluții web și automatizări pentru afaceri și acasă. Servere personale, infrastructură IT și unelte digitale construite cu AI.">
