@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa inteligentă în Belgia: Ghid Home Assistant 2026 | Marius Fit</title>
-    <meta name="description" content="Cum să-ți automatizezi casa în Belgia cu Home Assistant. Fără abonamente cloud, fără dependență de Google/Amazon. Ghid complet pentru începători.">
+    <title>Casa care te înțelege: Automatizări care îți simplifică viața | Marius Fit</title>
+    <meta name="description" content="Cum să-ți faci casa să lucreze pentru tine. Economisești la facturi, ai mai mult confort, și totul funcționează automat. Fără să fii expert în tehnologie.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -53,9 +54,61 @@
         .highlight-box h4 { color: var(--gold); margin-bottom: 12px; }
         ul, ol { margin: 20px 0; padding-left: 24px; }
         li { margin-bottom: 12px; }
-        .automation-example { background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 24px 0; }
-        .automation-example h4 { color: var(--gold); margin-bottom: 12px; }
-        .automation-example code { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; }
+        
+        .benefit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 24px 0;
+        }
+        .benefit-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .benefit-card h3 {
+            margin: 0 0 12px 0;
+            color: var(--gold);
+        }
+        .benefit-card .scenario {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        .benefit-card .scenario .before {
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+        .benefit-card .scenario .after {
+            color: #51cf66;
+        }
+        
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
+        }
+        .comparison-box .option {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .comparison-box .option h4 {
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .comparison-box .option.highlight {
+            border-color: var(--gold);
+        }
+        
+        @media (max-width: 600px) {
+            .comparison-box { grid-template-columns: 1fr; }
+            .header-content { flex-wrap: wrap; gap: 16px; }
+        }
+        
         .cta-box { background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05)); border: 1px solid var(--gold); border-radius: 16px; padding: 32px; text-align: center; margin: 48px 0; }
         .cta-box h3 { margin-top: 0; color: var(--gold); }
         .button { display: inline-block; background: var(--gold); color: var(--bg-dark); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; transition: all 0.3s; }
@@ -64,10 +117,6 @@
         .author-avatar { width: 64px; height: 64px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-dark); flex-shrink: 0; }
         footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--text-muted); }
         footer a { color: var(--gold); text-decoration: none; }
-        
-        @media (max-width: 600px) {
-            .header-content { flex-wrap: wrap; gap: 16px; }
-        }
     </style>
 </head>
 <body>
@@ -105,175 +154,189 @@
             <div class="article-header">
                 <div class="article-meta">
                     <span>📅 2026</span>
-                    <span>⏱️ 12 min citire</span>
+                    <span>⏱️ 10 min citire</span>
                     <span>🏷️ Smart Home</span>
                 </div>
-                <h1>Casa inteligentă în Belgia: Ghid complet Home Assistant 2026</h1>
-                <p class="lead">Nu ai nevoie de Google Home sau Amazon Alexa. Cu Home Assistant, casa ta devine inteligentă - fără abonamente lunare și fără să trimiți datele personale în cloud. Echipamentele se găsesc în magazinele locale din Belgia.</p>
+                <h1>Casa care te înțelege: Automatizări care îți simplifică viața</h1>
+                <p class="lead">Te-ai întrebat vreodată cum ar fi să nu te mai gândești la lucrurile mărunte? Lumina să se aprindă când intri, căldura să scadă când pleci, și să primești alertă dacă ai uitat geamul deschis. Toate astea sunt posibile - și mai simple decât crezi.</p>
             </div>
             
-            <h2>Ce poate face Home Assistant pentru tine?</h2>
+            <h2>De ce îți dorești o casă inteligentă?</h2>
             
-            <p>Imaginează-ți:</p>
-            <ul>
-                <li>Pleci de acasă → luminile se sting automat, termostatul coboară</li>
-                <li>Vine seara → perdelele se închid, lumina din sufragerie se aprinde la 30%</li>
-                <li>Cineva sună la ușă → primești notificare cu poză pe telefon</li>
-                <li>Uiți geamul deschis când plouă → alertă pe telefon</li>
-                <li>Mașina de spălat s-a terminat → anunț pe boxă</li>
-            </ul>
-            
-            <p>Toate astea, fără abonamente, fără cloud, totul rămâne în rețeaua ta de acasă.</p>
-            
-            <div class="highlight-box">
-                <h4>🏆 Ce e nou în Home Assistant 2025-2026</h4>
-                <p><strong>Home Approval Factor</strong> - Interfață mai prietenoasă pentru toată familia, nu doar pentru cel care a instalat</p>
-                <p><strong>Automatizări intuitive</strong> - În loc să setezi "când valoarea e 1", spui simplu "când lumina se aprinde"</p>
-                <p><strong>Matter 1.4 complet</strong> - Dispozitivele Matter funcționează perfect, chiar și termostate și încuietori</p>
-                <p><strong>Control vocal local</strong> - Asistent vocal care rulează local, fără cloud</p>
-            </div>
-            
-            <h2>Ce echipamente ai nevoie</h2>
-            
-            <p>Nu trebuie să comanzi din China. Tot ce ai nevoie găsești la magazinele locale din Belgia.</p>
-            
-            <h3>🏠 Hub-ul central (creierul)</h3>
-            <p>Ai mai multe opțiuni în funcție de cât de mult vrei să experimentezi:</p>
-            <ul>
-                <li><strong>Home Assistant Green</strong> - Plug & play, ideal pentru începători care vor să pornească rapid</li>
-                <li><strong>Raspberry Pi 5</strong> - Mai flexibil, pentru cei care vor să experimenteze și să învețe</li>
-                <li><strong>Mini-PC (Intel N100)</strong> - Cel mai puternic, poate rula și alte servicii în paralel</li>
-            </ul>
-            
-            <h3>💡 Lumini inteligente</h3>
-            <p>Există opțiuni pentru toate bugetele:</p>
-            <ul>
-                <li><strong>Becuri Zigbee</strong> - Necesită hub, dar sunt stabile și consumă puțin. Se găsesc la IKEA sau online.</li>
-                <li><strong>Becuri WiFi</strong> - Nu necesită hub separat, dar pot încărca rețeaua dacă ai multe</li>
-                <li><strong>Sisteme premium</strong> - Mai scumpe, dar cu compatibilitate și fiabilitate excelentă</li>
-            </ul>
-            
-            <h3>🌡️ Termostat & Încălzire</h3>
-            <p>Aici vezi cel mai mare impact pe factura de energie:</p>
-            <ul>
-                <li><strong>Termostat inteligent</strong> - Înlocuiește termostatul vechi, învață obiceiurile tale</li>
-                <li><strong>Valve termostatice</strong> - Control per cameră, încălzești doar unde e nevoie</li>
-            </ul>
-            
-            <h3>🚪 Senzori & Securitate</h3>
-            <ul>
-                <li><strong>Senzori ușă/fereastră</strong> - Știi când s-a deschis ceva, baterie 2+ ani</li>
-                <li><strong>Senzori de mișcare</strong> - Pentru automatizări cu prezență</li>
-                <li><strong>Cameră sonerie</strong> - Vezi cine e la ușă, fără abonament cloud</li>
-            </ul>
-            
-            <h2>Automatizări practice</h2>
-            
-            <div class="automation-example">
-                <h4>☀️ Dimineața - pregătire pentru lucru</h4>
-                <p><code>Când: alarma de pe telefon se oprește</code></p>
-                <p><code>Fă: Aprinde lumina în baie la 50%, pornește cafetiera, încălzește baia</code></p>
-            </div>
-            
-            <div class="automation-example">
-                <h4>🌧️ Alertă ploaie + geam deschis</h4>
-                <p><code>Când: prognoza meteo anunță ploaie ȘI senzorul de geam = deschis</code></p>
-                <p><code>Fă: Trimite notificare "Închide geamul din dormitor - vine ploaia!"</code></p>
-            </div>
-            
-            <div class="automation-example">
-                <h4>💡 Economie energie - nimeni acasă</h4>
-                <p><code>Când: toți au plecat de acasă (detectat prin telefon)</code></p>
-                <p><code>Fă: Stinge toate luminile, setează termostatul pe 16°C, verifică că aragazul e oprit</code></p>
-            </div>
-            
-            <div class="automation-example">
-                <h4>🔔 Sonerie inteligentă</h4>
-                <p><code>Când: cineva apasă soneria</code></p>
-                <p><code>Fă: Trimite notificare cu poză, anunță pe toate boxele "Cineva la ușă!"</code></p>
-            </div>
-            
-            <h2>Cât economisești la energie?</h2>
-            
-            <p>Cu automatizări inteligente pentru încălzire, poți economisi 15-25% din factura de gaz:</p>
+            <p>Nu e vorba despre gadgeturi fancy sau tehnologie de dragul tehnologiei. E vorba despre:</p>
             
             <ul>
-                <li><strong>Termostat programabil</strong>: coboară automat când dormi sau când nu ești acasă</li>
-                <li><strong>Valve per cameră</strong>: încălzești doar camerele folosite</li>
-                <li><strong>Monitorizare consum</strong>: vezi în timp real ce consumă fiecare aparat</li>
+                <li><strong>Mai puține griji</strong> - Casa se ocupă de ea însăși</li>
+                <li><strong>Facturi mai mici</strong> - Nu mai încălzești când nu ești acasă</li>
+                <li><strong>Mai mult confort</strong> - Totul e gata când ai nevoie</li>
+                <li><strong>Liniște sufletească</strong> - Știi că totul e în regulă, chiar când nu ești acolo</li>
             </ul>
             
             <div class="highlight-box">
-                <h4>💡 De ce contează</h4>
-                <p>Investiția într-un sistem de încălzire inteligent se amortizează de obicei în primul sezon de încălzire. După aceea, economiile sunt pure. Plus: confortul de a avea temperatura ideală fără să te gândești la asta.</p>
+                <h4>💡 Ideea principală</h4>
+                <p>O casă inteligentă nu înseamnă să controlezi totul de pe telefon. Înseamnă să nu mai trebuiască să controlezi nimic - casa știe ce ai nevoie și face singură.</p>
             </div>
             
-            <h2>Cum începi - pas cu pas</h2>
+            <h2>Situații concrete din viața ta</h2>
+            
+            <div class="benefit-card">
+                <div class="icon">🌅</div>
+                <h3>Dimineața - trezire fără stres</h3>
+                <p>Corpul tău se trezește mai bine cu lumină naturală decât cu alarmă zgomotoasă. Casa poate simula răsăritul, crescând treptat lumina cu 30 de minute înainte să te trezești.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> Alarma țiuie, te trezești buimac, cauți întrerupătorul în întuneric</div>
+                    <div class="after">✅ <strong>După:</strong> Lumina crește lin, te trezești natural, cafeaua e deja gata jos</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">🚪</div>
+                <h3>Pleci de acasă - totul se oprește singur</h3>
+                <p>Nu mai stai să verifici dacă ai stins toate luminile sau dacă ai închis aerul condiționat. Casa detectează că ai plecat și se ocupă de rest.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> "Am stins lumina din baie? Am închis caloriferul?" - te întorci să verifici</div>
+                    <div class="after">✅ <strong>După:</strong> Ieși pe ușă, totul se stinge automat, termostatul coboară. Gata.</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">🌧️</div>
+                <h3>Vremea se schimbă - casa reacționează</h3>
+                <p>Ai uitat geamul deschis și începe să plouă? Casa știe și te anunță. Vine furtună și ai rufe pe balcon? Primești alertă la timp.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> Ajungi acasă, podeaua e udă, rufele sunt distruse</div>
+                    <div class="after">✅ <strong>După:</strong> Primești notificare "Închide geamul din dormitor - vine ploaia în 30 min"</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">🌙</div>
+                <h3>Seara - casa se pregătește de noapte</h3>
+                <p>La o anumită oră sau când spui "noapte bună", luminile se sting treptat, ușile se verifică, termostatul coboară pentru somn mai bun.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> Turul casei: lumini, ușă, ferestre, termostat... 10 minute în fiecare seară</div>
+                    <div class="after">✅ <strong>După:</strong> "Noapte bună" - și totul se face singur în 3 secunde</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">🔔</div>
+                <h3>Cineva la ușă - știi instant cine e</h3>
+                <p>Fie că ești în grădină, la duș, sau în altă țară - vezi pe telefon cine a sunat și poți vorbi cu el.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> Curierul pleacă pentru că nu l-ai auzit, trebuie să te duci la poștă</div>
+                    <div class="after">✅ <strong>După:</strong> Primești notificare cu poză, îi spui prin telefon să lase pachetul la ușă</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="icon">💰</div>
+                <h3>Facturi mai mici - fără să te gândești</h3>
+                <p>Încălzirea scade când nu ești acasă și crește înainte să ajungi. Nu mai încălzești camerele goale. Luminile nu rămân aprinse degeaba.</p>
+                <div class="scenario">
+                    <div class="before">❌ <strong>Înainte:</strong> Factura de gaz e mereu surpriză, nu știi de ce e așa mare</div>
+                    <div class="after">✅ <strong>După:</strong> Economisești 15-25% fără să simți vreo diferență de confort</div>
+                </div>
+            </div>
+            
+            <h2>Ce înseamnă "fără abonamente"?</h2>
+            
+            <p>Majoritatea sistemelor "smart" de pe piață funcționează așa: cumperi dispozitivul, dar trebuie să plătești lunar ca să-l folosești complet. Sau datele tale se duc la ei pe servere.</p>
+            
+            <div class="comparison-box">
+                <div class="option">
+                    <h4>☁️ Sisteme cu cloud</h4>
+                    <ul>
+                        <li>Plătești lunar pentru funcții</li>
+                        <li>Datele tale sunt la ei</li>
+                        <li>Nu merge fără internet</li>
+                        <li>Dacă firma dispare, rămâi fără</li>
+                    </ul>
+                </div>
+                <div class="option highlight">
+                    <h4>🏠 Sistem local (ce ofer eu)</h4>
+                    <ul>
+                        <li>Plătești o dată, e al tău</li>
+                        <li>Datele rămân în casa ta</li>
+                        <li>Funcționează și fără internet</li>
+                        <li>Nu depinzi de nimeni</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>🔒 De ce contează privacy-ul</h4>
+                <p>Când ai camere, senzori de mișcare, și un sistem care știe când ești acasă - vrei ca aceste informații să rămână la tine, nu să ajungă pe serverele cuiva din altă țară.</p>
+            </div>
+            
+            <h2>Cum funcționează în practică</h2>
+            
+            <p>Primești un mic calculator (de mărimea unei cărți) care devine "creierul" casei. El vorbește cu toate dispozitivele și le coordonează.</p>
+            
+            <h3>Ce poți controla:</h3>
+            <ul>
+                <li><strong>Lumini</strong> - Se aprind/sting automat sau de pe telefon</li>
+                <li><strong>Încălzire</strong> - Termostat inteligent care învață programul tău</li>
+                <li><strong>Senzori</strong> - Ușă deschisă, mișcare, temperatură, umiditate</li>
+                <li><strong>Cameră ușă</strong> - Vezi cine a sunat, vorbești cu el</li>
+                <li><strong>Prize inteligente</strong> - Oprești orice aparat de la distanță</li>
+                <li><strong>Perdele/jaluzele</strong> - Se închid automat seara</li>
+            </ul>
+            
+            <h3>Cum controlezi:</h3>
+            <ul>
+                <li><strong>Automat</strong> - Casa decide singură bazat pe reguli (cel mai bine)</li>
+                <li><strong>Telefon</strong> - Aplicație simplă când vrei să intervii manual</li>
+                <li><strong>Voce</strong> - "Stinge lumina" - fără să trimiți datele la Google/Amazon</li>
+                <li><strong>Întrerupătoare</strong> - Funcționează și normal, ca înainte</li>
+            </ul>
+            
+            <h2>De unde încep?</h2>
+            
+            <p>Nu trebuie să faci totul odată. Cei mai mulți încep cu una din astea:</p>
             
             <ol>
-                <li><strong>Alege hub-ul</strong> - În funcție de buget și cât vrei să experimentezi</li>
-                <li><strong>Conectează-l la router</strong> - Un singur cablu de rețea</li>
-                <li><strong>Accesează interfața</strong> - homeassistant.local:8123 din browser</li>
-                <li><strong>Adaugă primul dispozitiv</strong> - Un bec sau o priză inteligentă</li>
-                <li><strong>Creează prima automatizare</strong> - Ceva simplu, gen "Stinge lumina la 23:00"</li>
-                <li><strong>Extinde treptat</strong> - Adaugă dispozitive pe măsură ce ai nevoie</li>
+                <li><strong>Termostat inteligent</strong> - Cel mai mare impact pe facturi, rezultate imediate</li>
+                <li><strong>Câteva becuri inteligente</strong> - Înveți cum funcționează, fără investiție mare</li>
+                <li><strong>Cameră la ușă</strong> - Utilitate imediată, mai ales dacă primești pachete</li>
             </ol>
             
-            <h2>De ce NU Google Home / Amazon Alexa?</h2>
+            <p>După ce vezi cum funcționează și îți place, adaugi treptat. Sistemul crește cu tine.</p>
             
-            <table style="width:100%; border-collapse:collapse; margin:32px 0;">
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <th style="padding:16px; text-align:left; color:var(--gold);">Aspect</th>
-                    <th style="padding:16px; text-align:left;">Home Assistant</th>
-                    <th style="padding:16px; text-align:left;">Google/Amazon</th>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding:16px;">Confidențialitate</td>
-                    <td style="padding:16px;">✅ Totul local</td>
-                    <td style="padding:16px;">❌ Datele în cloud</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding:16px;">Abonamente</td>
-                    <td style="padding:16px;">✅ Zero</td>
-                    <td style="padding:16px;">⚠️ Unele funcții plătite</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding:16px;">Funcționează offline?</td>
-                    <td style="padding:16px;">✅ Da</td>
-                    <td style="padding:16px;">❌ Nu</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding:16px;">Dispozitive suportate</td>
-                    <td style="padding:16px;">✅ 1000+ branduri</td>
-                    <td style="padding:16px;">⚠️ Limitat</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <td style="padding:16px;">Dificultate setup</td>
-                    <td style="padding:16px;">⚠️ Medie</td>
-                    <td style="padding:16px;">✅ Ușor</td>
-                </tr>
-            </table>
+            <h2>Echipamentele se găsesc în Belgia</h2>
             
-            <h2>Când să ceri ajutor profesional?</h2>
+            <p>Nu trebuie să comanzi din China sau să aștepți săptămâni. Tot ce ai nevoie găsești la magazinele locale - IKEA, MediaMarkt, Brico, sau comandat de pe Amazon cu livrare rapidă.</p>
             
-            <ul>
-                <li>Nu ai timp să înveți - vrei să meargă din prima</li>
-                <li>Ai un sistem complex - multe dispozitive, automatizări avansate</li>
-                <li>Vrei integrare cu alarmă sau camere de supraveghere</li>
-                <li>Preferi să ai pe cineva care să rezolve dacă ceva nu merge</li>
-            </ul>
+            <p>Îți recomand ce să iei în funcție de nevoile tale și buget. Nu toate produsele "smart" sunt la fel de bune - unele funcționează perfect, altele dau bătăi de cap.</p>
+            
+            <h2>Întrebări frecvente</h2>
+            
+            <h3>E complicat de folosit?</h3>
+            <p>Tocmai asta e ideea - să nu fie. Odată configurat, nu trebuie să faci nimic. Casa lucrează singură. Dacă vrei să schimbi ceva, e o aplicație simplă pe telefon.</p>
+            
+            <h3>Ce se întâmplă dacă pică internetul?</h3>
+            <p>Totul funcționează în continuare. Sistemul e local, nu depinde de internet. Nu poți controla de la distanță când nu ești acasă, dar automatizările merg normal.</p>
+            
+            <h3>Pot să controlez și manual, ca înainte?</h3>
+            <p>Da, absolut. Întrerupătoarele funcționează normal. Smart home e un plus, nu un înlocuitor.</p>
+            
+            <h3>Funcționează cu ce am deja?</h3>
+            <p>Depinde ce ai. Majoritatea aparatelor noi sunt compatibile. La consultație îți spun exact ce merge și ce nu.</p>
+            
+            <h3>Cât durează instalarea?</h3>
+            <p>Pentru un sistem de bază (termostat + câteva lumini + senzori), în câteva ore e gata. Sisteme mai complexe pot dura o zi.</p>
             
             <div class="cta-box">
-                <h3>Vrei o casă inteligentă fără bătăi de cap?</h3>
-                <p>Îți instalez și configurez Home Assistant de la zero. Includ automatizări personalizate și te învăț să adaugi dispozitive noi singur. Soluție adaptată nevoilor și bugetului tău.</p>
-                <a href="../index.html#contact" class="button">Solicită ofertă gratuită</a>
+                <h3>Vrei să vezi cum ar arăta la tine?</h3>
+                <p>Îți arăt concret ce poți face în casa ta, cu ce buget, și ce beneficii ai avea. Fără obligații, doar o discuție despre ce ți-ar fi util.</p>
+                <a href="../index.html#contact" class="button">Programează o consultație gratuită</a>
             </div>
             
             <div class="author-box">
                 <div class="author-avatar">MF</div>
                 <div class="author-info">
                     <h4>Marius Fit</h4>
-                    <p>Consultant IT în Belgia, specialist Home Assistant. Am propriul smart home și ajut alți români să-și automatizeze casele - cu echipamente locale, fără dependență de cloud.</p>
+                    <p>Am propria casă inteligentă de câțiva ani și ajut alți români din Belgia să-și automatizeze locuințele. Soluții practice, fără complicații, adaptate nevoilor tale.</p>
                 </div>
             </div>
         </div>
